@@ -1,0 +1,39 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.7.0",
+    "@fortawesome/vue-fontawesome": "^3.0.8",
+    "@nuxtjs/sitemap": "^6.0.1",
+    "@popperjs/core": "^2.11.8",
+    "@vue/apollo-composable": "^4.2.1",
+    "axios": "^1.7.7",
+    "bootstrap": "^5.3.3",
+    "graphql": "^16.6.0",
+    "graphql-tag": "^2.12.6",
+    "nuxt": "^3.13.0",
+    "pinia": "^2.2.2",
+    "vue": "latest",
+    "vue-router": "latest"
+  },
+  "devDependencies": {
+    "@nuxt/eslint-config": "^0.5.7",
+    "eslint": "^9.10.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-vue": "^9.28.0",
+    "prettier": "^3.3.3",
+    "sass": "^1.78.0",
+    "sass-loader": "^16.0.1"
+  }
+}

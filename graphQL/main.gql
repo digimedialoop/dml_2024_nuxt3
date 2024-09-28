@@ -1,0 +1,72 @@
+import { gql } from 'graphql-tag';
+
+export const STRAPI_DATA = gql`
+  query {
+    companyinfo {
+      data {
+        attributes {
+          company
+          street
+          postalcode
+          city
+          phone
+          email
+          contact
+          district
+          latitude
+          longitute
+          web
+          logo {
+            data {
+              attributes {
+                url
+                alternativeText
+              }
+            }
+          }
+          invertlogo {
+            data {
+              attributes {
+                url
+                alternativeText
+              }
+            }
+          }
+        }
+      }
+    }
+    customers {
+      data {
+        id
+        attributes {
+          company
+          city
+          logo {
+            data {
+              attributes {
+                url
+                alternativeText
+              }
+            }
+          }
+          invertLogo {
+            data {
+              attributes {
+                url
+                alternativeText
+              }
+            }
+          }
+          projects {  # Projekte des Kunden hinzufügen
+            data {
+              id
+              attributes {
+                projectTitle  # Füge nur den Titel des Projekts hinzu, um es zu testen
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;

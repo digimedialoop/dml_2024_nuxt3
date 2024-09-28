@@ -1,0 +1,54 @@
+$primaryColor: #67caac
+$darkgrey: #373737
+$lightgrey: #f9f9f9
+$beige: #EEEBE5
+
+/* Breakpoints */
+$bp-mobile: 450px
+$bp-tablet: 800px
+
+@font-face
+    font-family: 'Mainfont'
+    src: url('@/assets/fonts/Assistant-Regular.ttf') format("truetype")
+    font-weight: normal
+
+@font-face
+    font-family: 'Comfortaa'
+    src: url('@/assets/fonts/Comfortaa-Light.ttf') format("truetype")
+    font-weight: normal
+
+@font-face
+    font-family: 'Comfortaa-bold'
+    src: url('@/assets/fonts/Comfortaa-Bold.ttf') format("truetype")
+    font-weight: normal
+
+@font-face
+    font-family: 'Typewriter'
+    src: url('@/assets/fonts/JMH_Typewriter.ttf') format("truetype")
+    font-weight: normal
+
+$fontSizeRoot: 18px
+$fontSizeLarge: calc(1.2rem + 1.2vw)
+$fontSizeMedium: calc(1rem + .8vw)
+$fontSizeNormal: calc(1.25rem)
+$fontSizeSmall: calc(.9rem + .2vw)
+
+$loopShape: 51% 49% 52% 48% / 53% 38% 62% 47%
+
+@keyframes bubble-wobble
+  0%, 100%
+    transform: scale(1) translate(0, 0)
+  25%
+    transform: scale(1.05) translate(2px, -4px) 
+  50%
+    transform: scale(1.1) translate(4px, -1px) 
+  75%
+    transform: scale(1.1) translate(4px, 2px) 
+
+@keyframes gradient-animation
+  0%
+    background-position: 0% 0%
+  50%
+    background-position: 50% 50%
+  100%
+    background-position: 100% 100%
