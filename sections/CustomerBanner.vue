@@ -224,21 +224,24 @@ const { customers, cmsUrl } = storeToRefs(mainStore)
     .waveTop
         background-size: content
 
-        .waveAnimation .waveTop
-        animation: move-wave 3s
-        -webkit-animation: move-wave 3s
-        -webkit-animation-delay: 1s
-        animation-delay: 1s
+        .waveAnimation 
+          .waveTop
+            animation: move-wave 3s
+            -webkit-animation: move-wave 3s
+            -webkit-animation-delay: 1s
+            animation-delay: 1s
 
     .waveMiddle
         background-size: content
 
-    .waveAnimation .waveMiddle
+    .waveAnimation 
+      .waveMiddle
         animation: move_wave 10s linear infinite
 
     .waveBottom
         background-size: content
 
-    .waveAnimation .waveBottom
+    .waveAnimation 
+      .waveBottom
         animation: move_wave 15s linear infinite
 </style>

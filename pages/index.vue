@@ -24,6 +24,6 @@ import CustomerBanner from '@/sections/CustomerBanner.vue';
 
 <style lang="sass">
 .subLine
-  color: lighten($darkgrey, 20%)
+  color: adjust-color($darkgrey, $lightness: 20%)
   font-size: 80%
 </style>

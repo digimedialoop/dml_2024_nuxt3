@@ -46,7 +46,7 @@ const toggleVisible = (section) => {
     flex-direction: column
     align-items: flex-end // Elemente rechts ausrichten
     div
-        background-color: rgba(darken($beige, 10%), .9)
+        background-color: rgba(adjust-color($beige, $lightness: -10%), .9)
         cursor: pointer
         padding: .7rem
         transition: all 0.5s ease-in-out
@@ -59,7 +59,7 @@ const toggleVisible = (section) => {
         width: 3.5rem  // Standardbreite für nicht aktive Divs
         border: 1px solid white
         &:hover
-            background-color: rgba(darken($beige, 10%), 1)
+            background-color: rgba(adjust-color($beige, $lightness: -10%), 1)
             span
                 svg
                     transform: scale(1.4)
@@ -99,11 +99,11 @@ const toggleVisible = (section) => {
         .smallText
             font-size: 80%
             margin-top: 0.5rem
-            color: lighten($darkgrey, 10%)
+            color: adjust-color($darkgrey, $lightness: 10%)
             button
                 border-radius: 5px
                 border: 1px solid $darkgrey
                 margin: 0 0.5rem
                 padding: .2rem .5rem
-                color: lighten($darkgrey, 10%)
+                color: adjust-color($darkgrey, $lightness: 10%)
 </style>

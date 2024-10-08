@@ -69,7 +69,7 @@ import { ref, computed, onBeforeMount } from 'vue';
 import { useRoute } from 'vue-router';
 import { useMainStore } from '@/stores/main';
 import { storeToRefs } from 'pinia';
-import { useHtmlConverter } from '@/composables/useHtmlConverter'; // Importiere die Composable
+import { useHtmlConverter } from '@/composables/useHtmlConverter.js'; 
 
 // Zugriff auf den Routenparameter und den Store
 const route = useRoute();
@@ -111,7 +111,7 @@ const setCurrentImage = (image) => {
 <style lang="sass">
 .project
   h1
-    color: lighten($darkgrey, 40%)
+    color: adjust-color($darkgrey, $lightness: 40%)
     font-size: 1.1rem
     text-transform: uppercase
     margin-bottom: 0
@@ -123,7 +123,7 @@ const setCurrentImage = (image) => {
   .preview
     h3
       font-size: 1rem
-      color: lighten($darkgrey, 40%)
+      color: adjust-color($darkgrey, $lightness: 40%)
     img
       width: 100px
       margin: 0
@@ -158,13 +158,13 @@ const setCurrentImage = (image) => {
     h4
       font-size: 1rem
       margin-top: 2.5rem
-      color: lighten($darkgrey, 20%)
+      color: adjust-color($darkgrey, $lightness: 20%)
 .navigationBox
   margin-top: 2rem
   width: 100%
-  color: lighten($darkgrey, 35%)
+  color: adjust-color($darkgrey, $lightness: 35%)
   svg
-    fill: darken($lightgrey, 10%)
+    fill: adjust-color($lightgrey, $lightness: -10%)
     width: 80%
     max-width: 50px
 .techChip
