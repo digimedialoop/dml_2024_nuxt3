@@ -57,11 +57,41 @@ export const STRAPI_DATA = gql`
               }
             }
           }
-          projects {  # Projekte des Kunden hinzufügen
+          projects(sort: "launchDate:desc") {  # Projekte des Kunden hinzufügen
             data {
               id
               attributes {
-                projectTitle  # Füge nur den Titel des Projekts hinzu, um es zu testen
+                projectTitle  # Titel des Projekts
+                projectImages {
+                  data {
+                    attributes {
+                      url        # URL der Projektbilder
+                      alternativeText  # Alternativer Text der Bilder
+                    }
+                  }
+                }
+                launchDate   # Startdatum des Projekts
+                projectDescription  # Beschreibung des Projekts
+                link
+                webpage
+                Technologien {
+                  data {
+                    attributes {
+                      titel
+                      icon
+                    }
+                  }
+                }
+                customer {
+                  data {
+                    attributes {
+                      company
+                      city
+                      
+                    }
+                    id
+                  }
+                }
               }
             }
           }

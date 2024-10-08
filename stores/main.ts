@@ -4,60 +4,111 @@ import { STRAPI_DATA } from '@/graphQL/main.gql';
 
 export const useMainStore = defineStore('main', {
   state: () => {
-    const runtimeConfig = useRuntimeConfig(); // Greife auf die Runtime Config zu
+    const runtimeConfig = useRuntimeConfig();
     return {
       scrollPosition: 0,
+      screenWidth: 0,
       contactBoxOpen: false,
-      cmsUrl: runtimeConfig.public.VUE_APP_API_URL || '',  // Setze cmsUrl direkt aus der Config
+      cmsUrl: runtimeConfig.public.VUE_APP_API_URL || '',
       graphQLUrl: runtimeConfig.public.STRAPI_GRAPHQL_URL || '',
-      companyinfo: {},  // Speicherort für die abgerufenen Firmendaten
-      customers: [],  // Speicherort für die Kundenliste
+      companyinfo: {},
+      customers: [],
+      projects: [],
     };
   },
 
   actions: {
-    setScrollPosition(position: number) {
-      this.scrollPosition = position;
-    },
-
-    // Fetch company info and customers from Apollo Client
     async fetchStrapiData() {
-      const apolloClient = useApolloClient().client;  // Verwende den Apollo Client
-    
+      const apolloClient = useApolloClient().client;
+
       try {
         const { data } = await apolloClient.query({
           query: STRAPI_DATA,
         });
 
-        // Speichere die Company Info
         if (data?.companyinfo?.data?.attributes) {
           this.companyinfo = data.companyinfo.data.attributes;
-          console.log('Company Info erfolgreich gesetzt:', this.companyinfo);
         }
 
-        // Speichere die Customer Daten
         if (data?.customers?.data) {
-          this.customers = data.customers.data.map(customer => customer.attributes);
-          console.log('Kunden erfolgreich gesetzt:', this.customers);
+          let allProjects = [];
+
+          this.customers = data.customers.data.map(customer => {
+            const customerAttributes = {
+              id: customer.id,
+              ...customer.attributes,
+            };
+
+            const customerProjects = customerAttributes.projects?.data.map(project => ({
+              id: project.id,
+              ...project.attributes,
+            })) || [];
+
+            allProjects = [...allProjects, ...customerProjects];
+
+            return customerAttributes;
+          });
+
+          this.projects = allProjects.sort((a, b) => {
+            return new Date(b.launchDate) - new Date(a.launchDate);
+          });
         }
       } catch (error) {
-        console.error('Fehler beim Abrufen der Firmendaten und Kunden:', error);
+        console.error('Fehler beim Abrufen der Firmendaten, Kunden und Projekte:', error);
       }
     },
 
-    // Action zur Überwachung der Scroll-Position
+    setScrollPosition(position) {
+      this.scrollPosition = position;
+    },
+
+    setScreenWidth(width) {
+      this.screenWidth = width;
+    },
+
     monitorScroll() {
       const updateScrollPosition = () => {
-        this.setScrollPosition(window.scrollY);  // Scroll-Position aktualisieren
+        this.setScrollPosition(window.scrollY);
       };
 
-      // Scroll-Event-Listener hinzufügen
       window.addEventListener('scroll', updateScrollPosition);
-
-      // Cleanup (optional): Event-Listener beim Entfernen der Komponente abmelden
       return () => {
         window.removeEventListener('scroll', updateScrollPosition);
       };
+    },
+
+    monitorScreenWidth() {
+      const updateScreenWidth = () => {
+        this.setScreenWidth(window.innerWidth);
+      };
+
+      window.addEventListener('resize', updateScreenWidth);
+      this.setScreenWidth(window.innerWidth);
+
+      return () => {
+        window.removeEventListener('resize', updateScreenWidth);
+      };
+    },
+
+    initializeListeners() {
+      this.monitorScroll();
+      this.monitorScreenWidth();
+    }
+  },
+
+  getters: {
+    dynamicStyle: (state) => {
+      return {
+        '--dynamic-left': `${-26 - (state.scrollPosition / 100)}vw`,
+      };
+    },
+
+    getCustomerById: (state) => (id) => {
+      return state.customers.find(customer => customer.id === id);
+    },
+
+    getProjectByLink: (state) => (link) => {
+      return state.projects.find(project => project.link === link);
     }
   },
 });

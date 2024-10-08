@@ -150,10 +150,13 @@ const { customers, cmsUrl } = storeToRefs(mainStore)
     fill: #EEEBE5
 
 .custLogo
-    width: 80%
-    max-width: 150px
+    width: auto
+    max-width: 250px
+    height: 50px
     margin: 0 3rem
     filter: grayscale(100%)
+    &:hover 
+      filter: grayscale(0)
 
 
 .waveBox
@@ -195,7 +198,7 @@ const { customers, cmsUrl } = storeToRefs(mainStore)
         top: 0
         background-image: linear-gradient(to top, #EEEBE5 20%, #EEEBE5 80%)
 
-    @media(max-width: $bp-tablet)
+    @media(max-width: $breakPointLG)
         .waveWrapperInner
             height: 50px
     .bgTop

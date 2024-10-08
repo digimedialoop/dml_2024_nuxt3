@@ -1,22 +1,22 @@
 <template>
-  <header>
+  <header :class="[screenWidth < 1350 ? 'mobile' : 'desk']">
     <div class="headContent" :class="scrollPosition > 50 ? 'active' : ''">
-      <div class="logoBox">
+      <div class="logoBox" @click="navigateTo('/')">
         <img :src="cmsUrl + '/uploads/DML_Logo_grey_2024_c51210b70c.svg'" alt="digimedialoop Logo" />
       </div>
-      <div class="navigationBox">
-        <nav>
-          <NuxtLink to="/">Home</NuxtLink>
-          <NuxtLink to="/agentur">Webagentur</NuxtLink>
+      <div class="navigationBox" @click="toggleMenu" :class="[screenWidth < 1350 ? 'mobile' : 'desk', mobileActive ? 'menu-active' : '']">
+        <nav v-if="mobileActive || screenWidth >= 1350">
+          <NuxtLink to="/news">News</NuxtLink>
+          <NuxtLink to="/leistungen">Leistungen</NuxtLink>
           <NuxtLink to="/referenzen">Referenzen</NuxtLink>
           <NuxtLink to="/kontakt">Kontakt</NuxtLink>
         </nav>
       </div>
     </div>
   </header>
-
-  <main>
-    <NuxtPage />
+  <CtaBar />
+  <main :class="[screenWidth < 1350 ? 'mobile' : 'desk']">
+      <NuxtPage />
   </main>
 
   <footer>
@@ -41,7 +41,7 @@
     </div>
     <div class="container">
       <div class="row align-items-end">
-        <div class="col-md-5 mb-4">
+        <div class="col-md-4 mb-4">
           <p>
             <img
               :src="cmsUrl + invertLogo"
@@ -58,30 +58,14 @@
           <p>{{ companyinfo?.distirct }}</p>
           <br />
           <p>
-            <span v-for="(n, index) in navigation" :key="navigation?.id">
-              <span
-                v-show="index > 0"
-                class="mintFont"
-                style="margin-left: 0.05em; margin-right: 0.05rem"
-                >|</span
-              >
-              <a
-                @click="
-                  $router.push({
-                    path: n?.attributes?.navLink,
-                  })
-                "
-              >
-                {{ n?.attributes?.navTitle }}
-              </a>
-            </span>
+            <span>Impressum | Datenschutz | AGB </span>
           </p>
 
           <p class="mt-4">
             &copy; 2018-{{ currentYear }} by {{ companyinfo?.web }}
           </p>
         </div>
-        <div class="col-md-3 pt-4 mb-4">
+        <div class="col-md-4 pt-4 mb-4">
           <div class="text-left">
             <p class="mb-4">
               <span class="icon"
@@ -141,7 +125,7 @@
           <p class="powered">
             Powered by
             <img
-              :src="`${cmsUrl}/uploads/Vuejs_Logo_2_e4eaf20ecb.png`"
+              :src="`${cmsUrl}/uploads/nuxt_Logo_white_1ad151de78.svg`"
               alt="vue logo"
             />
             <span class="bigIcon"> 
@@ -162,9 +146,20 @@
 
 <script setup>
 // Import necessary features from Vue and Pinia
-import { onMounted, computed } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue';
 import { useApolloClient } from '@vue/apollo-composable';
 import { useMainStore } from '@/stores/main';
+
+// Componenten
+import CtaBar from '@/components/CtaBar.vue';
+
+// Reaktive Variable für die mobile Navigation
+const mobileActive = ref(false);
+
+// Methode zum Umschalten des Menüs
+const toggleMenu = () => {
+  mobileActive.value = !mobileActive.value;
+};
 
 // Store und Apollo Client initialisieren
 const mainStore = useMainStore();
@@ -178,7 +173,6 @@ onMounted(() => {
 // Computed properties to access store data
 const companyinfo = computed(() => mainStore.companyinfo ?? null);
 const invertLogo = computed(() => {
-  // Prüfe, ob die companyinfo und invertlogo vorhanden sind, bevor darauf zugegriffen wird
   return mainStore.companyinfo && mainStore.companyinfo.invertlogo 
     ? mainStore.companyinfo.invertlogo.data?.attributes?.url 
     : '/uploads/dummy_Image_4abc3f04dd.webp';
@@ -193,21 +187,26 @@ const navigation = computed(() => {
 
 const currentYear = computed(() => new Date().getFullYear());
 
-
 // SCROLL POSITION
 const scrollPosition = computed(() => mainStore.scrollPosition);
-// Beim Mounten der Komponente Scroll-Überwachung starten
+
+// SCREEN WIDTH
+const screenWidth = computed(() => mainStore.screenWidth);
+
+// Beim Mounten der Komponente Scroll- und Bildschirmbreiten-Überwachung starten
 onMounted(() => {
-  const stopMonitoringScroll = mainStore.monitorScroll();
+  mainStore.initializeListeners();  // Ruft sowohl monitorScroll als auch monitorScreenWidth auf
 
   // Optional: Cleanup, wenn die Komponente entfernt wird
   onUnmounted(() => {
+    const stopMonitoringScroll = mainStore.monitorScroll();
     stopMonitoringScroll();
   });
 });
 </script>
 
 <style lang="sass">
+
 body
   background-color: white
   font-family: 'Mainfont'    
@@ -253,26 +252,114 @@ header
     right: -6vw
     animation: bubble-wobble 7s infinite ease alternate, gradient-animation 12s infinite alternate ease-in-out
 
+  // MOBILE NAVIGATION
+  &.mobile
+    top: 0
+    .headContent
+      padding: 0
+      .logoBox
+        width: 60%
+        z-index: 101
+        img
+          margin-top: 1rem
+      &.active
+        .logoBox
+          img
+            margin-top: 1rem
+      .navigationBox
+        display: block
+        position: relative
+        background-color: $darkgrey
+        width: 4rem
+        height: 4rem
+        z-index: 100
+        border-radius: 50%
+        margin-right: 5vw
+        margin-top: 1rem
+        &::before, &::after
+          position: absolute
+          content: ''
+          width: 2rem
+          z-index: 101
+          height: 5px
+          border-radius: 4px
+          background-color: white
+          right: 75%
+          transform: translateX(100%)
+          transition: .8s
+        &::before          
+          top: 35%
+        &::after
+          top: 55%
+        nav
+          display: none
+          background-image: none
+          border: none
+          a
+            display: block
+            color: white
+            text-align: left
+            margin-bottom: .5rem
+            padding: 1rem 2.8rem
+            position: relative
+            font-size: 1.6rem !important
+            width: auto
+            max-width: 18rem
+            &::before
+              content: ''
+              width: 1rem
+              height: .6rem
+              background-color: rgba($primaryColor, .9)
+              border-radius: $loopShape
+              position: absolute
+              top: 1.6rem
+              left: 1rem
+              border-radius: 20px
+            &:hover
+              transform: scale(1.06)
+              background-image: radial-gradient(rgba($primaryColor, .1), transparent, transparent)
+              box-shadow: 0 0 0 0 transparent
+              border-radius: 20px
+
+        &.menu-active
+          width: 100vw
+          height: 80vh
+          border-radius: 5px
+          margin: 0
+          background-color: rgba($darkgrey, .9)
+          &::before, &::after
+            top: 2rem
+            right: 1rem
+          &::before    
+            transform: rotate(45deg)
+          &::after    
+            transform: rotate(-45deg)
+          nav
+            display: block
+            padding: 10vh 0
+            margin: 0 5vw
+
   .headContent
     display: flex
-    align-items: center
+    align-items: left
     justify-content: space-between
     width: 100%
-    padding: 1rem 2rem
+    padding: 0 2rem
     box-sizing: border-box
     transition: .8s
     z-index: 7
+    margin: 0
     .logoBox
       display: flex
-      align-items: center
-      justify-content: center
+      align-items: left
+      justify-content: left
       width: 33%
       transition: .8s
       background-color: transparent
       img
         width: 90%
         max-width: 250px
-        margin: 3rem 0 0 0
+        margin: 1rem 5vw 0 5vw
         transition: .8s
     .navigationBox
       display: flex
@@ -283,26 +370,33 @@ header
       nav
         display: block
         z-index: 100
-        background: linear-gradient(to right top, rgba(adjust-color($lightgrey, $lightness: -2%), 0.6), rgba(white, 0.7), rgba(white, 0.7))
-        border: 1px solid adjust-color($lightgrey, $lightness: -2%)
+        background: linear-gradient(to right top, rgba(adjust-color($beige, $lightness: 5%), 0.6), rgba(white, 0.7), rgba(white, 0.7))
+        border: 1px solid adjust-color($beige, $lightness: -2%)
         padding: 1rem 2.5rem
         text-align: center
         border-radius: 1rem
-        margin: 5vh 2vw 0 8vh
+        margin: 2rem 2vw 0 8vh
         transition: .8s
         a
-          margin: 0 2rem
+          margin: 0 1.5rem
           text-decoration: none
           color: $darkgrey
           text-transform: uppercase
-          font-family: 'Mainfont'
-          font-size: 1.6rem
-          transition: .8s
+          font-family: 'Comfortaa-Bold'
+          font-size: 1.2rem
+          letter-spacing: .1rem
+          transition: .6s
+          display: inline-block
+          &:hover
+            transform: scale(1.15)
+            background-image: radial-gradient(rgba(white, .5), rgba(white, .1))
+            box-shadow: 0 0 10px 10px rgba(white, 0.2)
+            border-radius: 10px
     &.active
       padding: 0 0 2.5rem 0
       .navigationBox
         nav
-          margin: -.2rem
+          margin: -2rem 0 0 0
           padding: 1rem 1rem
           border-top-right-radius: 0
           border-top-left-radius: 0
@@ -311,29 +405,30 @@ header
           background: transparent
           border: 1px solid transparent
           a
-            font-size: 1.2rem
+            font-size: 1.15rem
             font-weight: bold
       .logoBox
         align-items: left
         img
-          margin-top: 1rem
+          margin-top: 2rem
           margin-bottom: .5rem          
           width: 70%
           max-width: 200px
-          transform: translateX(-30%)
+    
+
 
 // *************
 // MAIN - PART     
 // *************     
 
 main
-  margin-top: 12vw
+  margin-top: 15vw
   font-family: 'Mainfont'
   min-height: 45vh
   z-index: 3
   h1
     font-family: 'Comfortaa'
-    font-size: calc(1.2rem + 1.2vw)
+    font-size: $fontSizeLarge //calc(1.2rem + 1.2vw)
     margin-top: calc(.6rem + .6vw)
     margin-bottom: calc(1.2rem + 1.2vw)
     line-height: calc(1.2rem + 1.2vw + 40%)
@@ -341,14 +436,52 @@ main
 
   h2
     font-family: 'Comfortaa'
-    font-size: calc(.9rem + 1vw)
+    font-size: $fontSizeMedium //calc(.9rem + 1vw)
     margin-top: calc(.6rem + .6vw)
     margin-bottom: calc(1.2rem + 1.2vw)
     line-height: calc(1.2rem + 1.2vw + 40%)
     font-weight: normal
 
   p
-    font-size: 1.4rem
+    font-size: $fontSizeNormal //1.4rem
+  
+  b
+    font-family: 'Mainfont-Bold'  
+
+  u
+    text-decoration: none
+    position: relative
+    &::before
+      content: ""
+      transform: rotate(-3deg)
+      border-bottom: 4px solid rgba(103,202,172,.25)
+      position: absolute
+      bottom: 5px
+      left: 0
+      width: 100%
+      box-shadow: 4px 4px 2px 1px rgba(103,202,172,.25)
+
+  .imgRight, .imgLeft
+    width: 45%
+    @media(max-width: $breakPointLG)
+      float: none
+      width: 80%
+      margin: 1rem 10%
+
+  .imgRight
+    float: right
+    margin: 2rem 0 2rem 2rem    
+    @media(max-width: $breakPointLG)
+      float: none
+
+  .imgLeft
+    float: left
+    margin: 2rem 2rem 2rem 0
+    @media(max-width: $breakPointLG)
+      float: none
+
+  .loopShape
+    border-radius: $loopShape
 
   button
     background-color: white
@@ -381,7 +514,9 @@ main
 
     &:hover
       box-shadow: 0 0 15px rgba($primaryColor, 0.2), 0 0 25px rgba($primaryColor, 0.2)
-      border: 1px solid rgba($primaryColor, 0.4)
+      border: 1px solid rgba($primaryColor, 0.8)
+      letter-spacing: .05rem
+      transform: scale(1.1)
       &::before
         transform: translate(-50%, -50%) scale(1) 
         
@@ -403,8 +538,11 @@ main
         z-index: 90
         animation: bubble-wobble 5s infinite ease alternate
         transition: left 0.3s
-
-
+    &.beigeBG
+      background-color: $beige
+      min-height: 200px
+  &.mobile
+    margin-top: 20vh
 // *************
 // FOOTER - PART     
 // *************   
@@ -446,8 +584,8 @@ footer
         fill: white
         max-height: 1.5rem
   .bigIcon
-    margin-right: .5rem
-    margin-left: .5rem
+    margin-right: .2rem
+    margin-left: .2rem
     width: 1.2rem
     display: inline-block
     text-align: center

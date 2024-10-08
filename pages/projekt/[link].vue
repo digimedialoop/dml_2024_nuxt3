@@ -1,0 +1,177 @@
+<template>
+  <section v-if="project" class="container project" :style="dynamicStyle">
+    <div class="row">
+      <div class="col-md-9">
+        <h1>Kundenprojektvorstellung</h1>
+        <h2>{{ project.projectTitle }}</h2>
+      </div>
+      <div class="col-md-3">
+        <div class="customerBox">
+          <img :src="cmsUrl + getCustomerById(project.customer.data.id)?.logo?.data?.attributes?.url" alt="customerLogo" />
+          <h4>{{ project?.customer?.data?.attributes?.company }} | {{ project?.customer?.data?.attributes?.city }}</h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="row detailBox">
+      <div class="col-md-4">
+        <transition name="fade" mode="out-in">
+        <img
+          id="currentImage"
+          :src="cmsUrl + currentImage.url"
+          :alt="currentImage.alternativeText"
+        />
+        </transition>
+        <div class="preview">
+          <h3>Weitere Ansichten</h3>
+          <div class="imageNavigation">
+            <!-- Vorschau-Bilder mit Click Event -->
+            <img
+              v-for="(img, index) in project.projectImages.data"
+              :key="index"
+              :src="cmsUrl + img.attributes.url"
+              :alt="img.attributes.alternativeText"
+              @click="setCurrentImage(img.attributes)"
+              :class="{ active: currentImage.url === img.attributes.url }"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <span v-html="htmlContent(project?.projectDescription)"></span>
+        <h4>Verwendete Technologien</h4>
+        <p><span v-for="tech, index in project.Technologien.data" :key="index" class="techChip">{{ tech.attributes.titel }}</span></p>
+        
+      </div>
+    </div>
+
+    <div class="navigationBox">
+      <div class="row align-items-center">
+        <div class="col-2 text-center">
+          <svg>
+            <use xlink:href="/assets/icons/collection.svg#nav_left"></use>
+          </svg>
+        </div>
+        <div class="col-4 text-start">vorheriges Projekt</div>
+        <div class="col-4 text-end">nächstes Projekt</div>
+        <div class="col-2 text-center">
+          <svg>
+            <use xlink:href="/assets/icons/collection.svg#nav_right"></use>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script setup>
+import { ref, computed, onBeforeMount } from 'vue';
+import { useRoute } from 'vue-router';
+import { useMainStore } from '@/stores/main';
+import { storeToRefs } from 'pinia';
+import { useHtmlConverter } from '@/composables/useHtmlConverter'; // Importiere die Composable
+
+// Zugriff auf den Routenparameter und den Store
+const route = useRoute();
+const mainStore = useMainStore();
+const { cmsUrl, projects, dynamicStyle } = storeToRefs(mainStore);
+
+// Finde das Projekt basierend auf dem dynamischen 'link' Parameter
+const project = computed(() => mainStore.getProjectByLink(route.params.link));
+
+// Importiere die convertToHTML Methode aus der Composable
+const { convertToHTML } = useHtmlConverter();
+
+// Definiere die htmlContent Funktion, um den HTML-Inhalt zu generieren
+const htmlContent = (data) => {
+  return convertToHTML(data); // Nutze die convertToHTML Funktion der Composable
+};
+
+const getCustomerById = (id) => mainStore.getCustomerById(id);
+
+// Zustand für das aktuell angezeigte Bild (startet mit dem ersten Bild)
+const currentImage = ref(null);
+
+// Lade die Projekte und setze das erste Bild, wenn die Daten verfügbar sind
+onBeforeMount(async () => {
+  if (!projects.value.length) {
+    await mainStore.fetchStrapiData();
+  }
+  if (project.value && project.value.projectImages.data.length > 0) {
+    currentImage.value = project.value.projectImages.data[0].attributes;
+  }
+});
+
+// Funktion, um das angeklickte Bild als aktuelles Bild zu setzen
+const setCurrentImage = (image) => {
+  currentImage.value = image;
+};
+</script>
+
+<style lang="sass">
+.project
+  h1
+    color: lighten($darkgrey, 40%)
+    font-size: 1.1rem
+    text-transform: uppercase
+    margin-bottom: 0
+    letter-spacing: .08rem
+  h2
+    margin-top: 0
+  img
+    width: 100%
+  .preview
+    h3
+      font-size: 1rem
+      color: lighten($darkgrey, 40%)
+    img
+      width: 100px
+      margin: 0
+      cursor: pointer
+      transition: .6s
+      padding: 1.2rem
+      border: 2px solid transparent
+      &.active
+        border: 2px solid $lightgrey
+        padding: .5rem
+        border-radius: .5rem
+  .customerBox
+    width: 100%
+    text-align: center
+    background-image: linear-gradient(to left bottom, rgba($beige, .4), transparent, transparent)
+    border-top-right-radius: 20px
+    padding: 1rem
+    border-top: 1px solid rgba($beige, .3)
+    border-right: 1px solid rgba($beige, .3)
+    margin: 1rem 0
+    img
+      min-height: 2rem
+      width: 50%
+      max-width: 200px
+      margin: 1rem
+    h4
+      font-size: .8rem
+    @media(max-width: $breakPointLG)
+      background-image: linear-gradient(to left, rgba($beige, .4), transparent, transparent)
+      margin-top: 0
+  .detailBox
+    h4
+      font-size: 1rem
+      margin-top: 2.5rem
+      color: lighten($darkgrey, 20%)
+.navigationBox
+  margin-top: 2rem
+  width: 100%
+  color: lighten($darkgrey, 35%)
+  svg
+    fill: darken($lightgrey, 10%)
+    width: 80%
+    max-width: 50px
+.techChip
+  background-color: $lightgrey
+  padding: .2rem 1rem
+  margin: .3rem
+  border-radius: .6rem
+  font-size: .9rem
+</style>
+

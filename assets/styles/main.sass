@@ -3,13 +3,21 @@ $darkgrey: #373737
 $lightgrey: #f9f9f9
 $beige: #EEEBE5
 
-/* Breakpoints */
-$bp-mobile: 450px
-$bp-tablet: 800px
+// BREAKPOINTS like Bootstrap
+$breakPointSM: 576px
+$breakPointMD: 768px
+$breakPointLG: 992px
+$breakPointXL: 1200px
+$breakPointXXL: 1400px
 
 @font-face
     font-family: 'Mainfont'
-    src: url('@/assets/fonts/Assistant-Regular.ttf') format("truetype")
+    src: url('@/assets/fonts/montserrat/Montserrat-Regular.otf') format("opentype")
+    font-weight: normal
+
+@font-face
+    font-family: 'Mainfont-Bold'
+    src: url('@/assets/fonts/montserrat/Montserrat-SemiBold.otf') format("opentype")
     font-weight: normal
 
 @font-face
@@ -28,9 +36,9 @@ $bp-tablet: 800px
     font-weight: normal
 
 $fontSizeRoot: 18px
-$fontSizeLarge: calc(1.2rem + 1.2vw)
-$fontSizeMedium: calc(1rem + .8vw)
-$fontSizeNormal: calc(1.25rem)
+$fontSizeLarge: calc(1.4rem + 1.2vw)
+$fontSizeMedium: calc(1.2rem + .8vw)
+$fontSizeNormal: 1.2rem
 $fontSizeSmall: calc(.9rem + .2vw)
 
 $loopShape: 51% 49% 52% 48% / 53% 38% 62% 47%
@@ -52,3 +60,9 @@ $loopShape: 51% 49% 52% 48% / 53% 38% 62% 47%
     background-position: 50% 50%
   100%
     background-position: 100% 100%
+
+.fade-enter-active, .fade-leave-active
+  transition: opacity 1.2s ease
+
+.fade-enter-from, .fade-leave-to
+  opacity: 0
