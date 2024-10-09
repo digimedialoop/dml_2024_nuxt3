@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia';
-import { useApolloClient } from '@vue/apollo-composable';
 import { STRAPI_DATA } from '@/graphQL/main.gql';
+import { useNuxtApp } from '#app'; // Zugriff auf den Apollo Client
 
 export const useMainStore = defineStore('main', {
   state: () => {
-    const runtimeConfig = useRuntimeConfig();
+    const runtimeConfig = useRuntimeConfig(); // Zugriff auf RuntimeConfig für Umgebungsvariablen
     return {
       scrollPosition: 0,
       screenWidth: 0,
@@ -18,14 +18,16 @@ export const useMainStore = defineStore('main', {
   },
 
   actions: {
+    // Funktion zum Abrufen der Daten von Strapi
     async fetchStrapiData() {
-      const apolloClient = useApolloClient().client;
+      const { $apolloClient } = useNuxtApp(); // Greift auf den bereitgestellten Apollo Client zu
 
       try {
-        const { data } = await apolloClient.query({
+        const { data } = await $apolloClient.query({
           query: STRAPI_DATA,
         });
 
+        // Verarbeite die zurückgegebenen Daten
         if (data?.companyinfo?.data?.attributes) {
           this.companyinfo = data.companyinfo.data.attributes;
         }
@@ -33,6 +35,7 @@ export const useMainStore = defineStore('main', {
         if (data?.customers?.data) {
           let allProjects = [];
 
+          // Mapping der Kunden und ihrer Projekte
           this.customers = data.customers.data.map(customer => {
             const customerAttributes = {
               id: customer.id,
@@ -44,11 +47,13 @@ export const useMainStore = defineStore('main', {
               ...project.attributes,
             })) || [];
 
+            // Projekte zur Gesamtprojektliste hinzufügen
             allProjects = [...allProjects, ...customerProjects];
 
             return customerAttributes;
           });
 
+          // Sortiere die Projekte nach Launch-Datum
           this.projects = allProjects.sort((a, b) => {
             return new Date(b.launchDate) - new Date(a.launchDate);
           });

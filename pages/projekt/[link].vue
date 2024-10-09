@@ -40,43 +40,66 @@
       <div class="col-md-8">
         <span v-html="htmlContent(project?.projectDescription)"></span>
         <h4>Verwendete Technologien</h4>
-        <p><span v-for="tech, index in project.Technologien.data" :key="index" class="techChip">{{ tech.attributes.titel }}</span></p>
-        
-      </div>
-    </div>
-
-    <div class="navigationBox">
-      <div class="row align-items-center">
-        <div class="col-2 text-center">
-          <svg>
-            <use xlink:href="/assets/icons/collection.svg#nav_left"></use>
-          </svg>
-        </div>
-        <div class="col-4 text-start">vorheriges Projekt</div>
-        <div class="col-4 text-end">nächstes Projekt</div>
-        <div class="col-2 text-center">
-          <svg>
-            <use xlink:href="/assets/icons/collection.svg#nav_right"></use>
-          </svg>
+        <div class="techChipsBox"><span v-for="tech, index in project.Technologien.data" :key="index" class="techChip">{{ tech.attributes.titel }}</span></div>
+        <div class="row" v-if="project.webpage != null">
+          <div class="col-12 text-end">
+            <a class="webPageBtn" :href="project.webpage" target="_blank" rel="noopener noreferrer">
+              <svg>
+                <use xlink:href="/assets/icons/collection.svg#desktop"></use>
+              </svg> 
+              Projekt live erleben
+            </a>
+          </div>
         </div>
       </div>
     </div>
   </section>
+    <!-- Navigation für vorheriges und nächstes Projekt -->
+    <div class="navigationBox">
+      <div class="row align-items-center">
+        <!-- Vorheriges Projekt -->
+        <div class="col-6 d-flex align-items-center justify-content-start navBtn">
+          <div v-if="previousProject" class="col-3 text-center" id="btnPreProject" @click="navigateToPreviousProject">
+            <svg>
+              <use xlink:href="/assets/icons/collection.svg#nav_left"></use>
+            </svg>
+          </div>
+          <div v-if="previousProject" class="col-9 text-start">
+            <b>Projekt</b><br> {{ previousProject.projectTitle }}
+          </div>
+        </div>
+
+        <!-- Nächstes Projekt -->
+        <div class="col-6 d-flex align-items-center justify-content-end navBtn">
+          <div v-if="nextProject" class="col-9 text-end">
+            <b>Projekt</b><br> {{ nextProject.projectTitle }}
+          </div>
+          <div v-if="nextProject" class="col-3 text-center" id="btnPostProject" @click="navigateToNextProject">
+            <svg>
+              <use xlink:href="/assets/icons/collection.svg#nav_right"></use>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
 </template>
 
 <script setup>
 import { ref, computed, onBeforeMount } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router'; // Für die Navigation
 import { useMainStore } from '@/stores/main';
 import { storeToRefs } from 'pinia';
-import { useHtmlConverter } from '@/composables/useHtmlConverter.js'; 
+import { useNuxtApp } from '#app'; // Zugriff auf den Apollo Client
+import { useHtmlConverter } from '@/composables/useHTMLConverter'; 
 
 // Zugriff auf den Routenparameter und den Store
 const route = useRoute();
+const router = useRouter(); // Router für Navigation
 const mainStore = useMainStore();
 const { cmsUrl, projects, dynamicStyle } = storeToRefs(mainStore);
 
-// Finde das Projekt basierend auf dem dynamischen 'link' Parameter
+// Finde das aktuelle Projekt basierend auf dem dynamischen 'link' Parameter
 const project = computed(() => mainStore.getProjectByLink(route.params.link));
 
 // Importiere die convertToHTML Methode aus der Composable
@@ -94,9 +117,12 @@ const currentImage = ref(null);
 
 // Lade die Projekte und setze das erste Bild, wenn die Daten verfügbar sind
 onBeforeMount(async () => {
+  const { $apolloClient } = useNuxtApp(); // Greife auf den Apollo Client zu
+  
   if (!projects.value.length) {
-    await mainStore.fetchStrapiData();
+    await mainStore.fetchStrapiData($apolloClient); // Übergib den Apollo Client an den Store
   }
+  
   if (project.value && project.value.projectImages.data.length > 0) {
     currentImage.value = project.value.projectImages.data[0].attributes;
   }
@@ -105,6 +131,32 @@ onBeforeMount(async () => {
 // Funktion, um das angeklickte Bild als aktuelles Bild zu setzen
 const setCurrentImage = (image) => {
   currentImage.value = image;
+};
+
+// Berechnung des vorherigen Projekts
+const previousProject = computed(() => {
+  const currentIndex = projects.value.findIndex(p => p.link === route.params.link);
+  return currentIndex > 0 ? projects.value[currentIndex - 1] : null;
+});
+
+// Berechnung des nächsten Projekts
+const nextProject = computed(() => {
+  const currentIndex = projects.value.findIndex(p => p.link === route.params.link);
+  return currentIndex < projects.value.length - 1 ? projects.value[currentIndex + 1] : null;
+});
+
+// Funktion, um das vorherige Projekt zu finden und den Benutzer darauf zu verlinken
+const navigateToPreviousProject = () => {
+  if (previousProject.value) {
+    router.push({ path: `/projekt/${previousProject.value.link}` });
+  }
+};
+
+// Funktion, um das nächste Projekt zu finden und den Benutzer darauf zu verlinken
+const navigateToNextProject = () => {
+  if (nextProject.value) {
+    router.push({ path: `/projekt/${nextProject.value.link}` });
+  }
 };
 </script>
 
@@ -138,11 +190,11 @@ const setCurrentImage = (image) => {
   .customerBox
     width: 100%
     text-align: center
-    background-image: linear-gradient(to left bottom, rgba($beige, .4), transparent, transparent)
+    background-image: linear-gradient(to left bottom, rgba($lightgrey, .6), transparent, transparent)
     border-top-right-radius: 20px
     padding: 1rem
-    border-top: 1px solid rgba($beige, .3)
-    border-right: 1px solid rgba($beige, .3)
+    border-top: 1px solid rgba($lightgrey, .3)
+    border-right: 1px solid rgba($lightgrey, .3)
     margin: 1rem 0
     img
       min-height: 2rem
@@ -152,26 +204,57 @@ const setCurrentImage = (image) => {
     h4
       font-size: .8rem
     @media(max-width: $breakPointLG)
-      background-image: linear-gradient(to left, rgba($beige, .4), transparent, transparent)
+      background-image: linear-gradient(to left, rgba($lightgrey, .6), transparent, transparent)
       margin-top: 0
   .detailBox
     h4
       font-size: 1rem
       margin-top: 2.5rem
       color: adjust-color($darkgrey, $lightness: 20%)
+  .webPageBtn
+    font-size: .8rem
+    margin-top: 2rem
+    margin-right: 6%
+    text-decoration: none
+    border: 1px solid adjust-color($darkgrey, $lightness: 20%)
+    padding: .5rem 1rem
+    border-radius: 5px
+    display: inline-block
+    color: adjust-color($darkgrey, $lightness: 30%)
+    transition: .6s
+    &:hover
+      transform: scale(1.1)
+    svg
+      height: .8rem
+      width: .9rem
+      margin-right: .3rem
+      fill: adjust-color($darkgrey, $lightness: 20%)
 .navigationBox
   margin-top: 2rem
   width: 100%
   color: adjust-color($darkgrey, $lightness: 35%)
+  font-size: .85rem
+
+  &:hover
+    cursor: pointer
+  .navBtn
+    transition: .6s
+    &:hover
+      transform: scale(1.05)
   svg
     fill: adjust-color($lightgrey, $lightness: -10%)
     width: 80%
     max-width: 50px
-.techChip
-  background-color: $lightgrey
-  padding: .2rem 1rem
-  margin: .3rem
-  border-radius: .6rem
-  font-size: .9rem
+.techChipsBox
+  display: block
+  width: 100%
+  .techChip
+    background-color: $lightgrey
+    padding: .2rem 1rem
+    margin: .3rem
+    border-radius: .6rem
+    font-size: .9rem
+    display: inline-block
+    color: adjust-color($darkgrey, $lightness: 25%)
 </style>
 

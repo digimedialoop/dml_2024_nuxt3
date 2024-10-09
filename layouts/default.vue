@@ -147,8 +147,8 @@
 <script setup>
 // Import necessary features from Vue and Pinia
 import { ref, onMounted, onUnmounted, computed } from 'vue';
-import { useApolloClient } from '@vue/apollo-composable';
 import { useMainStore } from '@/stores/main';
+import { useNuxtApp } from '#app'; // Zugriff auf Nuxt App, um den Apollo Client zu verwenden
 
 // Componenten
 import CtaBar from '@/components/CtaBar.vue';
@@ -161,13 +161,13 @@ const toggleMenu = () => {
   mobileActive.value = !mobileActive.value;
 };
 
-// Store und Apollo Client initialisieren
+// Store initialisieren
 const mainStore = useMainStore();
-const apolloClient = useApolloClient();
 
 // Daten beim Mounten abrufen
 onMounted(() => {
-  mainStore.fetchStrapiData(apolloClient);
+  const { $apolloClient } = useNuxtApp(); // Greift auf den Apollo Client zu
+  mainStore.fetchStrapiData($apolloClient); // Übergibt den Apollo Client an den Pinia-Store
 });
 
 // Computed properties to access store data
@@ -204,6 +204,7 @@ onMounted(() => {
   });
 });
 </script>
+
 
 <style lang="sass">
 

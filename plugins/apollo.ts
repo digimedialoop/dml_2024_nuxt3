@@ -1,5 +1,4 @@
 import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client/core';
-import { DefaultApolloClient } from '@vue/apollo-composable';
 import { setContext } from '@apollo/client/link/context';  // Authentifizierungsmiddleware importieren
 import { defineNuxtPlugin } from '#app';
 
@@ -31,6 +30,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     cache: new InMemoryCache(),
   });
 
-  // Apollo-Client in der Nuxt-App bereitstellen
-  nuxtApp.vueApp.provide(DefaultApolloClient, apolloClient);
+  // Apollo-Client in der Nuxt-App bereitstellen, damit er überall verfügbar ist
+  nuxtApp.provide('apolloClient', apolloClient);
 });

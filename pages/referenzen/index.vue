@@ -1,8 +1,11 @@
 <template>
   <section class="container" :style="dynamicStyle">
-      <h1>Unsere Referenzprojekte</h1>
-      <h2>Jedes Web-Projekt ein Unikat!</h2>
-      <p>Wir gestalten jede Seite individuell nach den Wünschen und Bedürfnissen unserer Kunden. Deshalb ist jedes Projekt so einzigartig wie unsere Kunden selbst. Und nun, Vorhang auf und Manege frei für unsere Kundenprojekte – lassen Sie sich begeistern!</p>
+    <h1>Überzeugen Sie sich selbst! - Entdecken Sie unsere Referenzen</h1>
+    <h2>Lassen Sie sich inspirieren und sehen Sie, was Qualität für uns bedeutet</h2>
+    <p>Jedes unserer Projekte ist ein <b>maßgeschneidertes Unikat</b>, das sich ganz 
+      nach den Wünschen und Anforderungen unserer Kunden richtet. So individuell wie 
+      unsere Kunden, so einzigartig sind auch unsere Lösungen. Tauchen Sie ein und 
+      überzeugen Sie sich selbst von der <u>Einzigartigkeit und Qualität</u> unserer Ergebnisse!</p>
   </section>
   
   <section>
