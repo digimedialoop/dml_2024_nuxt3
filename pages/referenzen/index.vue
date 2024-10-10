@@ -32,7 +32,6 @@
 </template>
 
 <script setup>
-import { onBeforeMount } from 'vue';
 import { useMainStore } from '@/stores/main';
 import { storeToRefs } from 'pinia';
 
@@ -42,13 +41,15 @@ const { cmsUrl, dynamicStyle, projects } = storeToRefs(mainStore);
 // Methode, um den Kunden anhand der ID zu finden
 const getCustomerById = (id) => mainStore.getCustomerById(id);
 
-// Nutze onBeforeMount oder useFetch, um die Daten vor dem Rendern zu laden
-onBeforeMount(async () => {
-if (!mainStore.customers.length || !mainStore.projects.length) {
-  await mainStore.fetchStrapiData(); // Daten von Strapi laden
-}
+// useFetch wird sowohl im SSR als auch im Client verwendet
+const { data: strapiData, refresh } = await useFetch(async () => {
+  if (!mainStore.customers.length || !mainStore.projects.length) {
+    await mainStore.fetchStrapiData(); // Strapi-Daten laden
+  }
+  return mainStore;
 });
 </script>
+
 
 <style lang="sass">
 .referenceBox

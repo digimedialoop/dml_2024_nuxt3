@@ -145,30 +145,14 @@
 </template>
 
 <script setup>
-// Import necessary features from Vue and Pinia
-import { ref, onMounted, onUnmounted, computed } from 'vue';
 import { useMainStore } from '@/stores/main';
-import { useNuxtApp } from '#app'; // Zugriff auf Nuxt App, um den Apollo Client zu verwenden
-
-// Componenten
-import CtaBar from '@/components/CtaBar.vue';
-
-// Reaktive Variable für die mobile Navigation
-const mobileActive = ref(false);
-
-// Methode zum Umschalten des Menüs
-const toggleMenu = () => {
-  mobileActive.value = !mobileActive.value;
-};
 
 // Store initialisieren
 const mainStore = useMainStore();
 
-// Daten beim Mounten abrufen
-onMounted(() => {
-  const { $apolloClient } = useNuxtApp(); // Greift auf den Apollo Client zu
-  mainStore.fetchStrapiData($apolloClient); // Übergibt den Apollo Client an den Pinia-Store
-});
+// Daten beim SSR und Client-Abrufen bereitstellen
+// Dies ersetzt das onMounted
+await mainStore.fetchStrapiData();
 
 // Computed properties to access store data
 const companyinfo = computed(() => mainStore.companyinfo ?? null);
@@ -193,17 +177,20 @@ const scrollPosition = computed(() => mainStore.scrollPosition);
 // SCREEN WIDTH
 const screenWidth = computed(() => mainStore.screenWidth);
 
-// Beim Mounten der Komponente Scroll- und Bildschirmbreiten-Überwachung starten
-onMounted(() => {
-  mainStore.initializeListeners();  // Ruft sowohl monitorScroll als auch monitorScreenWidth auf
+// Scroll- und Bildschirmbreiten-Überwachung nur im Client starten
+if (process.client) {
+  onMounted(() => {
+    mainStore.initializeListeners();  // Ruft sowohl monitorScroll als auch monitorScreenWidth auf
 
-  // Optional: Cleanup, wenn die Komponente entfernt wird
-  onUnmounted(() => {
-    const stopMonitoringScroll = mainStore.monitorScroll();
-    stopMonitoringScroll();
+    // Optional: Cleanup, wenn die Komponente entfernt wird
+    onUnmounted(() => {
+      const stopMonitoringScroll = mainStore.monitorScroll();
+      stopMonitoringScroll();
+    });
   });
-});
+}
 </script>
+
 
 
 <style lang="sass">

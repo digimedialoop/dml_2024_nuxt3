@@ -14,7 +14,7 @@
     </div>
 
     <div class="row detailBox">
-      <div class="col-md-4">
+      <div class="col-lg-4">
         <transition name="fade" mode="out-in">
         <img
           id="currentImage"
@@ -37,7 +37,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-8">
+      <div class="col-lg-8 pt-4">
         <span v-html="htmlContent(project?.projectDescription)"></span>
         <h4>Verwendete Technologien</h4>
         <div class="techChipsBox"><span v-for="tech, index in project.Technologien.data" :key="index" class="techChip">{{ tech.attributes.titel }}</span></div>
@@ -56,10 +56,10 @@
   </section>
     <!-- Navigation für vorheriges und nächstes Projekt -->
     <div class="navigationBox">
-      <div class="row align-items-center">
+      <div class="row align-items-center" @click="navigateToPreviousProject">
         <!-- Vorheriges Projekt -->
         <div class="col-6 d-flex align-items-center justify-content-start navBtn">
-          <div v-if="previousProject" class="col-3 text-center" id="btnPreProject" @click="navigateToPreviousProject">
+          <div v-if="previousProject" class="col-3 text-center" id="btnPreProject">
             <svg>
               <use xlink:href="/assets/icons/collection.svg#nav_left"></use>
             </svg>
@@ -70,11 +70,11 @@
         </div>
 
         <!-- Nächstes Projekt -->
-        <div class="col-6 d-flex align-items-center justify-content-end navBtn">
+        <div class="col-6 d-flex align-items-center justify-content-end navBtn" @click="navigateToNextProject">
           <div v-if="nextProject" class="col-9 text-end">
             <b>Projekt</b><br> {{ nextProject.projectTitle }}
           </div>
-          <div v-if="nextProject" class="col-3 text-center" id="btnPostProject" @click="navigateToNextProject">
+          <div v-if="nextProject" class="col-3 text-center" id="btnPostProject">
             <svg>
               <use xlink:href="/assets/icons/collection.svg#nav_right"></use>
             </svg>
@@ -86,7 +86,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onBeforeMount } from 'vue';
+import { ref, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router'; // Für die Navigation
 import { useMainStore } from '@/stores/main';
 import { storeToRefs } from 'pinia';
@@ -115,17 +115,19 @@ const getCustomerById = (id) => mainStore.getCustomerById(id);
 // Zustand für das aktuell angezeigte Bild (startet mit dem ersten Bild)
 const currentImage = ref(null);
 
-// Lade die Projekte und setze das erste Bild, wenn die Daten verfügbar sind
-onBeforeMount(async () => {
+// Verwende useFetch, um die Daten im SSR und Client-Modus zu laden
+const { data: strapiData, refresh } = await useFetch(async () => {
   const { $apolloClient } = useNuxtApp(); // Greife auf den Apollo Client zu
-  
+
   if (!projects.value.length) {
     await mainStore.fetchStrapiData($apolloClient); // Übergib den Apollo Client an den Store
   }
-  
+
   if (project.value && project.value.projectImages.data.length > 0) {
     currentImage.value = project.value.projectImages.data[0].attributes;
   }
+
+  return mainStore;
 });
 
 // Funktion, um das angeklickte Bild als aktuelles Bild zu setzen
@@ -159,6 +161,7 @@ const navigateToNextProject = () => {
   }
 };
 </script>
+
 
 <style lang="sass">
 .project

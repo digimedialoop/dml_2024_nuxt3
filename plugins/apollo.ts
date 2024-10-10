@@ -1,35 +1,47 @@
 import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client/core';
-import { setContext } from '@apollo/client/link/context';  // Authentifizierungsmiddleware importieren
+import { setContext } from '@apollo/client/link/context';
 import { defineNuxtPlugin } from '#app';
+import { onServerPrefetch } from 'vue';
 
 export default defineNuxtPlugin((nuxtApp) => {
-  // Zugriff auf die RuntimeConfig
   const runtimeConfig = useRuntimeConfig();
-
-  // Hole den JWT-Token aus der RuntimeConfig
   const token = runtimeConfig.public.VUE_APP_TOKEN;
 
-  // HTTP-Link (für GraphQL-Endpunkt)
   const httpLink = new HttpLink({
     uri: runtimeConfig.public.STRAPI_GRAPHQL_URL,
   });
 
-  // Authentifizierungs-Link (fügt den Authorization-Header zu allen Anfragen hinzu)
   const authLink = setContext((_, { headers }) => {
     return {
       headers: {
         ...headers,
-        Authorization: token ? `Bearer ${token}` : '',  // Füge den JWT-Token hinzu, falls vorhanden
-      }
+        Authorization: token ? `Bearer ${token}` : '',
+      },
     };
   });
 
-  // Apollo-Client mit authLink und httpLink erstellen
   const apolloClient = new ApolloClient({
-    link: authLink.concat(httpLink),  // Verbinde authLink mit httpLink
+    ssrMode: process.server, // WICHTIG für SSR
+    link: authLink.concat(httpLink),
     cache: new InMemoryCache(),
   });
 
-  // Apollo-Client in der Nuxt-App bereitstellen, damit er überall verfügbar ist
+  if (process.server) {
+    onServerPrefetch(() => {
+      // Extrahiere den Apollo-Cache und füge ihn dem SSR-Context hinzu
+      nuxtApp.hook('render:routeContext', (context) => {
+        context.apolloState = apolloClient.extract();
+      });
+    });
+  }
+
+  if (process.client) {
+    // Stelle sicher, dass der Apollo-Client den Cache vom SSR übernimmt
+    const cacheData = window.__APOLLO_STATE__;
+    if (cacheData) {
+      apolloClient.cache.restore(cacheData);
+    }
+  }
+
   nuxtApp.provide('apolloClient', apolloClient);
 });

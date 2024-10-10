@@ -22,6 +22,7 @@ export default defineNuxtConfig({
       include: ['bootstrap']
     }
   },
+  ssr: true,
   runtimeConfig: {
     public: {
       STRAPI_GRAPHQL_URL: process.env.STRAPI_GRAPHQL_URL || 'http://localhost:1337/graphql',
