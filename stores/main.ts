@@ -72,27 +72,31 @@ export const useMainStore = defineStore('main', {
     },
 
     monitorScroll() {
-      const updateScrollPosition = () => {
-        this.setScrollPosition(window.scrollY);
-      };
-
-      window.addEventListener('scroll', updateScrollPosition);
-      return () => {
-        window.removeEventListener('scroll', updateScrollPosition);
-      };
+      if (typeof window !== 'undefined') { // Überprüfen, ob 'window' verfügbar ist
+        const updateScrollPosition = () => {
+          this.setScrollPosition(window.scrollY);
+        };
+  
+        window.addEventListener('scroll', updateScrollPosition);
+        return () => {
+          window.removeEventListener('scroll', updateScrollPosition);
+        };
+      }
     },
-
+  
     monitorScreenWidth() {
-      const updateScreenWidth = () => {
+      if (typeof window !== 'undefined') { // Überprüfen, ob 'window' verfügbar ist
+        const updateScreenWidth = () => {
+          this.setScreenWidth(window.innerWidth);
+        };
+  
+        window.addEventListener('resize', updateScreenWidth);
         this.setScreenWidth(window.innerWidth);
-      };
-
-      window.addEventListener('resize', updateScreenWidth);
-      this.setScreenWidth(window.innerWidth);
-
-      return () => {
-        window.removeEventListener('resize', updateScreenWidth);
-      };
+  
+        return () => {
+          window.removeEventListener('resize', updateScreenWidth);
+        };
+      }
     },
 
     initializeListeners() {

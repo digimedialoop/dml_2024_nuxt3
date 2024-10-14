@@ -1,11 +1,10 @@
 <template>
   <section class="container" :style="dynamicStyle">
-    <h1>Überzeugen Sie sich selbst! - Entdecken Sie unsere Referenzen</h1>
-    <h2>Lassen Sie sich inspirieren und sehen Sie, was Qualität für uns bedeutet</h2>
+    <h1>Überzeugen Sie sich selbst und entdecken Sie unsere Referenzen!</h1>
+    <h2>Tauchen Sie ein und erleben Sie, was Qualität für uns bedeutet.</h2>
     <p>Jedes unserer Projekte ist ein <b>maßgeschneidertes Unikat</b>, das sich ganz 
       nach den Wünschen und Anforderungen unserer Kunden richtet. So individuell wie 
-      unsere Kunden, so einzigartig sind auch unsere Lösungen. Tauchen Sie ein und 
-      überzeugen Sie sich selbst von der <u>Einzigartigkeit und Qualität</u> unserer Ergebnisse!</p>
+      unsere Kunden, so einzigartig sind auch unsere Lösungen. Erleben Sie die <u>Vielfalt und Qualität unserer Arbeit</u> und überzeugen Sie sich selbst!</p>
   </section>
   
   <section>

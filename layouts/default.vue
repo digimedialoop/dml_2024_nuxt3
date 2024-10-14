@@ -4,8 +4,8 @@
       <div class="logoBox" @click="navigateTo('/')">
         <img :src="cmsUrl + '/uploads/DML_Logo_grey_2024_c51210b70c.svg'" alt="digimedialoop Logo" />
       </div>
-      <div class="navigationBox" @click="toggleMenu" :class="[screenWidth < 1350 ? 'mobile' : 'desk', mobileActive ? 'menu-active' : '']">
-        <nav v-if="mobileActive || screenWidth >= 1350">
+      <div class="navigationBox" @click="toggleMenu" :class="[menuActive ? 'menu-active' : '', screenWidth < 1350 ? 'mobile' : 'desk']">
+        <nav>
           <NuxtLink to="/news">News</NuxtLink>
           <NuxtLink to="/leistungen">Leistungen</NuxtLink>
           <NuxtLink to="/referenzen">Referenzen</NuxtLink>
@@ -146,13 +146,14 @@
 
 <script setup>
 import { useMainStore } from '@/stores/main';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 
-// Store initialisieren
 const mainStore = useMainStore();
 
-// Daten beim SSR und Client-Abrufen bereitstellen
-// Dies ersetzt das onMounted
-await mainStore.fetchStrapiData();
+// Registriere onServerPrefetch vor einem await
+onServerPrefetch(async () => {
+  await mainStore.fetchStrapiData();
+});
 
 // Computed properties to access store data
 const companyinfo = computed(() => mainStore.companyinfo ?? null);
@@ -180,16 +181,25 @@ const screenWidth = computed(() => mainStore.screenWidth);
 // Scroll- und Bildschirmbreiten-Überwachung nur im Client starten
 if (process.client) {
   onMounted(() => {
-    mainStore.initializeListeners();  // Ruft sowohl monitorScroll als auch monitorScreenWidth auf
+    // Listener für Scroll und Bildschirmbreite aktivieren
+    mainStore.initializeListeners();
 
-    // Optional: Cleanup, wenn die Komponente entfernt wird
+    // Cleanup: Event-Listener entfernen, wenn die Komponente ungemountet wird
     onUnmounted(() => {
-      const stopMonitoringScroll = mainStore.monitorScroll();
-      stopMonitoringScroll();
+      window.removeEventListener('scroll', mainStore.monitorScroll);
+      window.removeEventListener('resize', mainStore.monitorScreenWidth);
     });
   });
 }
+
+// Toggle mobile menu
+const menuActive = ref(false);
+const toggleMenu = () => {
+  menuActive.value = !menuActive.value; // Ändert den Zustand der Variablen
+};
+
 </script>
+
 
 
 
@@ -263,7 +273,7 @@ header
         z-index: 100
         border-radius: 50%
         margin-right: 5vw
-        margin-top: 1rem
+        margin-top: 2rem
         &::before, &::after
           position: absolute
           content: ''
@@ -363,7 +373,7 @@ header
         padding: 1rem 2.5rem
         text-align: center
         border-radius: 1rem
-        margin: 2rem 2vw 0 8vh
+        margin: 1rem 2vw 0 8vh
         transition: .8s
         a
           margin: 0 1.5rem
@@ -491,7 +501,7 @@ main
       width: 300%
       height: 300%
       background-color: rgba($primaryColor, 0.4) 
-      transition: transform 0.6s ease-in-out 
+      transition: transform 0.4s ease-in-out 
       border-radius: 50%
       transform: translate(-50%, -50%) scale(0) 
       z-index: 1 
@@ -504,9 +514,9 @@ main
       box-shadow: 0 0 15px rgba($primaryColor, 0.2), 0 0 25px rgba($primaryColor, 0.2)
       border: 1px solid rgba($primaryColor, 0.8)
       letter-spacing: .05rem
-      transform: scale(1.1)
-      &::before
-        transform: translate(-50%, -50%) scale(1) 
+      transform: scale(1.05)
+      /*&::before
+        transform: translate(-50%, -50%) scale(1) */
         
   section
     margin-bottom: 10vh

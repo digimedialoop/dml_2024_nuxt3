@@ -1,7 +1,4 @@
 export default defineNuxtConfig({
-  app: {
-    baseURL: process.env.NUXT_ENV_BASE_URL || 'http://localhost:3000',
-  },
   pages: true,
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
