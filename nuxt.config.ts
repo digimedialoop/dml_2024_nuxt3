@@ -2,7 +2,7 @@ export default defineNuxtConfig({
   pages: true,
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
-  
+
   // Plugins
   plugins: [
     '@/plugins/pinia',
@@ -15,7 +15,7 @@ export default defineNuxtConfig({
     'bootstrap/dist/css/bootstrap.min.css',
   ],
 
-  // Vite-Konfiguration für Preprocessing
+  // Vite-Konfiguration
   vite: {
     css: {
       preprocessorOptions: {
@@ -41,24 +41,21 @@ export default defineNuxtConfig({
     }
   },
 
-  // Caching und Public Path Einstellungen
+  // Nitro-Konfiguration für ISR und Prerendering
   nitro: {
-    output: {
-      publicDir: '.output/public', // Sicherstellen, dass statische Ressourcen hier abgelegt werden
-    }
+    prerender: {
+      crawlLinks: true, // Crawlt automatisch alle Links auf der Seite und generiert sie statisch
+    },
   },
 
-  // Konfiguration des Public Path
+  // ISR für dynamische Routen
+  routeRules: {
+    "/**": { isr: true }, // Stellt sicher, dass alle Routen ISR verwenden
+  },
+
+  // Optimierung des Builds
   build: {
     publicPath: '/_nuxt/', // Stellt sicher, dass statische Dateien unter /_nuxt/ ausgeliefert werden
-  },
-
-  // Deaktivieren von clientseitigem Cache für Entwicklungs- und Debugging-Zwecke
-  app: {
-    head: {
-      meta: [
-        { name: 'Cache-Control', content: 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0' }
-      ]
-    }
+    extractCSS: true, // Extrahiere CSS-Dateien separat
   }
 });
