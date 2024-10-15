@@ -35,8 +35,8 @@ export default defineNuxtConfig({
   // Runtime-Konfiguration für Umgebungsvariablen
   runtimeConfig: {
     public: {
-      STRAPI_GRAPHQL_URL: process.env.STRAPI_GRAPHQL_URL || 'http://localhost:1337/graphql',
-      VUE_APP_API_URL: process.env.VUE_APP_API_URL || 'http://localhost:1337',
+      STRAPI_GRAPHQL_URL: process.env.STRAPI_GRAPHQL_URL || 'https://strapi.digimedialoop.de/graphql',
+      VUE_APP_API_URL: process.env.VUE_APP_API_URL || 'https://strapi.digimedialoop.de',
       VUE_APP_TOKEN: process.env.VUE_APP_TOKEN || '',
     }
   },

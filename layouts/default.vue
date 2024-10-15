@@ -2,9 +2,9 @@
   <header :class="[screenWidth < 1350 ? 'mobile' : 'desk']">
     <div class="headContent" :class="scrollPosition > 50 ? 'active' : ''">
       <div class="logoBox" @click="navigateTo('/')">
-        <img :src="cmsUrl + '/uploads/DML_Logo_grey_2024_c51210b70c.svg'" alt="digimedialoop Logo" />
+        <img :src="`${cmsUrl}/uploads/DML_Logo_grey_2024_c51210b70c.svg`" alt="digimedialoop Logo" />
       </div>
-      <div class="navigationBox" @click="toggleMenu" :class="[menuActive ? 'menu-active' : '', screenWidth < 1350 ? 'mobile' : 'desk']">
+      <div class="navigationBox" :class="[menuActive ? 'menu-active' : '', screenWidth < 1350 ? 'mobile' : 'desk']">
         <nav>
           <NuxtLink to="/news">News</NuxtLink>
           <NuxtLink to="/leistungen">Leistungen</NuxtLink>
@@ -16,7 +16,7 @@
   </header>
   <CtaBar />
   <main :class="[screenWidth < 1350 ? 'mobile' : 'desk']">
-      <NuxtPage />
+    <NuxtPage />
   </main>
 
   <footer>
@@ -55,7 +55,7 @@
             {{ companyinfo?.postalcode }}
             {{ companyinfo?.city }}
           </p>
-          <p>{{ companyinfo?.distirct }}</p>
+          <p>{{ companyinfo?.district }}</p>
           <br />
           <p>
             <span>Impressum | Datenschutz | AGB </span>
@@ -74,8 +74,8 @@
                   <use xlink:href="/assets/icons/collection.svg#location"></use>
                 </svg>
                 </span
-              >B {{ companyinfo?.latitude }} |
-              {{ companyinfo?.longitute }}
+              >{{ companyinfo?.latitude }} |
+              {{ companyinfo?.longitude }}
             </p>
             <p>
               <span class="icon">
@@ -163,11 +163,9 @@ const invertLogo = computed(() => {
     : '/uploads/dummy_Image_4abc3f04dd.webp';
 });
 
-const cmsUrl = computed(() => mainStore.cmsUrl);
-const navigation = computed(() => {
-  return mainStore.navigation && Array.isArray(mainStore.navigation)
-    ? mainStore.navigation.filter(n => n.attributes.footerMenu)
-    : [];
+const cmsUrl = computed(() => {
+  // Sicherstellen, dass immer HTTPS verwendet wird
+  return mainStore.cmsUrl.replace(/^http:\/\//i, 'https://');
 });
 
 const currentYear = computed(() => new Date().getFullYear());
@@ -178,11 +176,22 @@ const scrollPosition = computed(() => mainStore.scrollPosition);
 // SCREEN WIDTH
 const screenWidth = computed(() => mainStore.screenWidth);
 
-// Scroll- und Bildschirmbreiten-Überwachung nur im Client starten
+// Toggle mobile menu
+const menuActive = ref(false);
+
+// Client-seitige Aktionen (z.B. Menü öffnen) nur auf dem Client durchführen
 if (process.client) {
   onMounted(() => {
-    // Listener für Scroll und Bildschirmbreite aktivieren
+    // Scroll- und Bildschirmbreiten-Überwachung nur im Client starten
     mainStore.initializeListeners();
+
+    // Menü-Interaktionen
+    const menuButton = document.querySelector('.navigationBox');
+    if (menuButton) {
+      menuButton.addEventListener('click', () => {
+        menuActive.value = !menuActive.value;
+      });
+    }
 
     // Cleanup: Event-Listener entfernen, wenn die Komponente ungemountet wird
     onUnmounted(() => {
@@ -192,16 +201,7 @@ if (process.client) {
   });
 }
 
-// Toggle mobile menu
-const menuActive = ref(false);
-const toggleMenu = () => {
-  menuActive.value = !menuActive.value; // Ändert den Zustand der Variablen
-};
-
 </script>
-
-
-
 
 <style lang="sass">
 
