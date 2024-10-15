@@ -141,8 +141,10 @@
 <script setup>
 import { useMainStore } from '@/stores/main';
 import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { useNuxtApp } from '#app';
 
 const mainStore = useMainStore();
+const nuxtApp = useNuxtApp();
 
 // Registriere onServerPrefetch vor einem await
 onServerPrefetch(async () => {
@@ -178,18 +180,18 @@ const toggleMenu = () => {
   menuActive.value = !menuActive.value;
 };
 
-// Client-seitige Aktionen (z.B. Scroll-Überwachung) nur auf dem Client durchführen
-if (process.client) {
-  onMounted(() => {
+// Client-seitige Aktionen nur auf dem Client ausführen
+onMounted(() => {
+  if (nuxtApp.isClient) {
     mainStore.initializeListeners();
 
-    // Cleanup: Event-Listener entfernen, wenn die Komponente ungemountet wird
+    // Cleanup: Event-Listener entfernen, wenn die Komponente unmounted wird
     onUnmounted(() => {
       window.removeEventListener('scroll', mainStore.monitorScroll);
       window.removeEventListener('resize', mainStore.monitorScreenWidth);
     });
-  });
-}
+  }
+});
 
 </script>
 

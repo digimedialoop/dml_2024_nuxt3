@@ -7,7 +7,7 @@
     <p>Wir sind eine kundenorientierte Webagentur in Herrsching am Ammersee und unterstützen Sie individuell und zuverlässig bei Ihrem Auftritt im Web!</p>
     <button class="mt-4"><span>Kostenlose Erstberatung</span></button>
   </section>    
-  <MarqueeBanner :items="customers" :logoHeight="'60'" title="Diese Unternehmen vertrauen uns" />
+  <MarqueeBanner :items="customers" :logoHeight="60" title="Diese Unternehmen vertrauen uns" />
 </template>
 
 <script setup>

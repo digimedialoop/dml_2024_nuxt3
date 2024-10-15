@@ -24,8 +24,8 @@ export default defineNuxtPlugin((nuxtApp) => {
     cache: new InMemoryCache(),
   });
 
-  if (process.client) {
-    // Stelle sicher, dass der Apollo-Client den Cache vom SSR übernimmt (nicht mehr notwendig für CSR)
+  // Nutze nuxtApp.isClient statt process.client
+  if (nuxtApp.isClient) {
     const cacheData = window.__APOLLO_STATE__;
     if (cacheData) {
       apolloClient.cache.restore(cacheData);

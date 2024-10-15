@@ -16,7 +16,7 @@
         </div>
       </div>
     </section>
-    <MarqueeBanner :items="projects" :logoHeight="'180'" title="Unsere letzten Projekte" link="projekt" />
+    <MarqueeBanner :items="projects" :logoHeight="180" title="Unsere letzten Projekte" link="projekt" />
 </template>
 
 <script setup>
