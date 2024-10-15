@@ -29,8 +29,8 @@ export default defineNuxtConfig({
     }
   },
 
-  // Server-Side Rendering aktivieren
-  ssr: true,
+  // Deaktiviere SSR
+  ssr: false,
 
   // Runtime-Konfiguration für Umgebungsvariablen
   runtimeConfig: {
@@ -44,18 +44,31 @@ export default defineNuxtConfig({
   // Nitro-Konfiguration für ISR und Prerendering
   nitro: {
     prerender: {
-      crawlLinks: true, // Crawlt automatisch alle Links auf der Seite und generiert sie statisch
+      crawlLinks: true,
+      routes: [
+        "/", 
+        "/referenzen",
+        "/kontakt",
+        "/leistungen",
+        "/news",
+        "/projekt/relaunch-herb-x-film-webauftritt"
+      ],
     },
   },
 
   // ISR für dynamische Routen
   routeRules: {
-    "/**": { isr: true }, // Stellt sicher, dass alle Routen ISR verwenden
+    "/referenzen": { isr: { revalidate: 600 } }, // 10 Minuten
+    "/kontakt": { isr: { revalidate: 3600 } }, // 1 Stunde
+    "/leistungen": { isr: { revalidate: 1800 } }, // 30 Minuten
+    "/news": { isr: { revalidate: 300 } }, // 5 Minuten
+    "/projekt/**": { isr: { revalidate: 600 } }, // 10 Minuten für alle Projektseiten
+    "/**": { isr: true }, // ISR für alle anderen Seiten
   },
 
   // Optimierung des Builds
   build: {
-    publicPath: '/_nuxt/', // Stellt sicher, dass statische Dateien unter /_nuxt/ ausgeliefert werden
-    extractCSS: true, // Extrahiere CSS-Dateien separat
+    publicPath: '/_nuxt/', // Statische Dateien unter /_nuxt/
+    extractCSS: true, // Extrahiere CSS in separate Dateien
   }
 });

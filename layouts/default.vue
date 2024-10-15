@@ -4,8 +4,8 @@
       <div class="logoBox" @click="navigateTo('/')">
         <img :src="`${cmsUrl}/uploads/DML_Logo_grey_2024_c51210b70c.svg`" alt="digimedialoop Logo" />
       </div>
-      <div class="navigationBox" :class="[menuActive ? 'menu-active' : '', screenWidth < 1350 ? 'mobile' : 'desk']">
-        <nav>
+      <div class="navigationBox" @click="toggleMenu" :class="[menuActive ? 'menu-active' : '', screenWidth < 1350 ? 'mobile' : 'desk']">
+        <nav v-if="menuActive">
           <NuxtLink to="/news">News</NuxtLink>
           <NuxtLink to="/leistungen">Leistungen</NuxtLink>
           <NuxtLink to="/referenzen">Referenzen</NuxtLink>
@@ -68,38 +68,32 @@
         <div class="col-md-4 pt-4 mb-4">
           <div class="text-left">
             <p class="mb-4">
-              <span class="icon"
-                >
+              <span class="icon">
                 <svg>
                   <use xlink:href="/assets/icons/collection.svg#location"></use>
                 </svg>
-                </span
-              >{{ companyinfo?.latitude }} |
-              {{ companyinfo?.longitude }}
+              </span>{{ companyinfo?.latitude }} | {{ companyinfo?.longitude }}
             </p>
             <p>
               <span class="icon">
                 <svg>
                   <use xlink:href="/assets/icons/collection.svg#phone"></use>
                 </svg>
-              </span
-              >{{ companyinfo?.phone }}
+              </span>{{ companyinfo?.phone }}
             </p>
             <p>
               <span class="icon">
                 <svg>
                   <use xlink:href="/assets/icons/collection.svg#envelope"></use>
                 </svg>
-                </span
-              >{{ companyinfo?.email }}
+              </span>{{ companyinfo?.email }}
             </p>
             <p>
               <span class="icon">
                 <svg>
                   <use xlink:href="/assets/icons/collection.svg#desktop"></use>
                 </svg>
-              </span
-              >www.{{ companyinfo?.web }}
+              </span>www.{{ companyinfo?.web }}
             </p>
           </div>
         </div>
@@ -116,7 +110,7 @@
           </div>
           <p class="mb-3">
             Handcrafted webdesign with passion and
-            <span class="bigIcon"> 
+            <span class="bigIcon">
               <svg>
                 <use xlink:href="/assets/icons/collection.svg#heart"></use>
               </svg>
@@ -128,7 +122,7 @@
               :src="`${cmsUrl}/uploads/nuxt_Logo_white_1ad151de78.svg`"
               alt="vue logo"
             />
-            <span class="bigIcon"> 
+            <span class="bigIcon">
               <svg>
                 <use xlink:href="/assets/icons/collection.svg#plus"></use>
               </svg>
@@ -179,19 +173,15 @@ const screenWidth = computed(() => mainStore.screenWidth);
 // Toggle mobile menu
 const menuActive = ref(false);
 
-// Client-seitige Aktionen (z.B. Menü öffnen) nur auf dem Client durchführen
+// Funktion zum Umschalten des Menüs
+const toggleMenu = () => {
+  menuActive.value = !menuActive.value;
+};
+
+// Client-seitige Aktionen (z.B. Scroll-Überwachung) nur auf dem Client durchführen
 if (process.client) {
   onMounted(() => {
-    // Scroll- und Bildschirmbreiten-Überwachung nur im Client starten
     mainStore.initializeListeners();
-
-    // Menü-Interaktionen
-    const menuButton = document.querySelector('.navigationBox');
-    if (menuButton) {
-      menuButton.addEventListener('click', () => {
-        menuActive.value = !menuActive.value;
-      });
-    }
 
     // Cleanup: Event-Listener entfernen, wenn die Komponente ungemountet wird
     onUnmounted(() => {
