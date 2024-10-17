@@ -29,7 +29,7 @@ export default defineNuxtConfig({
     }
   },
 
-  // Deaktiviere SSR
+  // Server-Side Rendering deaktivieren (für CSR)
   ssr: false,
 
   // Runtime-Konfiguration für Umgebungsvariablen
@@ -41,10 +41,10 @@ export default defineNuxtConfig({
     }
   },
 
-  // Nitro-Konfiguration für ISR und Prerendering
+  // Nitro-Konfiguration für ISR
   nitro: {
     prerender: {
-      crawlLinks: true,
+      crawlLinks: true, // Automatisches Crawling von Links für Prerendering
       routes: [
         "/", 
         "/referenzen",
@@ -58,11 +58,11 @@ export default defineNuxtConfig({
 
   // ISR für dynamische Routen
   routeRules: {
-    "/referenzen": { isr: { revalidate: 600 } }, // 10 Minuten
-    "/kontakt": { isr: { revalidate: 3600 } }, // 1 Stunde
-    "/leistungen": { isr: { revalidate: 1800 } }, // 30 Minuten
-    "/news": { isr: { revalidate: 300 } }, // 5 Minuten
-    "/projekt/**": { isr: { revalidate: 600 } }, // 10 Minuten für alle Projektseiten
+    "/referenzen": { isr: { revalidate: 600 } }, // Revalidation alle 10 Minuten
+    "/kontakt": { isr: { revalidate: 3600 } }, // Revalidation alle 1 Stunde
+    "/leistungen": { isr: { revalidate: 1800 } }, // Revalidation alle 30 Minuten
+    "/news": { isr: { revalidate: 300 } }, // Revalidation alle 5 Minuten
+    "/projekt/**": { isr: { revalidate: 600 } }, // Revalidation alle 10 Minuten für alle Projekte
     "/**": { isr: true }, // ISR für alle anderen Seiten
   },
 

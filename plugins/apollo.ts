@@ -24,7 +24,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     cache: new InMemoryCache(),
   });
 
-  // Nutze nuxtApp.isClient statt process.client
+
   if (nuxtApp.isClient) {
     const cacheData = window.__APOLLO_STATE__;
     if (cacheData) {
