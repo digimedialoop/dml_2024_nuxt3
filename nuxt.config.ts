@@ -45,7 +45,7 @@ export default defineNuxtConfig({
   },
 
   // Server-Side Rendering deaktivieren (für CSR)
-  ssr: false,
+  ssr: true,
 
   // Runtime-Konfiguration für Umgebungsvariablen
   runtimeConfig: {
