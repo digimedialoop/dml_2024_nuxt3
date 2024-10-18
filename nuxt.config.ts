@@ -34,6 +34,13 @@ export default defineNuxtConfig({
     },
     optimizeDeps: {
       include: ['bootstrap']
+    },
+    server: {
+      hmr: {
+        protocol: "wss",  // WebSocket-Protokoll
+        clientPort: 443,  // SSL-Port für den Client
+        path: "hmr/",     // Pfad für HMR
+      },
     }
   },
 
