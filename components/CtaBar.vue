@@ -4,8 +4,8 @@
         <div :class="{ active: visibleSection === 'call' }" title="Anrufen" @click="toggleVisible('call')">
             <span v-if="visibleSection !== 'call'">
                 <svg>
-                  <use xlink:href="/assets/icons/collection.svg#phone"></use>
-                </svg>
+                  <use xlink:href="/_nuxt/assets/icons/collection.svg#phone"></use>
+                </svg>                
             </span>
             <span v-if="visibleSection === 'call'">Sie erreichen uns unter <b> <svg>
                   <use xlink:href="/assets/icons/collection.svg#phone"></use>
@@ -77,6 +77,7 @@ const toggleVisible = (section) => {
                 width: 2.5rem
                 padding: .5rem
                 transition: .5s
+          
         &:first-of-type
             border-top-left-radius: 10px
         &:last-of-type

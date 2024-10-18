@@ -10,6 +10,14 @@ export default defineNuxtConfig({
     '@/plugins/bootstrap.client.js'
   ],
 
+  modules: [
+    'nuxt-simple-sitemap',
+  ],
+
+  sitemap: {
+    siteUrl: 'https://test.digimedialoop.de', // Ersetze dies durch deine eigene URL
+  },
+
   // CSS und Bootstrap
   css: [
     'bootstrap/dist/css/bootstrap.min.css',
@@ -50,8 +58,7 @@ export default defineNuxtConfig({
         "/referenzen",
         "/kontakt",
         "/leistungen",
-        "/news",
-        "/projekt/relaunch-herb-x-film-webauftritt"
+        "/news"
       ],
     },
   },

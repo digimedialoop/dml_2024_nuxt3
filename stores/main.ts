@@ -11,7 +11,7 @@ export const useMainStore = defineStore('main', {
       contactBoxOpen: false,
       cmsUrl: runtimeConfig.public.VUE_APP_API_URL || '',
       graphQLUrl: runtimeConfig.public.STRAPI_GRAPHQL_URL || '',
-      companyinfo: {}, // Optional könnte Typisierung hier hilfreich sein
+      companyinfo: {},
       customers: [],
       projects: [],
     };
@@ -76,23 +76,23 @@ export const useMainStore = defineStore('main', {
         const updateScrollPosition = () => {
           this.setScrollPosition(window.scrollY);
         };
-
+  
         window.addEventListener('scroll', updateScrollPosition);
         return () => {
           window.removeEventListener('scroll', updateScrollPosition);
         };
       }
     },
-
+  
     monitorScreenWidth() {
       if (typeof window !== 'undefined') { // Überprüfen, ob 'window' verfügbar ist
         const updateScreenWidth = () => {
           this.setScreenWidth(window.innerWidth);
         };
-
+  
         window.addEventListener('resize', updateScreenWidth);
         this.setScreenWidth(window.innerWidth);
-
+  
         return () => {
           window.removeEventListener('resize', updateScreenWidth);
         };

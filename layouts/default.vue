@@ -141,15 +141,9 @@
 <script setup>
 import { useMainStore } from '@/stores/main';
 import { ref, computed, onMounted, onUnmounted } from 'vue';
-import { useNuxtApp } from '#app';
 
+// Store initialisieren
 const mainStore = useMainStore();
-const nuxtApp = useNuxtApp();
-
-// Registriere onServerPrefetch vor einem await
-onServerPrefetch(async () => {
-  await mainStore.fetchStrapiData();
-});
 
 // Computed properties to access store data
 const companyinfo = computed(() => mainStore.companyinfo ?? null);
@@ -180,20 +174,23 @@ const toggleMenu = () => {
   menuActive.value = !menuActive.value;
 };
 
-// Client-seitige Aktionen nur auf dem Client ausführen
+// Client-seitige Aktionen auf dem Client ausführen
 onMounted(() => {
-  if (nuxtApp.isClient) {
-    mainStore.initializeListeners();
+  mainStore.initializeListeners();
 
-    // Cleanup: Event-Listener entfernen, wenn die Komponente unmounted wird
-    onUnmounted(() => {
-      window.removeEventListener('scroll', mainStore.monitorScroll);
-      window.removeEventListener('resize', mainStore.monitorScreenWidth);
-    });
-  }
+  // Cleanup: Event-Listener entfernen, wenn die Komponente unmounted wird
+  onUnmounted(() => {
+    window.removeEventListener('scroll', mainStore.monitorScroll);
+    window.removeEventListener('resize', mainStore.monitorScreenWidth);
+  });
 });
 
+// Registriere onServerPrefetch für Datenabrufe auf dem Server
+onServerPrefetch(async () => {
+  await mainStore.fetchStrapiData();
+});
 </script>
+
 
 <style lang="sass">
 

@@ -24,13 +24,6 @@ export default defineNuxtPlugin((nuxtApp) => {
     cache: new InMemoryCache(),
   });
 
-
-  if (nuxtApp.isClient) {
-    const cacheData = window.__APOLLO_STATE__;
-    if (cacheData) {
-      apolloClient.cache.restore(cacheData);
-    }
-  }
-
+  // Entferne den window.__APOLLO_STATE__ Block für CSR
   nuxtApp.provide('apolloClient', apolloClient);
 });
