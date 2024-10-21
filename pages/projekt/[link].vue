@@ -16,16 +16,15 @@
     <div class="row detailBox">
       <div class="col-lg-4">
         <transition name="fade" mode="out-in">
-        <img
-          id="currentImage"
-          :src="cmsUrl + currentImage.url"
-          :alt="currentImage.alternativeText"
-        />
+          <img
+            id="currentImage"
+            :src="cmsUrl + currentImage.url"
+            :alt="currentImage.alternativeText"
+          />
         </transition>
         <div class="preview">
           <h3>Weitere Ansichten</h3>
           <div class="imageNavigation">
-            <!-- Vorschau-Bilder mit Click Event -->
             <img
               v-for="(img, index) in project.projectImages.data"
               :key="index"
@@ -40,7 +39,9 @@
       <div class="col-lg-8 pt-4">
         <span v-html="htmlContent(project?.projectDescription)"></span>
         <h4>Verwendete Technologien</h4>
-        <div class="techChipsBox"><span v-for="tech, index in project.Technologien.data" :key="index" class="techChip">{{ tech.attributes.titel }}</span></div>
+        <div class="techChipsBox">
+          <span v-for="tech, index in project.Technologien.data" :key="index" class="techChip">{{ tech.attributes.titel }}</span>
+        </div>
         <div class="row" v-if="project.webpage != null">
           <div class="col-12 text-end">
             <a class="webPageBtn" :href="project.webpage" target="_blank" rel="noopener noreferrer">
@@ -54,48 +55,47 @@
       </div>
     </div>
   </section>
-    <!-- Navigation für vorheriges und nächstes Projekt -->
-    <div class="navigationBox">
-      <div class="row align-items-center" @click="navigateToPreviousProject">
-        <!-- Vorheriges Projekt -->
-        <div class="col-6 d-flex align-items-center justify-content-start navBtn">
-          <div v-if="previousProject" class="col-3 text-center" id="btnPreProject">
-            <svg>
-              <use xlink:href="/assets/icons/collection.svg#nav_left"></use>
-            </svg>
-          </div>
-          <div v-if="previousProject" class="col-9 text-start">
-            <b>Projekt</b><br> {{ previousProject.projectTitle }}
-          </div>
-        </div>
 
-        <!-- Nächstes Projekt -->
-        <div class="col-6 d-flex align-items-center justify-content-end navBtn" @click="navigateToNextProject">
-          <div v-if="nextProject" class="col-9 text-end">
-            <b>Projekt</b><br> {{ nextProject.projectTitle }}
-          </div>
-          <div v-if="nextProject" class="col-3 text-center" id="btnPostProject">
-            <svg>
-              <use xlink:href="/assets/icons/collection.svg#nav_right"></use>
-            </svg>
-          </div>
+  <!-- Navigation für vorheriges und nächstes Projekt -->
+  <div class="navigationBox">
+    <div class="row align-items-center" @click="navigateToPreviousProject">
+      <!-- Vorheriges Projekt -->
+      <div class="col-6 d-flex align-items-center justify-content-start navBtn">
+        <div v-if="previousProject" class="col-3 text-center" id="btnPreProject">
+          <svg>
+            <use xlink:href="/assets/icons/collection.svg#nav_left"></use>
+          </svg>
+        </div>
+        <div v-if="previousProject" class="col-9 text-start">
+          <b>Projekt</b><br> {{ previousProject.projectTitle }}
+        </div>
+      </div>
+
+      <!-- Nächstes Projekt -->
+      <div class="col-6 d-flex align-items-center justify-content-end navBtn" @click="navigateToNextProject">
+        <div v-if="nextProject" class="col-9 text-end">
+          <b>Projekt</b><br> {{ nextProject.projectTitle }}
+        </div>
+        <div v-if="nextProject" class="col-3 text-center" id="btnPostProject">
+          <svg>
+            <use xlink:href="/assets/icons/collection.svg#nav_right"></use>
+          </svg>
         </div>
       </div>
     </div>
-
+  </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router'; // Für die Navigation
-import { useMainStore } from '@/stores/main';
+import { useMainStore } from '@/stores/main'; // Pinia Store importieren
 import { storeToRefs } from 'pinia';
-import { useNuxtApp } from '#app'; // Zugriff auf den Apollo Client
 import { useHtmlConverter } from '@/composables/useHTMLConverter'; 
 
 // Zugriff auf den Routenparameter und den Store
 const route = useRoute();
-const router = useRouter(); // Router für Navigation
+const router = useRouter();
 const mainStore = useMainStore();
 const { cmsUrl, projects, dynamicStyle } = storeToRefs(mainStore);
 
@@ -115,20 +115,10 @@ const getCustomerById = (id) => mainStore.getCustomerById(id);
 // Zustand für das aktuell angezeigte Bild (startet mit dem ersten Bild)
 const currentImage = ref(null);
 
-// Verwende useFetch, um die Daten im SSR und Client-Modus zu laden
-const { data: strapiData, refresh } = await useFetch(async () => {
-  const { $apolloClient } = useNuxtApp(); // Greife auf den Apollo Client zu
-
-  if (!projects.value.length) {
-    await mainStore.fetchStrapiData($apolloClient); // Übergib den Apollo Client an den Store
-  }
-
-  if (project.value && project.value.projectImages.data.length > 0) {
-    currentImage.value = project.value.projectImages.data[0].attributes;
-  }
-
-  return mainStore;
-});
+// Setze das erste Bild, falls das Projekt Bilder hat
+if (project.value && project.value.projectImages?.data?.length > 0) {
+  currentImage.value = project.value.projectImages.data[0].attributes;
+}
 
 // Funktion, um das angeklickte Bild als aktuelles Bild zu setzen
 const setCurrentImage = (image) => {
@@ -161,7 +151,6 @@ const navigateToNextProject = () => {
   }
 };
 </script>
-
 
 <style lang="sass">
 .project

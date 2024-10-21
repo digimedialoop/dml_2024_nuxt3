@@ -140,54 +140,41 @@
 
 <script setup>
 import { useMainStore } from '@/stores/main';
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onServerPrefetch } from 'vue';
+import { useRuntimeConfig } from '#app'
 
-// Store initialisieren
+const config = useRuntimeConfig()
 const mainStore = useMainStore();
 
 // Computed properties to access store data
 const companyinfo = computed(() => mainStore.companyinfo ?? null);
+const cmsUrl = computed(() => mainStore.cmsUrl || config.public.VUE_APP_API_URL);
+const currentYear = computed(() => new Date().getFullYear());
+const scrollPosition = computed(() => mainStore.scrollPosition);
+const screenWidth = computed(() => mainStore.screenWidth);
+const menuActive = ref(false);
 const invertLogo = computed(() => {
   return mainStore.companyinfo && mainStore.companyinfo.invertlogo 
     ? mainStore.companyinfo.invertlogo.data?.attributes?.url 
     : '/uploads/dummy_Image_4abc3f04dd.webp';
 });
 
-const cmsUrl = computed(() => {
-  // Sicherstellen, dass immer HTTPS verwendet wird
-  return mainStore.cmsUrl.replace(/^http:\/\//i, 'https://');
-});
-
-const currentYear = computed(() => new Date().getFullYear());
-
-// SCROLL POSITION
-const scrollPosition = computed(() => mainStore.scrollPosition);
-
-// SCREEN WIDTH
-const screenWidth = computed(() => mainStore.screenWidth);
-
-// Toggle mobile menu
-const menuActive = ref(false);
-
-// Funktion zum Umschalten des Menüs
+// Toggle menu function
 const toggleMenu = () => {
   menuActive.value = !menuActive.value;
 };
 
-// Client-seitige Aktionen auf dem Client ausführen
-onMounted(() => {
-  mainStore.initializeListeners();
-
-  // Cleanup: Event-Listener entfernen, wenn die Komponente unmounted wird
-  onUnmounted(() => {
-    window.removeEventListener('scroll', mainStore.monitorScroll);
-    window.removeEventListener('resize', mainStore.monitorScreenWidth);
-  });
-});
-
-// Registriere onServerPrefetch für Datenabrufe auf dem Server
+// Lädt Daten auf dem Server vor
 onServerPrefetch(async () => {
   await mainStore.fetchStrapiData();
+});
+
+// Lädt die Daten auf dem Client nach
+onMounted(() => {
+  if (!mainStore.dataFetched) {
+    mainStore.fetchStrapiData();
+  }
+  mainStore.initializeListeners();
 });
 </script>
 

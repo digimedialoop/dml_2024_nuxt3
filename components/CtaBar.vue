@@ -4,10 +4,11 @@
         <div :class="{ active: visibleSection === 'call' }" title="Anrufen" @click="toggleVisible('call')">
             <span v-if="visibleSection !== 'call'">
                 <svg>
-                  <use :xlink:href="cmsUrl + '/uploads/collection_b060c2b882.svg#phone'"></use>
+                  <use xlink:href="/assets/icons/collection.svg#phone"></use>
                 </svg>                
             </span>
-            <span v-if="visibleSection === 'call'">Sie erreichen uns unter <b> <svg>
+            <span v-if="visibleSection === 'call'">Sie erreichen uns unter <b> 
+                <svg>
                   <use xlink:href="/assets/icons/collection.svg#phone"></use>
                 </svg>0177 83 88 553</b><br><span class="smallText">Oder nutzen Sie unseren kostenlosen <button>Rückrufservice</button></span></span>
         </div>

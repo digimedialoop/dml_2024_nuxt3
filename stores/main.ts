@@ -1,26 +1,37 @@
 import { defineStore } from 'pinia';
 import { STRAPI_DATA } from '@/graphQL/main.gql';
-import { useNuxtApp } from '#app'; // Zugriff auf den Apollo Client
+import { useNuxtApp, useRuntimeConfig } from '#app';
 
 export const useMainStore = defineStore('main', {
-  state: () => {
-    const runtimeConfig = useRuntimeConfig(); // Zugriff auf RuntimeConfig für Umgebungsvariablen
-    return {
-      scrollPosition: 0,
-      screenWidth: 0,
-      contactBoxOpen: false,
-      cmsUrl: runtimeConfig.public.VUE_APP_API_URL || '',
-      graphQLUrl: runtimeConfig.public.STRAPI_GRAPHQL_URL || '',
-      companyinfo: {},
-      customers: [],
-      projects: [],
-    };
-  },
+  state: () => ({
+    scrollPosition: 0,
+    screenWidth: 0,
+    contactBoxOpen: false,
+    cmsUrl: '', 
+    graphQLUrl: '', 
+    companyinfo: {
+      contact: '',
+      phone: '',
+      email: '',
+      web: ''
+    },
+    customers: [],
+    projects: [],
+    dataFetched: false // Flag zur Vermeidung doppelter Abrufe
+  }),
 
   actions: {
-    // Funktion zum Abrufen der Daten von Strapi
+    initializeConfig() {
+      const runtimeConfig = useRuntimeConfig();
+      this.cmsUrl = runtimeConfig.public.VUE_APP_API_URL || 'https://strapi.digimedialoop.de';
+      this.graphQLUrl = runtimeConfig.public.STRAPI_GRAPHQL_URL || 'https://strapi.digimedialoop.de/graphql';
+    },
+
     async fetchStrapiData() {
-      const { $apolloClient } = useNuxtApp(); // Greift auf den bereitgestellten Apollo Client zu
+      if (this.dataFetched) return;
+
+      this.initializeConfig();
+      const { $apolloClient } = useNuxtApp();
 
       try {
         const { data } = await $apolloClient.query({
@@ -57,7 +68,9 @@ export const useMainStore = defineStore('main', {
           this.projects = allProjects.sort((a, b) => {
             return new Date(b.launchDate) - new Date(a.launchDate);
           });
+          this.dataFetched = true
         }
+        
       } catch (error) {
         console.error('Fehler beim Abrufen der Firmendaten, Kunden und Projekte:', error);
       }
@@ -72,27 +85,24 @@ export const useMainStore = defineStore('main', {
     },
 
     monitorScroll() {
-      if (typeof window !== 'undefined') { // Überprüfen, ob 'window' verfügbar ist
+      if (typeof window !== 'undefined') { 
         const updateScrollPosition = () => {
           this.setScrollPosition(window.scrollY);
         };
-  
         window.addEventListener('scroll', updateScrollPosition);
         return () => {
           window.removeEventListener('scroll', updateScrollPosition);
         };
       }
     },
-  
+
     monitorScreenWidth() {
-      if (typeof window !== 'undefined') { // Überprüfen, ob 'window' verfügbar ist
+      if (typeof window !== 'undefined') { 
         const updateScreenWidth = () => {
           this.setScreenWidth(window.innerWidth);
         };
-  
         window.addEventListener('resize', updateScreenWidth);
         this.setScreenWidth(window.innerWidth);
-  
         return () => {
           window.removeEventListener('resize', updateScreenWidth);
         };
@@ -106,18 +116,10 @@ export const useMainStore = defineStore('main', {
   },
 
   getters: {
-    dynamicStyle: (state) => {
-      return {
-        '--dynamic-left': `${-26 - (state.scrollPosition / 100)}vw`,
-      };
-    },
-
-    getCustomerById: (state) => (id) => {
-      return state.customers.find(customer => customer.id === id);
-    },
-
-    getProjectByLink: (state) => (link) => {
-      return state.projects.find(project => project.link === link);
-    }
+    dynamicStyle: (state) => ({
+      '--dynamic-left': `${-26 - (state.scrollPosition / 100)}vw`,
+    }),
+    getCustomerById: (state) => (id) => state.customers.find(customer => customer.id === id),
+    getProjectByLink: (state) => (link) => state.projects.find(project => project.link === link),
   },
 });
