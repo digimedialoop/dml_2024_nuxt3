@@ -4,12 +4,12 @@
         <div :class="{ active: visibleSection === 'call' }" title="Anrufen" @click="toggleVisible('call')">
             <span v-if="visibleSection !== 'call'">
                 <svg>
-                  <use xlink:href="/public/assets/icons/collection.svg#phone"></use>
+                  <use xlink:href="/assets/icons/collection.svg#phone"></use>
                 </svg>                
             </span>
             <span v-if="visibleSection === 'call'">Sie erreichen uns unter <b> 
                 <svg>
-                  <use xlink:href="/public/assets/icons/collection.svg#phone"></use>
+                  <use xlink:href="/assets/icons/collection.svg#phone"></use>
                 </svg>0177 83 88 553</b><br><span class="smallText">Oder nutzen Sie unseren kostenlosen <button>Rückrufservice</button></span></span>
         </div>
 
@@ -17,7 +17,7 @@
         <div :class="{ active: visibleSection === 'contact' }" title="Kontakt" @click="toggleVisible('contact')">
             <span v-if="visibleSection !== 'contact'">
                 <svg>
-                  <use xlink:href="/public/assets/icons/collection.svg#talk"></use>
+                  <use xlink:href="/assets/icons/collection.svg#talk"></use>
                 </svg>
             </span>
             <span v-if="visibleSection === 'contact'">Schreiben Sie uns eine Nachricht!</span>

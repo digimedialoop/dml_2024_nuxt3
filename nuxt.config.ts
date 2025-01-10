@@ -57,7 +57,7 @@ export default defineNuxtConfig({
     },
     resolve: {
       alias: {
-        '/public/assets': '/assets', // Mappt `/public/assets` auf `/assets` lokal
+        '/assets': process.env.NODE_ENV === 'production' ? '/public/assets' : '/assets', // Dynamische Alias-Map
       },
     },
   },

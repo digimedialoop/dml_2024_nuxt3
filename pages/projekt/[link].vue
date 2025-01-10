@@ -46,7 +46,7 @@
           <div class="col-12 text-end">
             <a class="webPageBtn" :href="project.webpage" target="_blank" rel="noopener noreferrer">
               <svg>
-                <use xlink:href="/public/assets/icons/collection.svg#desktop"></use>
+                <use xlink:href="/assets/icons/collection.svg#desktop"></use>
               </svg> 
               Projekt live erleben
             </a>
@@ -63,7 +63,7 @@
       <div class="col-6 d-flex align-items-center justify-content-start navBtn">
         <div v-if="previousProject" class="col-3 text-center" id="btnPreProject">
           <svg>
-            <use xlink:href="/public/assets/icons/collection.svg#nav_left"></use>
+            <use xlink:href="/assets/icons/collection.svg#nav_left"></use>
           </svg>
         </div>
         <div v-if="previousProject" class="col-9 text-start">
@@ -78,7 +78,7 @@
         </div>
         <div v-if="nextProject" class="col-3 text-center" id="btnPostProject">
           <svg>
-            <use xlink:href="/public/assets/icons/collection.svg#nav_right"></use>
+            <use xlink:href="/assets/icons/collection.svg#nav_right"></use>
           </svg>
         </div>
       </div>
