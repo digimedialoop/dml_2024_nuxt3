@@ -2,7 +2,14 @@ export default defineNuxtConfig({
   pages: true,
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
-
+  app: {
+    head: {
+      htmlAttrs: {
+        lang: 'de'  // Hier kannst du deine gewünschte Sprache festlegen
+      }
+    }
+  },
+  
   // Plugins
   plugins: [
     '@/plugins/pinia',
@@ -45,7 +52,7 @@ export default defineNuxtConfig({
   },
 
   // Server-Side Rendering deaktivieren (für CSR)
-  ssr: true,
+  ssr: false,
 
   // Runtime-Konfiguration für Umgebungsvariablen
   runtimeConfig: {
@@ -84,5 +91,9 @@ export default defineNuxtConfig({
   build: {
     publicPath: '/_nuxt/', // Statische Dateien unter /_nuxt/
     extractCSS: true, // Extrahiere CSS in separate Dateien
+    splitChunks: {
+      layouts: true, // Teile Layout-spezifisches CSS/JS auf
+    },
+    modern: true,
   }
 });

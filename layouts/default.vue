@@ -1,11 +1,36 @@
 <template>
+  <Head>
+      <Title>{{ title }}</Title>
+      <Meta name="description" :content="description" />
+      <Meta name="language" :content="language" />
+      
+      <!-- Open Graph Meta Tags -->
+      <Meta property="og:title" :content="title" />
+      <Meta property="og:description" :content="description" />
+      <Meta property="og:image" content="https://strapi.digimedialoop.de/uploads/DML_Logo_mint_2024_37426ffd12.svg" />
+      <Meta property="og:type" content="website" />
+      <Meta property="og:url" content="https://your-website-url.com" />
+      
+      <!-- Twitter Card Meta Tags -->
+      <Meta name="twitter:card" content="summary_large_image" />
+      <Meta name="twitter:title" :content="title" />
+      <Meta name="twitter:description" :content="description" />
+      <Meta name="twitter:image" content="https://strapi.digimedialoop.de/uploads/DML_Logo_mint_2024_37426ffd12.svg" />
+      
+      <!-- Robots -->
+      <Meta name="robots" content="index,follow" />
+      
+      <!-- Viewport and Charset -->
+      <Meta name="viewport" content="width=device-width, initial-scale=1" />
+      <Meta charset="utf-8" />
+  </Head>
   <header :class="[screenWidth < 1350 ? 'mobile' : 'desk']">
     <div class="headContent" :class="scrollPosition > 50 ? 'active' : ''">
       <div class="logoBox" @click="navigateTo('/')">
         <img :src="`${cmsUrl}/uploads/DML_Logo_grey_2024_c51210b70c.svg`" alt="digimedialoop Logo" />
       </div>
       <div class="navigationBox" @click="toggleMenu" :class="[menuActive ? 'menu-active' : '', screenWidth < 1350 ? 'mobile' : 'desk']">
-        <nav v-if="menuActive">
+        <nav v-if="menuActive || screenWidth > 1350">
           <NuxtLink to="/news">News</NuxtLink>
           <NuxtLink to="/leistungen">Leistungen</NuxtLink>
           <NuxtLink to="/referenzen">Referenzen</NuxtLink>
@@ -72,7 +97,7 @@
                 <svg>
                   <use xlink:href="/assets/icons/collection.svg#location"></use>
                 </svg>
-              </span>{{ companyinfo?.latitude }} | {{ companyinfo?.longitude }}
+              </span>{{ companyinfo?.latitude }} | {{ companyinfo?.longitute }}
             </p>
             <p>
               <span class="icon">
@@ -176,6 +201,11 @@ onMounted(() => {
   }
   mainStore.initializeListeners();
 });
+
+// META TAGS
+const title = 'digimedialoop | Ihre Webagentur in Herrsching am Ammersee'
+const description = 'Ihr Partner für Webdesign und Webentwicklung in Herrsching am Ammersee im Landkreis Starnberg'
+const language = 'de'
 </script>
 
 
@@ -194,7 +224,6 @@ header
   top: 0
   left: 0
   margin: 0
-  height: auto
   width: 100%
   background-image: linear-gradient(to bottom, rgba(white, 1), rgba(white, 1), rgba(white, 1), rgba(white, 0))
   box-sizing: border-box
@@ -235,11 +264,11 @@ header
         width: 60%
         z-index: 101
         img
-          margin-top: 1rem
+          margin-top: 5rem
       &.active
         .logoBox
           img
-            margin-top: 1rem
+            margin-top: 3rem
       .navigationBox
         display: block
         position: relative
@@ -315,7 +344,7 @@ header
 
   .headContent
     display: flex
-    align-items: left
+    align-items: top
     justify-content: space-between
     width: 100%
     padding: 0 2rem
@@ -323,9 +352,10 @@ header
     transition: .8s
     z-index: 7
     margin: 0
+    height: 4rem
     .logoBox
       display: flex
-      align-items: left
+      align-self: center
       justify-content: left
       width: 33%
       transition: .8s
@@ -333,9 +363,10 @@ header
       img
         width: 90%
         max-width: 250px
-        margin: 1rem 5vw 0 5vw
+        margin: 4rem 5vw 0 5vw
         transition: .8s
     .navigationBox
+      position: relative
       display: flex
       align-items: center
       justify-content: flex-end
@@ -344,12 +375,12 @@ header
       nav
         display: block
         z-index: 100
-        background: linear-gradient(to right top, rgba(adjust-color($beige, $lightness: 5%), 0.6), rgba(white, 0.7), rgba(white, 0.7))
-        border: 1px solid adjust-color($beige, $lightness: -2%)
+        background: linear-gradient(to right top, rgba(adjust-color($beige, $lightness: 5%), 0.8), rgba(white, 0.9), rgba(white, 0.9))
+        border: 1px solid adjust-color($beige, $lightness: 5%)
         padding: 1rem 2.5rem
         text-align: center
         border-radius: 1rem
-        margin: 1rem 2vw 0 8vh
+        margin: 6rem 2vw 0 8vh
         transition: .8s
         a
           margin: 0 1.5rem
@@ -370,7 +401,8 @@ header
       padding: 0 0 2.5rem 0
       .navigationBox
         nav
-          margin: -2rem 0 0 0
+          display: flex
+          margin: 4rem 0 0 0
           padding: 1rem 1rem
           border-top-right-radius: 0
           border-top-left-radius: 0
@@ -384,7 +416,6 @@ header
       .logoBox
         align-items: left
         img
-          margin-top: 2rem
           margin-bottom: .5rem          
           width: 70%
           max-width: 200px
@@ -415,7 +446,14 @@ main
     margin-bottom: calc(1.2rem + 1.2vw)
     line-height: calc(1.2rem + 1.2vw + 40%)
     font-weight: normal
-
+    
+  h3
+    font-family: 'Comfortaa'
+    font-size: calc(#{$fontSizeMedium} * 0.7) //calc(.9rem + 1vw)
+    margin-top: calc(.2rem + .6vw)
+    margin-bottom: calc(1.2rem + 1.2vw)
+    line-height: calc(1.2rem + 1.2vw + 40%)
+    font-weight: normal
   p
     font-size: $fontSizeNormal //1.4rem
   

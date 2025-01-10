@@ -1,17 +1,22 @@
 <template>
   <section class="container" :style="dynamicStyle">
-    <h1>Überzeugen Sie sich selbst und entdecken Sie unsere Referenzen!</h1>
-    <h2>Tauchen Sie ein und erleben Sie, was Qualität für uns bedeutet.</h2>
-    <p>Jedes unserer Projekte ist ein <b>maßgeschneidertes Unikat</b>, das sich ganz 
-      nach den Wünschen und Anforderungen unserer Kunden richtet. So individuell wie 
-      unsere Kunden, so einzigartig sind auch unsere Lösungen. Erleben Sie die <u>Vielfalt und Qualität unserer Arbeit</u> und überzeugen Sie sich selbst!</p>
+    <h1>Kreative Webseiten nach Maß</h1>
+    <h2>Lassen Sie sich von den erfolgreichen Projekten inspirieren.</h2> 
+    <p>Jede Website ist <b>ein individuelles Unikat</b>, perfekt abgestimmt auf die <u>Wünsche, Ziele und Bedürfnisse</u> unserer Auftraggeber.</p>
+    <p>Als erfahrene Webagentur legen wir großen Wert auf Qualität, Kreativität und Funktionalität. 
+      <br>Unsere Referenzen zeigen, wie wir <u>innovative Lösungen</u> entwickeln, die nicht nur optisch überzeugen, sondern auch <u>messbare Ergebnisse</u> liefern.
+
+    </p>
+    <p>Tauchen Sie ein in die Vielfalt unserer Arbeit – von modernen Unternehmenswebseiten über Online-Shops bis hin zu kreativen Portfolio-Seiten. Entdecken Sie, wie wir individuelle Anforderungen in <u>einzigartige digitale Erlebnisse</u> verwandeln.
+
+</p><p><b>Überzeugen Sie sich selbst und lassen Sie uns gemeinsam Ihre Vision verwirklichen!</b></p>
   </section>
   
   <section>
       <div class="referenceBox">
           <slot v-if="projects">
               <NuxtLink class="reference" v-for="project in projects" :key="project.id" :to="`/projekt/${project.link}`">
-                  <img :src="cmsUrl + project?.projectImages?.data[0]?.attributes?.url" :alt="project?.projectImages?.data[0]?.attributes?.alternativeText">
+                  <img :src="cmsUrl + project?.projectImages?.data[0]?.attributes?.url" :alt="project?.projectImages?.data[0]?.attributes?.alternativeText" />
                   <div class="infoBox">
                       <div class="row">
                           <div class="col-8 d-flex align-items-center">
@@ -20,7 +25,7 @@
                           <div class="col-4 d-flex align-items-center">
                               <img 
                                   :src="cmsUrl + getCustomerById(project.customer.data.id)?.logo?.data?.attributes?.url" 
-                                  :alt="getCustomerById(project.customer.data.id)?.logo?.data?.attributes?.alternativeText">
+                                  :alt="getCustomerById(project.customer.data.id)?.logo?.data?.attributes?.alternativeText" />
                           </div>
                       </div>
                   </div>
@@ -52,58 +57,56 @@ const { data: strapiData, refresh } = await useFetch(async () => {
 
 <style lang="sass">
 .referenceBox
-  display: flex
-  justify-content: flex-start
-  align-items: stretch
-  flex-wrap: wrap
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr))
   gap: 4rem
   width: 80%
-  margin: 0 10% 15vh 10%
+  margin: 0 10% 15vh auto
 
   h2
     font-size: 1.4rem
 
   .reference
-    flex: 1 1 calc(33.33% - 4rem)
-    max-width: 300px
-    min-width: 250px
     display: flex
     flex-direction: column
     position: relative
-    margin-bottom: 2rem
-    a
-      text-decoration: none
-      color: $darkgrey
+    text-decoration: none
+    color: $darkgrey
+    background: white
+    border-radius: 10px
+    overflow: hidden
+    transition: transform 0.3s ease, box-shadow 0.3s ease
+    &:hover
+      transform: scale(1.02)
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1)
+
     img
       width: 100%
       height: auto
-      transition: .8s
+      object-fit: cover
+      transition: transform 0.8s ease
       &:hover
-        transform: scale(1.2)
-        cursor: pointer
-    @media (max-width: $breakPointMD)
-      flex: 1 1 calc(50% - 3rem)  
-    @media (max-width: $breakPointSM)
-      flex: 1 1 100%             
+        transform: scale(1.1)
+
     .infoBox
-      background-image: linear-gradient(to right top, rgba($beige, .6), transparent, transparent)
-      padding: 1rem 1.5rem
-      border-bottom-left-radius: 15px
-      position: absolute
-      bottom: -3.5rem
-      left: 0
-      width: 100%
-      height: 7rem
-      border-bottom: 1px solid rgba($beige, .4)
-      border-left: 1px solid rgba($beige, .4)
-      h2
-        font-size: .8rem
-        margin: .5rem auto
-        padding-right: 1rem
-        line-height: 1.1rem
-        hyphens: auto
-        color: $darkgrey
-      img
-        width: 80%
-        margin-left: 10%
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        padding: 1rem 1.5rem
+        border-bottom-left-radius: 10px
+        border-bottom-right-radius: 10px
+        background: linear-gradient(to top, rgba($beige, 0.6), rgba($beige, 0.3))
+        min-height: 8rem
+        h2
+          font-size: 1rem
+          margin: 0.5rem 0
+          line-height: 1.2
+          hyphens: auto
+          color: $darkgrey
+        img
+          max-width: 80px
+          margin: 0 auto
+      
+
 </style>
