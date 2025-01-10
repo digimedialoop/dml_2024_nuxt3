@@ -95,28 +95,28 @@
             <p class="mb-4">
               <span class="icon">
                 <svg>
-                  <use xlink:href="/assets/icons/collection.svg#location"></use>
+                  <use xlink:href="/public/assets/icons/collection.svg#location"></use>
                 </svg>
               </span>{{ companyinfo?.latitude }} | {{ companyinfo?.longitute }}
             </p>
             <p>
               <span class="icon">
                 <svg>
-                  <use xlink:href="/assets/icons/collection.svg#phone"></use>
+                  <use xlink:href="/public/assets/icons/collection.svg#phone"></use>
                 </svg>
               </span>{{ companyinfo?.phone }}
             </p>
             <p>
               <span class="icon">
                 <svg>
-                  <use xlink:href="/assets/icons/collection.svg#envelope"></use>
+                  <use xlink:href="/public/assets/icons/collection.svg#envelope"></use>
                 </svg>
               </span>{{ companyinfo?.email }}
             </p>
             <p>
               <span class="icon">
                 <svg>
-                  <use xlink:href="/assets/icons/collection.svg#desktop"></use>
+                  <use xlink:href="/public/assets/icons/collection.svg#desktop"></use>
                 </svg>
               </span>www.{{ companyinfo?.web }}
             </p>
@@ -137,7 +137,7 @@
             Handcrafted webdesign with passion and
             <span class="bigIcon">
               <svg>
-                <use xlink:href="/assets/icons/collection.svg#heart"></use>
+                <use xlink:href="/public/assets/icons/collection.svg#heart"></use>
               </svg>
             </span>
           </p>
@@ -149,7 +149,7 @@
             />
             <span class="bigIcon">
               <svg>
-                <use xlink:href="/assets/icons/collection.svg#plus"></use>
+                <use xlink:href="/public/assets/icons/collection.svg#plus"></use>
               </svg>
             </span>
             <img

@@ -7,7 +7,8 @@ export default defineNuxtConfig({
       htmlAttrs: {
         lang: 'de'  // Hier kannst du deine gewünschte Sprache festlegen
       }
-    }
+    },
+    baseURL: '/',
   },
   
   // Plugins
@@ -48,7 +49,17 @@ export default defineNuxtConfig({
         clientPort: 443,  // SSL-Port für den Client
         path: "hmr/",     // Pfad für HMR
       },
-    }
+    },
+    build: {
+      rollupOptions: {
+        external: ['**/*.svg'], // Schließe SVG-Dateien aus dem Bundle aus
+      },
+    },
+    resolve: {
+      alias: {
+        '/public/assets': '/assets', // Mappt `/public/assets` auf `/assets` lokal
+      },
+    },
   },
 
   // Server-Side Rendering deaktivieren (für CSR)
