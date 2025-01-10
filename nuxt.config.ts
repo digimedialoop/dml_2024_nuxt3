@@ -49,6 +49,9 @@ export default defineNuxtConfig({
         clientPort: 443,  // SSL-Port für den Client
         path: "hmr/",     // Pfad für HMR
       },
+      fs: {
+        allow: ['./public'], // Erlaubt Zugriff auf den public-Ordner
+      },
     },
     build: {
       rollupOptions: {
@@ -57,7 +60,7 @@ export default defineNuxtConfig({
     },
     resolve: {
       alias: {
-        '/assets': process.env.NODE_ENV === 'production' ? '/public/assets' : '/assets', // Dynamische Alias-Map
+        assets: process.env.NODE_ENV === 'production' ? '/public/assets' : '/assets',
       },
     },
   },
