@@ -95,7 +95,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useMainStore } from '@/stores/main';
 import { storeToRefs } from 'pinia';
@@ -104,7 +104,7 @@ import { useHtmlConverter } from '@/composables/useHTMLConverter';
 const route = useRoute();
 const router = useRouter();
 const mainStore = useMainStore();
-const { cmsUrl, projects } = storeToRefs(mainStore);
+const { cmsUrl, projects, dataFetched } = storeToRefs(mainStore);
 
 const project = computed(() => mainStore.getProjectByLink(route.params.link));
 
@@ -131,7 +131,7 @@ const setInitialImage = () => {
 // Funktion zur Aktualisierung der Navigation
 const updateNavigation = () => {
   if (!projects.value || projects.value.length === 0) {
-    console.warn("Keine Projekte verfügbar.");
+    console.warn('Keine Projekte verfügbar.');
     return;
   }
 
@@ -140,7 +140,7 @@ const updateNavigation = () => {
   );
 
   if (currentIndex === -1) {
-    console.warn("Projekt nicht gefunden:", route.params.link);
+    console.warn('Projekt nicht gefunden:', route.params.link);
     previousProject.value = null;
     nextProject.value = null;
     return;
@@ -155,19 +155,30 @@ const updateNavigation = () => {
       : null;
 };
 
+// Überprüfe und lade Projektdaten
+const initializeProjectData = async () => {
+  if (!dataFetched.value) {
+    console.log('Daten werden nachgeladen...');
+    await mainStore.fetchStrapiData(); // Sicherstellen, dass alle Daten geladen sind
+  }
+
+  setInitialImage();
+  updateNavigation();
+};
+
 // Beobachte Änderungen an `route.params.link`
 watch(
   () => route.params.link,
   () => {
-    setInitialImage();
-    updateNavigation();
+    initializeProjectData();
   },
   { immediate: true }
 );
 
 // Initialisierung beim Laden der Seite
-setInitialImage();
-updateNavigation();
+onMounted(() => {
+  initializeProjectData();
+});
 
 const setCurrentImage = (image) => {
   currentImage.value = image;
@@ -187,6 +198,7 @@ const navigateToNextProject = () => {
   }
 };
 </script>
+
 
 
 

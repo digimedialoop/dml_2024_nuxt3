@@ -18,6 +18,7 @@ export const useMainStore = defineStore('main', {
     scrollPosition: 0,
     screenWidth: 0,
     contactBoxOpen: false,
+    menuOpen: false,
     cmsUrl: '', 
     token: '',
     graphQLUrl: '', 
@@ -42,12 +43,31 @@ export const useMainStore = defineStore('main', {
       this.graphQLUrl = runtimeConfig.public.STRAPI_GRAPHQL_URL || 'https://strapi.digimedialoop.de/graphql';
     },
 
+    // Aktionen fü rdie Kontakt Bubble
     toggleContactBubble() {
       this.contactBoxOpen = !this.contactBoxOpen;
     },
 
     closeContactBubble() {
       this.contactBoxOpen = false;
+    },
+
+    // Aktionen für das Menü
+    toggleMenu() {
+      // Überprüfen, ob das Menü gerade geöffnet wird
+      if (!this.menuOpen) {
+        this.closeContactBubble();
+      }
+    
+      // Toggle den Zustand von menuOpen
+      this.menuOpen = !this.menuOpen;
+    },
+    
+    closeMenu() {
+      this.menuOpen = false;
+    },
+    openMenu() {
+      this.menuOpen = true;
     },
 
     async sendContactRequestToCMS(contactData: ContactData): Promise<void> {

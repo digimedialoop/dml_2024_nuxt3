@@ -5,7 +5,7 @@
       <h1>Unsere Leistungen für Ihren starken Auftritt im Web</h1>
       <h2>Wir bieten Ihnen umfassende Lösungen für eine professionelle und überzeugende Webseite.</h2>
       <p>Egal ob Sie eine <b>Neugestaltung Ihrer Webseite</b>, ein <b>Redesign</b> oder <b>einzelne Ergänzungen</b> benötigen: Wir unterstützen Sie gezielt und individuell unter <u>Einsatz neuester Technologien</u>. </p>
-      <button class="mt-4"><span>Kostenloses Angebot</span></button>
+      <button class="mt-4" @click.prevent="toggleContactBubble" role="button">Kostenloses Angebot anfordern</button>
       </div>
       
     </section>    
@@ -18,6 +18,10 @@
           <p>{{ service.description }}</p>
         </div>
       </div>
+      <div class="container">
+        <button class="mt-4" @click.prevent="toggleContactBubble" role="button">Kostenloses Beratungsgespräch vereinbaren</button>
+      </div>
+      
     </section>
     <MarqueeBanner :items="projects" :logoHeight="180" title="Unsere Referenzprojekte für Sie" link="projekt" />
 </template>
@@ -29,6 +33,8 @@ import { useMainStore } from '@/stores/main';
 const mainStore = useMainStore();
 
 const { cmsUrl, projects } = storeToRefs(mainStore);
+
+const toggleContactBubble = () => mainStore.toggleContactBubble();
 
 const services = [
   {
@@ -88,8 +94,8 @@ const services = [
       font-size: 1.2rem
       position: relative
       text-align: left
-      margin-bottom: 1rem
-      margin-top: 1rem
+      margin-bottom: .2rem
+      margin-top: .2rem
       z-index: 2
       /* &::after
         content: ''

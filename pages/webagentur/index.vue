@@ -9,7 +9,9 @@
                 auch zu treuen Kunden machen. Von der Konzeption bis zur Umsetzung stehen wir Ihnen mit unserem <b>Fachwissen</b> 
                 und unserer <b>Kreativität</b> zur Seite, um <u>Ihre Visionen zu verwirklichen</u> und Ihren <b>Online-Erfolg</b> zu maximieren.</p> 
             <p>Lassen Sie uns gemeinsam Ihre digitale Präsenz optimieren und Ihr Unternehmen auf die nächste Stufe bringen!</p>
-            <button class="mt-3">Zu unseren Leistungen</button>
+            <button class="mt-3" @click.prevent="router.push('/leistungen')"
+            role="button"
+            aria-label="Zu den Leistungen navigieren">Zu unseren Leistungen</button>
         </div>        
     </div>
 </section>
@@ -21,7 +23,9 @@
         <p class="smallFont">Beratung | Konzeption | Design | Entwicklung</p>
         <p>Mit über 20 Jahren Erfahrung im Webdesign ist sie noch immer Webentwicklerin aus purer Leidenschaft!</p>
         <p class="quotation">Offenheit, Transparenz und Fairness sind mir bei der Zusammenarbeit mit meinen Kunden enorm wichtig. Ich empfehle nur, was mir sinnvoll erscheint und zu meinen Kunden passt. Dafür nehme ich mir gerne die Zeit für eine gründliche Analyse der Bedürfnisse meiner Kunden bzw. die deren Zielgruppe.</p>
-        <button class="mt-3">Sprechen Sie mich gerne an!</button>
+        <button class="mt-3" @click.prevent="toggleContactBubble"
+            role="button"
+            aria-label="Kontaktformular öffnen">Sprechen Sie mich gerne an!</button>
     </div>
     </div>
     
@@ -29,27 +33,41 @@
 </template>
 
 <script setup>
+import { useMainStore } from '@/stores/main';
+const mainStore = useMainStore();
+const toggleContactBubble = () => mainStore.toggleContactBubble();
 
+import { useRouter } from 'vue-router';
+const router = useRouter();
 </script>
 
 <style lang="sass">
 .webagentur
+    position: relative
+    overflow-x: hidden
+    overflow-y: visible
     &::after
         content: ''
         position: absolute
-        top: 2vh
-        right: -35vw
+        top: 5%
+        right: -36vw
         width: 65vw
-        height: 50vw
+        height: 90%
         min-height: 550px
+        max-height: 800px
         background-image: url('https://strapi.digimedialoop.de/uploads/photo1717674388_9910623c8e.jpeg')
         background-repeat: no-repeat
         background-position: center right
         background-size: cover
         border-radius: 42% 49% 52% 48% / 53% 38% 62% 47%
         animation: bubble-wobble 25s infinite ease alternate, gradient-animation 70s infinite alternate ease-in-out
+        box-shadow: $innerShadow
+        @media(max-width: $breakPointMD)
+            right: -50vw
     .contentBox
         width: 55vw
+        @media(max-width: $breakPointMD)
+            width: 68vw
         
 .team
     margin-top: 5vh
@@ -68,6 +86,11 @@
         background-size: cover
         border-radius: 42% 49% 52% 48% / 53% 38% 62% 47%
         animation: bubble-wobble 35s infinite ease alternate, gradient-animation 70s infinite alternate ease-in-out
+        box-shadow: $innerShadow
+
+        @media(max-width: $breakPointMD)
+            left: -28vw
+
     .teamHeadline
         margin-left: 15vw
     .teamContainer    
@@ -87,6 +110,9 @@
             font-size: 1rem
             position: relative
             margin-top: 2rem
+            @media(max-width: $breakPointMD)
+                padding: 5rem 2rem 2rem 2rem
+                hyphens: auto
             &::before
                 position: absolute
                 top: -.5rem

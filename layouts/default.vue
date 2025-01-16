@@ -1,50 +1,57 @@
 <template>
   <Head>
-      <Title>{{ title }}</Title>
-      <Meta name="description" :content="description" />
-      <Meta name="language" :content="language" />
-      
-      <!-- Open Graph Meta Tags -->
-      <Meta property="og:title" :content="title" />
-      <Meta property="og:description" :content="description" />
-      <Meta property="og:image" content="https://strapi.digimedialoop.de/uploads/DML_Logo_mint_2024_37426ffd12.svg" />
-      <Meta property="og:type" content="website" />
-      <Meta property="og:url" content="https://your-website-url.com" />
-      
-      <!-- Twitter Card Meta Tags -->
-      <Meta name="twitter:card" content="summary_large_image" />
-      <Meta name="twitter:title" :content="title" />
-      <Meta name="twitter:description" :content="description" />
-      <Meta name="twitter:image" content="https://strapi.digimedialoop.de/uploads/DML_Logo_mint_2024_37426ffd12.svg" />
-      
-      <!-- Robots -->
-      <Meta name="robots" content="index,follow" />
-      
-      <!-- Viewport and Charset -->
-      <Meta name="viewport" content="width=device-width, initial-scale=1" />
-      <Meta charset="utf-8" />
+    <Title>{{ title }}</Title>
+    <Meta name="description" :content="description" />
+    <Meta name="language" :content="language" />
+    <!-- Meta Tags für SEO und Social Media -->
   </Head>
-  <header :class="[{ mobile: screenWidth < 1350, desk: screenWidth >= 1350 }, { active: scrollPosition > 50 }]">
+
+  <header
+    :class="[{ mobile: screenWidth < 1350, desk: screenWidth >= 1350 }, { active: scrollPosition > 50 }]"
+    role="banner"
+  >
     <div class="headContent">
-      <div class="logoBox" @click="navigateTo('/')">
-        <img :src="`${cmsUrl}/uploads/DML_Logo_grey_2024_c51210b70c.svg`" alt="digimedialoop Logo" />
+      <div class="logoBox" @click="navigateTo('/')" role="button" tabindex="0" aria-label="Startseite">
+        <img :src="cmsUrl + '/uploads/DML_Logo_grey_2024_c51210b70c.svg'" alt="digimedialoop Logo" />
       </div>
-      <div class="navigationBox" @click="toggleMenu" :class="[menuActive ? 'menu-active' : '', screenWidth < 1350 ? 'mobile' : 'desk']">
-        <nav v-if="menuActive || screenWidth > 1350">
-          <!--<NuxtLink to="/news">News</NuxtLink>-->
-          <NuxtLink to="/webagentur">Webagentur</NuxtLink>
-          <NuxtLink to="/leistungen">Leistungen</NuxtLink>
-          <NuxtLink to="/referenzen">Referenzen</NuxtLink>
-          <a href="#" @click.prevent="toggleContactBubble">Kontakt</a>
+      <div
+        class="navigationBox"
+        @click="toggleMenu"
+        @keydown.enter="toggleMenu"
+        :class="[
+          isMenuOpen ? 'menu-active' : '',
+          screenWidth < 1350 ? 'mobile' : 'desk'
+        ]"
+        role="navigation"
+        aria-label="Hauptnavigation"
+        tabindex="0"
+      >
+        <nav v-if="isMenuOpen || screenWidth > 1350" aria-expanded="true">
+          <NuxtLink to="/webagentur" aria-label="Zur Webagentur">Agentur</NuxtLink>
+          <NuxtLink to="/leistungen" aria-label="Zu unseren Leistungen">Leistungen</NuxtLink>
+          <NuxtLink to="/referenzen" aria-label="Unsere Referenzen">Referenzen</NuxtLink>
+        <a class="menu_link" href="#"
+            role="button"
+            aria-label="Kontaktformular öffnen"
+          >
+            Kontakt   
+        </a>    
         </nav>
       </div>
     </div>
   </header>
-  <!--<CtaBar />-->
-  <main :class="[screenWidth < 1350 ? 'mobile' : 'desk']">
+
+  <main
+    :class="[screenWidth < 1350 ? 'mobile' : 'desk']"
+    tabindex="-1"
+    id="main-content"
+    role="main"
+  >
     <NuxtPage />
   </main>
+
   <ContactForm />
+
   <footer>
     <div>
       <svg
@@ -67,7 +74,7 @@
     </div>
     <div class="container">
       <div class="row align-items-end">
-        <div class="col-md-4 mb-4">
+        <div class="col-lg-4 mb-4">
           <p>
             <img
               :src="cmsUrl + invertLogo"
@@ -91,7 +98,7 @@
             &copy; 2018-{{ currentYear }} by {{ companyinfo?.web }}
           </p>
         </div>
-        <div class="col-md-4 pt-4 mb-4">
+        <div class="col-lg-4 pt-4 mb-4">
           <div class="text-left">
             <p class="mb-4">
               <span class="icon">
@@ -123,14 +130,14 @@
             </p>
           </div>
         </div>
-        <div class="col-md-4 mb-4">
+        <div class="col-lg-4 mb-4">
           <div class="certificates">
             <img
-              :src="`${cmsUrl}/uploads/exali_Siegel_5adfae16cb.jpg`"
+              :src="cmsUrl + '/uploads/exali_Siegel_5adfae16cb.jpg'"
               alt="exali-Versicherungssiegel"
             />
             <img
-              :src="`${cmsUrl}/uploads/XDI_zertifikat_162b61f4ad.png`"
+              :src="cmsUrl + '/uploads/XDI_zertifikat_162b61f4ad.png'"
               alt="XDI-Zertifizierung"
             />
           </div>
@@ -145,7 +152,7 @@
           <p class="powered">
             Powered by
             <img
-              :src="`${cmsUrl}/uploads/nuxt_Logo_white_1ad151de78.svg`"
+              :src="cmsUrl + '/uploads/nuxt_Logo_white_1ad151de78.svg'"
               alt="vue logo"
             />
             <span class="bigIcon">
@@ -154,7 +161,7 @@
               </svg>
             </span>
             <img
-              :src="`${cmsUrl}/uploads/strapi_logo_071ec5df4d.png`"
+              :src="cmsUrl + '/uploads/strapi_logo_071ec5df4d.png'"
               alt="strapi logo"
             />
           </p>
@@ -166,15 +173,21 @@
 
 <script setup>
 import { useMainStore } from '@/stores/main';
-import { ref, computed, onMounted, onServerPrefetch } from 'vue';
+import { ref, computed, onMounted, onServerPrefetch, watch } from 'vue';
 import { useRuntimeConfig } from '#app'
 
 const config = useRuntimeConfig()
 const mainStore = useMainStore();
 
-// Toggle ContactBox
+// Computed properties from Pinia store
+const isMenuOpen = computed(() => mainStore.menuOpen); // Menü-Status
 const isContactBubbleOpen = computed(() => mainStore.contactBoxOpen);
+
+// Toggle-Funktionen
+const toggleMenu = () => mainStore.toggleMenu();
+const closeMenu = () => mainStore.closeMenu();
 const toggleContactBubble = () => mainStore.toggleContactBubble();
+
 
 // Computed properties to access store data
 const companyinfo = computed(() => mainStore.companyinfo ?? null);
@@ -189,11 +202,6 @@ const invertLogo = computed(() => {
     : '/uploads/dummy_Image_4abc3f04dd.webp';
 });
 
-// Toggle menu function
-const toggleMenu = () => {
-  menuActive.value = !menuActive.value;
-};
-
 // Lädt Daten auf dem Server vor
 onServerPrefetch(async () => {
   await mainStore.fetchStrapiData();
@@ -207,11 +215,27 @@ onMounted(() => {
   mainStore.initializeListeners();
 });
 
+import { useRoute } from 'vue-router';
+const route = useRoute();
+// Beobachte Routenwechsel
+watch(
+  () => route.fullPath, // Beobachte Änderungen an der vollständigen Pfad-URL
+  () => {
+    // Aktionen bei Routenwechsel
+    mainStore.closeContactBubble?.();
+    // Scroll to top
+    if (process.client) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+);
+
 // META TAGS
 const title = 'digimedialoop | Ihre Webagentur in Herrsching am Ammersee'
 const description = 'Ihr Partner für Webdesign und Webentwicklung in Herrsching am Ammersee im Landkreis Starnberg'
 const language = 'de'
 </script>
+
 
 
 <style lang="sass">
@@ -245,6 +269,7 @@ header
     opacity: 0.85 // Sichtbarkeit anpassen, aber noch leicht transparent
     z-index: 6
     transition: .8s
+    box-shadow: $innerShadow
   &::before
     width: 60vw
     height: 18rem
@@ -271,7 +296,7 @@ header
       padding: 0
       .logoBox
         width: 60%
-        z-index: 101
+        z-index: 102
         img
           margin-top: 5rem
       &.active
@@ -284,7 +309,7 @@ header
         background-color: $darkgrey
         width: 4rem
         height: 4rem
-        z-index: 100
+        z-index: 102
         border-radius: 50%
         margin-right: 5vw
         margin-top: 2rem
@@ -292,7 +317,7 @@ header
           position: absolute
           content: ''
           width: 2rem
-          z-index: 101
+          z-index: 103
           height: 5px
           border-radius: 4px
           background-color: white
@@ -307,7 +332,15 @@ header
           display: none
           background-image: none
           border: none
-          a
+          .menu_link
+            margin-left: 1.5rem
+            transition: .8s
+            &:hover
+              transform: scale(1.06)
+              background-image: radial-gradient(rgba($primaryColor, .1), transparent, transparent)
+              box-shadow: 0 0 0 0 transparent
+              border-radius: 20px
+          a, .menu_link
             display: block
             color: white
             text-align: left
@@ -317,6 +350,8 @@ header
             font-size: 1.6rem !important
             width: auto
             max-width: 18rem
+            text-transform: uppercase
+            font-family: 'Mainfont-Bold'
             &::before
               content: ''
               width: 1rem
@@ -324,7 +359,7 @@ header
               background-color: rgba($primaryColor, .9)
               border-radius: $loopShape
               position: absolute
-              top: 1.6rem
+              top: 1.8rem
               left: 1rem
               border-radius: 20px
             &:hover
@@ -384,8 +419,8 @@ header
       margin-top: -1rem
       nav
         display: block
-        z-index: 100
-        background: linear-gradient(to right top, rgba(adjust-color($beige, $lightness: 5%), 0.8), rgba(white, 0.9), rgba(white, 0.9))
+        z-index: 102
+        background: linear-gradient(to right, rgba($lightgrey, 0.8), rgba(white, 0.9), rgba(white, 0.9))
         border: 1px solid adjust-color($beige, $lightness: 5%)
         padding: 1rem 2.5rem
         text-align: center
@@ -524,7 +559,7 @@ main
     overflow: hidden
     transition: all 0.4s ease-in-out 
     z-index: 1 
-  
+    color: $darkgrey
     &::before
       content: ''
       position: absolute
@@ -558,16 +593,17 @@ main
       &::before
         content: ''
         width: 12vw
-        height: 100%
+        height: 95%
         min-height: 400px
         max-height: 600px
         background-color: rgba($primaryColor, .7)
         border-radius: $loopShape
         position: absolute
-        top: 0
+        top: 3%
         left: -8vw
         z-index: 90
         animation: bubble-wobble 5s infinite ease alternate
+        box-shadow: $innerShadow
         transition: left 0.3s
     &.beigeBG
       background-color: $beige
@@ -595,7 +631,7 @@ footer
       transform: translateY(-1px)
   p
       font-size: calc($fontSizeNormal - 20%)
-      line-height: 1rem
+      line-height: 1.3rem
       margin-bottom: 0.4rem
       a
         cursor: pointer
@@ -607,7 +643,7 @@ footer
           background-color: rgba($primaryColor, .2)
           border-radius: 4px
   .logo
-      width: 38% !important
+      width: 10rem !important
   .icon
       margin-right: 1rem
       width: 1.2rem

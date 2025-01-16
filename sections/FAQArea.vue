@@ -5,7 +5,8 @@
   <p v-else>Lade Daten...</p>
   <div class="row mt-4">
     <div class="col-md-6 mb-3"><h4> ... für alle weiteren Fragen </h4></div>
-    <div class="col-md-6"><button>Sprechen Sie uns gerne an!</button></div>
+    <div class="col-md-6">
+      <button @click.prevent="toggleContactBubble" role="button">Sprechen Sie uns gerne an!</button></div>
   </div>
     
     </section>
@@ -20,6 +21,8 @@ import Accordion from '@/components/Accordion.vue';
 
 const mainStore = useMainStore();
 const { faqs } = storeToRefs(mainStore);
+
+const toggleContactBubble = () => mainStore.toggleContactBubble();
 
 // useFetch wird verwendet, um FAQs aus dem Store zu laden
 const { data: strapiData, refresh } = await useFetch(async () => {

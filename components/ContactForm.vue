@@ -268,7 +268,7 @@ const resetForm = () => {
     &.active
         height: 90vh
         width: 90vw
-        background-color: rgba(lighten($beige, 8%), .95)
+        background-color: rgba(lighten($beige, 8%), .98)
         color: $darkgrey
         display: flex
         flex-direction: column
