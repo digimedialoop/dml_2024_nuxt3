@@ -1,15 +1,18 @@
 <template>
-  <section class="container" :style="dynamicStyle">
-    <h1>Kreative Webseiten nach Maß</h1>
-    <h2>Lassen Sie sich von den erfolgreichen Projekten inspirieren.</h2> 
-    <p>Jede Website ist <b>ein individuelles Unikat</b>, perfekt abgestimmt auf die <u>Wünsche, Ziele und Bedürfnisse</u> unserer Auftraggeber.</p>
-    <p>Als erfahrene Webagentur legen wir großen Wert auf Qualität, Kreativität und Funktionalität. 
-      <br>Unsere Referenzen zeigen, wie wir <u>innovative Lösungen</u> entwickeln, die nicht nur optisch überzeugen, sondern auch <u>messbare Ergebnisse</u> liefern.
+  <section>
+    <div class="container">
+      <h1>Kreative Webseiten nach Maß</h1>
+    <h2>Lassen Sie sich von unseren erfolgreichen Website-Projekten inspirieren.</h2> 
+    <p>Jede Website ist <b>ein Unikat</b>, perfekt abgestimmt auf die <u>Wünsche, Ziele und Bedürfnisse</u> unserer Auftraggeber.</p>
+    <p>Als erfahrene Webagentur legen wir großen Wert auf <u>Qualität, Kreativität und Funktionalität</u>. 
+      <br>Unsere Referenzen zeigen, wie wir <b>innovative Lösungen</b> entwickeln, die nicht nur optisch überzeugen, sondern auch <b>messbare Ergebnisse</b> liefern.
 
     </p>
-    <p>Tauchen Sie ein in die Vielfalt unserer Arbeit – von modernen Unternehmenswebseiten über Online-Shops bis hin zu kreativen Portfolio-Seiten. Entdecken Sie, wie wir individuelle Anforderungen in <u>einzigartige digitale Erlebnisse</u> verwandeln.
+    <p>Tauchen Sie ein in die Vielfalt unserer Arbeit – von modernen Unternehmenswebseiten über Online-Shops bis hin zu kreativen Portfolio-Seiten. Entdecken Sie, wie wir individuelle Anforderungen in einzigartige digitale Erlebnisse verwandeln.
 
 </p><p><b>Überzeugen Sie sich selbst und lassen Sie uns gemeinsam Ihre Vision verwirklichen!</b></p>
+    </div>
+    
   </section>
   
   <section>
@@ -40,7 +43,7 @@ import { useMainStore } from '@/stores/main';
 import { storeToRefs } from 'pinia';
 
 const mainStore = useMainStore();
-const { cmsUrl, dynamicStyle, projects } = storeToRefs(mainStore);
+const { cmsUrl, projects } = storeToRefs(mainStore);
 
 // Methode, um den Kunden anhand der ID zu finden
 const getCustomerById = (id) => mainStore.getCustomerById(id);

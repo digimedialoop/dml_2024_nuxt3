@@ -1,6 +1,6 @@
 import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client/core';
 import { setContext } from '@apollo/client/link/context';
-import { defineNuxtPlugin } from '#app';
+import { defineNuxtPlugin, useRuntimeConfig } from '#app';
 
 export default defineNuxtPlugin((nuxtApp) => {
   const runtimeConfig = useRuntimeConfig();
@@ -10,20 +10,18 @@ export default defineNuxtPlugin((nuxtApp) => {
     uri: runtimeConfig.public.STRAPI_GRAPHQL_URL,
   });
 
-  const authLink = setContext((_, { headers }) => {
-    return {
-      headers: {
-        ...headers,
-        Authorization: token ? `Bearer ${token}` : '',
-      },
-    };
-  });
+  const authLink = setContext((_, { headers }) => ({
+    headers: {
+      ...headers,
+      Authorization: token ? `Bearer ${token}` : '',
+    },
+  }));
 
   const apolloClient = new ApolloClient({
     link: authLink.concat(httpLink),
     cache: new InMemoryCache(),
   });
 
-  // Entferne den window.__APOLLO_STATE__ Block für CSR
+  // Apollo-Client im Nuxt-Plugin registrieren
   nuxtApp.provide('apolloClient', apolloClient);
 });

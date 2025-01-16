@@ -1,10 +1,13 @@
 <template>
-    <section class="container" :style="dynamicStyle">
-      <img class="imgRight" :src="cmsUrl + '/uploads/Wireframe_Coding_badd645adb.png'" alt="Ammersee" />
+    <section>
+      <div class="container">
+        <img class="imgRight" :src="cmsUrl + '/uploads/Wireframe_Coding_badd645adb.png'" alt="Ammersee" />
       <h1>Unsere Leistungen für Ihren starken Auftritt im Web</h1>
       <h2>Wir bieten Ihnen umfassende Lösungen für eine professionelle und überzeugende Webseite.</h2>
-      <p>Egal ob Sie eine <b>Neugestaltung Ihrer Webseite</b>, ein <b>Redesign</b> oder <b>einzelne Ergänzungen</b> benötigen: Wir unterstützen Sie <u>gezielt und individuell</u> unter Einsatz neuester Technologien. </p>
+      <p>Egal ob Sie eine <b>Neugestaltung Ihrer Webseite</b>, ein <b>Redesign</b> oder <b>einzelne Ergänzungen</b> benötigen: Wir unterstützen Sie gezielt und individuell unter <u>Einsatz neuester Technologien</u>. </p>
       <button class="mt-4"><span>Kostenloses Angebot</span></button>
+      </div>
+      
     </section>    
     <section>
       <h2 class="text-center"><u>Unsere Leistungen auf einen Blick</u></h2>
@@ -16,7 +19,7 @@
         </div>
       </div>
     </section>
-    <MarqueeBanner :items="projects" :logoHeight="180" title="Unsere letzten Projekte" link="projekt" />
+    <MarqueeBanner :items="projects" :logoHeight="180" title="Unsere Referenzprojekte für Sie" link="projekt" />
 </template>
 
 <script setup>
@@ -25,7 +28,7 @@ import MarqueeBanner from '@/sections/MarqueeBanner.vue';
 import { useMainStore } from '@/stores/main';
 const mainStore = useMainStore();
 
-const { cmsUrl, dynamicStyle, projects } = storeToRefs(mainStore);
+const { cmsUrl, projects } = storeToRefs(mainStore);
 
 const services = [
   {

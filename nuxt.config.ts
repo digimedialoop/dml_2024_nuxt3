@@ -5,31 +5,55 @@ export default defineNuxtConfig({
   app: {
     head: {
       htmlAttrs: {
-        lang: 'de'  // Hier kannst du deine gewünschte Sprache festlegen
+        lang: 'de' // Standard-Sprache auf Deutsch
       }
     },
     baseURL: '/',
   },
-  
+
   // Plugins
   plugins: [
     '@/plugins/pinia',
-    '@/plugins/apollo',
     '@/plugins/bootstrap.client.js'
   ],
 
   modules: [
-    'nuxt-simple-sitemap',
+    '@nuxtjs/sitemap',
+    '@nuxtjs/i18n',
   ],
 
   sitemap: {
-    siteUrl: 'https://test.digimedialoop.de', // Ersetze dies durch deine eigene URL
+    siteUrl: process.env.NODE_ENV === 'production' ? 'https://test.digimedialoop.de' : 'http://localhost:3000',
+  },
+
+  i18n: {
+    locales: [
+      { code: 'de', name: 'Deutsch', iso: 'de-DE', file: 'de.json' },
+      { code: 'en', name: 'English', iso: 'en-US', file: 'en.json' },
+      { code: 'es', name: 'Español', iso: 'es-ES', file: 'es.json' }
+    ],
+    defaultLocale: 'de',
+    lazy: true,
+    langDir: 'locales/',
+    vueI18n: './i18n.config.js',
   },
 
   // CSS und Bootstrap
-  css: [
-    'bootstrap/dist/css/bootstrap.min.css',
-  ],
+  css: ['bootstrap/dist/css/bootstrap.min.css'],
+
+  // Apollo-Konfiguration
+  apollo: {
+    clients: {
+      default: {
+        httpEndpoint: process.env.STRAPI_GRAPHQL_URL || 'https://strapi.digimedialoop.de/graphql',
+        httpLinkOptions: {
+          headers: {
+            Authorization: `Bearer ${process.env.VUE_APP_TOKEN}`,
+          },
+        },
+      },
+    },
+  },
 
   // Vite-Konfiguration
   vite: {
@@ -40,22 +64,11 @@ export default defineNuxtConfig({
         }
       }
     },
-    optimizeDeps: {
-      include: ['bootstrap']
-    },
     server: {
       hmr: {
-        protocol: "wss",  // WebSocket-Protokoll
-        clientPort: 443,  // SSL-Port für den Client
-        path: "hmr/",     // Pfad für HMR
-      },
-      fs: {
-        allow: ['./public'], // Erlaubt Zugriff auf den public-Ordner
-      },
-    },
-    build: {
-      rollupOptions: {
-        external: ['**/*.svg'], // Schließe SVG-Dateien aus dem Bundle aus
+        protocol: process.env.NODE_ENV === 'development' ? 'ws' : 'wss',
+        host: process.env.NODE_ENV === 'development' ? 'localhost' : 'test.digimedialoop.de',
+        port: process.env.NODE_ENV === 'development' ? 3000 : 443,
       },
     },
     resolve: {
@@ -77,10 +90,9 @@ export default defineNuxtConfig({
     }
   },
 
-  // Nitro-Konfiguration für ISR
   nitro: {
     prerender: {
-      crawlLinks: true, // Automatisches Crawling von Links für Prerendering
+      crawlLinks: true,
       routes: [
         "/", 
         "/referenzen",
@@ -91,22 +103,20 @@ export default defineNuxtConfig({
     },
   },
 
-  // ISR für dynamische Routen
   routeRules: {
-    "/referenzen": { isr: { revalidate: 600 } }, // Revalidation alle 10 Minuten
-    "/kontakt": { isr: { revalidate: 3600 } }, // Revalidation alle 1 Stunde
-    "/leistungen": { isr: { revalidate: 1800 } }, // Revalidation alle 30 Minuten
-    "/news": { isr: { revalidate: 300 } }, // Revalidation alle 5 Minuten
-    "/projekt/**": { isr: { revalidate: 600 } }, // Revalidation alle 10 Minuten für alle Projekte
-    "/**": { isr: true }, // ISR für alle anderen Seiten
+    "/referenzen": { isr: { revalidate: 600 } },
+    "/kontakt": { isr: { revalidate: 3600 } },
+    "/leistungen": { isr: { revalidate: 1800 } },
+    "/news": { isr: { revalidate: 300 } },
+    "/projekt/**": { isr: { revalidate: 600 } },
+    "/**": { isr: true },
   },
 
-  // Optimierung des Builds
   build: {
-    publicPath: '/_nuxt/', // Statische Dateien unter /_nuxt/
-    extractCSS: true, // Extrahiere CSS in separate Dateien
+    publicPath: '/_nuxt/',
+    extractCSS: true,
     splitChunks: {
-      layouts: true, // Teile Layout-spezifisches CSS/JS auf
+      layouts: true,
     },
     modern: true,
   }

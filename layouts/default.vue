@@ -24,26 +24,27 @@
       <Meta name="viewport" content="width=device-width, initial-scale=1" />
       <Meta charset="utf-8" />
   </Head>
-  <header :class="[screenWidth < 1350 ? 'mobile' : 'desk']">
-    <div class="headContent" :class="scrollPosition > 50 ? 'active' : ''">
+  <header :class="[{ mobile: screenWidth < 1350, desk: screenWidth >= 1350 }, { active: scrollPosition > 50 }]">
+    <div class="headContent">
       <div class="logoBox" @click="navigateTo('/')">
         <img :src="`${cmsUrl}/uploads/DML_Logo_grey_2024_c51210b70c.svg`" alt="digimedialoop Logo" />
       </div>
       <div class="navigationBox" @click="toggleMenu" :class="[menuActive ? 'menu-active' : '', screenWidth < 1350 ? 'mobile' : 'desk']">
         <nav v-if="menuActive || screenWidth > 1350">
-          <NuxtLink to="/news">News</NuxtLink>
+          <!--<NuxtLink to="/news">News</NuxtLink>-->
+          <NuxtLink to="/webagentur">Webagentur</NuxtLink>
           <NuxtLink to="/leistungen">Leistungen</NuxtLink>
           <NuxtLink to="/referenzen">Referenzen</NuxtLink>
-          <NuxtLink to="/kontakt">Kontakt</NuxtLink>
+          <a href="#" @click.prevent="toggleContactBubble">Kontakt</a>
         </nav>
       </div>
     </div>
   </header>
-  <CtaBar />
+  <!--<CtaBar />-->
   <main :class="[screenWidth < 1350 ? 'mobile' : 'desk']">
     <NuxtPage />
   </main>
-
+  <ContactForm />
   <footer>
     <div>
       <svg
@@ -83,7 +84,7 @@
           <p>{{ companyinfo?.district }}</p>
           <br />
           <p>
-            <span>Impressum | Datenschutz | AGB </span>
+            <span><NuxtLink to="/impressum">Impressum</NuxtLink> | <NuxtLink to="/datenschutz">Datenschutz</NuxtLink> | <NuxtLink to="/agb">AGB</NuxtLink> </span>
           </p>
 
           <p class="mt-4">
@@ -171,6 +172,10 @@ import { useRuntimeConfig } from '#app'
 const config = useRuntimeConfig()
 const mainStore = useMainStore();
 
+// Toggle ContactBox
+const isContactBubbleOpen = computed(() => mainStore.contactBoxOpen);
+const toggleContactBubble = () => mainStore.toggleContactBubble();
+
 // Computed properties to access store data
 const companyinfo = computed(() => mainStore.companyinfo ?? null);
 const cmsUrl = computed(() => mainStore.cmsUrl || config.public.VUE_APP_API_URL);
@@ -227,7 +232,7 @@ header
   width: 100%
   background-image: linear-gradient(to bottom, rgba(white, 1), rgba(white, 1), rgba(white, 1), rgba(white, 0))
   box-sizing: border-box
-  z-index: 5
+  z-index: 20
   &::before, &::after
     content: ''
     position: absolute
@@ -239,6 +244,7 @@ header
     background-size: 150% 150%
     opacity: 0.85 // Sichtbarkeit anpassen, aber noch leicht transparent
     z-index: 6
+    transition: .8s
   &::before
     width: 60vw
     height: 18rem
@@ -247,6 +253,8 @@ header
     right: -5vw
     animation: bubble-wobble 8s infinite ease alternate, gradient-animation 20s infinite alternate ease-in-out
     z-index: 6
+    @media(max-width: $breakPointMD)
+      height: 15rem
   &::after
     width: 28vw
     height: 12rem
@@ -254,7 +262,8 @@ header
     top: -2rem
     right: -6vw
     animation: bubble-wobble 7s infinite ease alternate, gradient-animation 12s infinite alternate ease-in-out
-
+    @media(max-width: $breakPointMD)
+      height: 10rem
   // MOBILE NAVIGATION
   &.mobile
     top: 0
@@ -372,6 +381,7 @@ header
       justify-content: flex-end
       width: 67%
       transition: .8s
+      margin-top: -1rem
       nav
         display: block
         z-index: 100
@@ -397,7 +407,12 @@ header
             background-image: radial-gradient(rgba(white, .5), rgba(white, .1))
             box-shadow: 0 0 10px 10px rgba(white, 0.2)
             border-radius: 10px
-    &.active
+  &.active
+    &::before
+      top: -13.5rem
+    &::after
+      top: -5rem
+    .headContent
       padding: 0 0 2.5rem 0
       .navigationBox
         nav
@@ -472,6 +487,8 @@ main
       left: 0
       width: 100%
       box-shadow: 4px 4px 2px 1px rgba(103,202,172,.25)
+  a
+    color: $primaryColor 
 
   .imgRight, .imgLeft
     width: 45%
@@ -485,6 +502,7 @@ main
     margin: 2rem 0 2rem 2rem    
     @media(max-width: $breakPointLG)
       float: none
+      max-width: 100%
 
   .imgLeft
     float: left
@@ -526,9 +544,10 @@ main
 
     &:hover
       box-shadow: 0 0 15px rgba($primaryColor, 0.2), 0 0 25px rgba($primaryColor, 0.2)
-      border: 1px solid rgba($primaryColor, 0.8)
-      letter-spacing: .05rem
-      transform: scale(1.05)
+      border: 1px solid $primaryColor
+      //letter-spacing: .05rem
+      transform: scale(1.02)
+      background-image: linear-gradient(to top left, $primaryColor, lighten($primaryColor, 30%))
       /*&::before
         transform: translate(-50%, -50%) scale(1) */
         
@@ -538,21 +557,24 @@ main
     &:first-of-type
       &::before
         content: ''
-        width: 25vw
-        max-width: 300px
-        height: 90%
-        min-height: 350px
+        width: 12vw
+        height: 100%
+        min-height: 400px
+        max-height: 600px
         background-color: rgba($primaryColor, .7)
         border-radius: $loopShape
         position: absolute
-        top: 5%
-        left: var(--dynamic-left)
+        top: 0
+        left: -8vw
         z-index: 90
         animation: bubble-wobble 5s infinite ease alternate
         transition: left 0.3s
     &.beigeBG
       background-color: $beige
       min-height: 200px
+  .container
+    width: 80%
+    margin: auto 10%
   &.mobile
     margin-top: 20vh
 // *************
@@ -573,7 +595,7 @@ footer
       transform: translateY(-1px)
   p
       font-size: calc($fontSizeNormal - 20%)
-      line-height: 0.9rem
+      line-height: 1rem
       margin-bottom: 0.4rem
       a
         cursor: pointer
@@ -611,6 +633,9 @@ footer
           max-height: 80px
           filter: grayscale(100%)
           margin: 1rem 1rem 1rem 1rem
+          @media(max-width: $breakPointMD)
+            height: 18vw
+            margin-bottom: 2.5rem
   .powered
       img
           height: 20px

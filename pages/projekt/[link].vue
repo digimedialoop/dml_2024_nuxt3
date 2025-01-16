@@ -1,6 +1,7 @@
 <template>
-  <section v-if="project" class="container project" :style="dynamicStyle">
-    <div class="row">
+  <section v-if="project" class="project">
+    <div class="container">
+      <div class="row">
       <div class="col-md-9">
         <h1>Kundenprojektvorstellung</h1>
         <h2>{{ project.projectTitle }}</h2>
@@ -54,27 +55,32 @@
         </div>
       </div>
     </div>
+    </div>
+    
   </section>
-
   <!-- Navigation für vorheriges und nächstes Projekt -->
-  <div class="navigationBox">
-    <div class="row align-items-center" @click="navigateToPreviousProject">
+  <div class="navigationBox container">
+    <div class="row align-items-center">
       <!-- Vorheriges Projekt -->
       <div class="col-6 d-flex align-items-center justify-content-start navBtn">
-        <div v-if="previousProject" class="col-3 text-center" id="btnPreProject">
+        <div class="row" @click="navigateToPreviousProject">
+          <div v-if="previousProject" class="col-3 text-center" id="btnPreProject">
           <svg>
             <use xlink:href="/assets/icons/collection.svg#nav_left"></use>
           </svg>
         </div>
-        <div v-if="previousProject" class="col-9 text-start">
-          <b>Projekt</b><br> {{ previousProject.projectTitle }}
+        <div v-if="previousProject" class="col-8 text-start">
+          <b>Vorheriges Projekt</b><br> {{ previousProject.projectTitle }}
         </div>
+      </div>
+        
       </div>
 
       <!-- Nächstes Projekt -->
-      <div class="col-6 d-flex align-items-center justify-content-end navBtn" @click="navigateToNextProject">
-        <div v-if="nextProject" class="col-9 text-end">
-          <b>Projekt</b><br> {{ nextProject.projectTitle }}
+      <div class="col-6 d-flex align-items-center justify-content-end navBtn" >
+        <div class="row" @click="navigateToNextProject">
+          <div v-if="nextProject" class="col-8 text-end" >
+          <b>Nächstes Projekt</b><br> {{ nextProject.projectTitle }}
         </div>
         <div v-if="nextProject" class="col-3 text-center" id="btnPostProject">
           <svg>
@@ -82,75 +88,108 @@
           </svg>
         </div>
       </div>
+        
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import { useRoute, useRouter } from 'vue-router'; // Für die Navigation
-import { useMainStore } from '@/stores/main'; // Pinia Store importieren
+import { ref, computed, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useMainStore } from '@/stores/main';
 import { storeToRefs } from 'pinia';
-import { useHtmlConverter } from '@/composables/useHTMLConverter'; 
+import { useHtmlConverter } from '@/composables/useHTMLConverter';
 
-// Zugriff auf den Routenparameter und den Store
 const route = useRoute();
 const router = useRouter();
 const mainStore = useMainStore();
-const { cmsUrl, projects, dynamicStyle } = storeToRefs(mainStore);
+const { cmsUrl, projects } = storeToRefs(mainStore);
 
-// Finde das aktuelle Projekt basierend auf dem dynamischen 'link' Parameter
 const project = computed(() => mainStore.getProjectByLink(route.params.link));
 
-// Importiere die convertToHTML Methode aus der Composable
 const { convertToHTML } = useHtmlConverter();
 
-// Definiere die htmlContent Funktion, um den HTML-Inhalt zu generieren
 const htmlContent = (data) => {
-  return convertToHTML(data); // Nutze die convertToHTML Funktion der Composable
+  return convertToHTML(data);
 };
 
 const getCustomerById = (id) => mainStore.getCustomerById(id);
 
-// Zustand für das aktuell angezeigte Bild (startet mit dem ersten Bild)
 const currentImage = ref(null);
 
-// Setze das erste Bild, falls das Projekt Bilder hat
-if (project.value && project.value.projectImages?.data?.length > 0) {
-  currentImage.value = project.value.projectImages.data[0].attributes;
-}
+const previousProject = ref(null);
+const nextProject = ref(null);
 
-// Funktion, um das angeklickte Bild als aktuelles Bild zu setzen
+// Funktion zur Initialisierung des aktuellen Bildes
+const setInitialImage = () => {
+  if (project.value?.projectImages?.data?.length > 0) {
+    currentImage.value = project.value.projectImages.data[0].attributes;
+  }
+};
+
+// Funktion zur Aktualisierung der Navigation
+const updateNavigation = () => {
+  if (!projects.value || projects.value.length === 0) {
+    console.warn("Keine Projekte verfügbar.");
+    return;
+  }
+
+  const currentIndex = projects.value.findIndex(
+    (p) => p.link === route.params.link
+  );
+
+  if (currentIndex === -1) {
+    console.warn("Projekt nicht gefunden:", route.params.link);
+    previousProject.value = null;
+    nextProject.value = null;
+    return;
+  }
+
+  previousProject.value =
+    currentIndex > 0 ? projects.value[currentIndex - 1] : null;
+
+  nextProject.value =
+    currentIndex < projects.value.length - 1
+      ? projects.value[currentIndex + 1]
+      : null;
+};
+
+// Beobachte Änderungen an `route.params.link`
+watch(
+  () => route.params.link,
+  () => {
+    setInitialImage();
+    updateNavigation();
+  },
+  { immediate: true }
+);
+
+// Initialisierung beim Laden der Seite
+setInitialImage();
+updateNavigation();
+
 const setCurrentImage = (image) => {
   currentImage.value = image;
 };
 
-// Berechnung des vorherigen Projekts
-const previousProject = computed(() => {
-  const currentIndex = projects.value.findIndex(p => p.link === route.params.link);
-  return currentIndex > 0 ? projects.value[currentIndex - 1] : null;
-});
-
-// Berechnung des nächsten Projekts
-const nextProject = computed(() => {
-  const currentIndex = projects.value.findIndex(p => p.link === route.params.link);
-  return currentIndex < projects.value.length - 1 ? projects.value[currentIndex + 1] : null;
-});
-
-// Funktion, um das vorherige Projekt zu finden und den Benutzer darauf zu verlinken
+// Navigation für das vorherige Projekt
 const navigateToPreviousProject = () => {
   if (previousProject.value) {
     router.push({ path: `/projekt/${previousProject.value.link}` });
   }
 };
 
-// Funktion, um das nächste Projekt zu finden und den Benutzer darauf zu verlinken
+// Navigation für das nächste Projekt
 const navigateToNextProject = () => {
   if (nextProject.value) {
     router.push({ path: `/projekt/${nextProject.value.link}` });
   }
 };
 </script>
+
+
+
 
 <style lang="sass">
 .project
@@ -181,6 +220,7 @@ const navigateToNextProject = () => {
         border-radius: .5rem
   .customerBox
     width: 100%
+    max-width: 50vw
     text-align: center
     background-image: linear-gradient(to left bottom, rgba($lightgrey, .6), transparent, transparent)
     border-top-right-radius: 20px
@@ -203,6 +243,7 @@ const navigateToNextProject = () => {
       font-size: 1rem
       margin-top: 2.5rem
       color: adjust-color($darkgrey, $lightness: 20%)
+      font-family: 'Mainfont-Bold'
   .webPageBtn
     font-size: .8rem
     margin-top: 2rem
@@ -233,6 +274,8 @@ const navigateToNextProject = () => {
     transition: .6s
     &:hover
       transform: scale(1.05)
+    span
+      display: inline-block
   svg
     fill: adjust-color($lightgrey, $lightness: -10%)
     width: 80%

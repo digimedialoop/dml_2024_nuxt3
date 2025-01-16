@@ -35,6 +35,63 @@ export const STRAPI_DATA = gql`
         }
       }
     }
+    faqs {
+      data {
+        id
+        attributes {
+          question
+          answer
+        }
+      }
+    }
+    pages {
+      data {
+        id
+        attributes {
+          pageName
+          header_image {
+            data {
+              id
+              attributes {
+                url
+                alternativeText
+              }
+            }
+          }
+          SEO {
+            pageTitle
+            seoDesicription
+            seoKeywords
+            type
+            seoImage {
+              data {
+                id
+                attributes {
+                  url
+                  alternativeText
+                }
+              }
+            }
+          }
+          pageSections {
+            __typename
+            ... on ComponentSectionsStandardSection {
+              id
+              sectionText
+              sectionImage {
+                data {
+                  id
+                  attributes {
+                    url
+                    alternativeText
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
     customers {
       data {
         id

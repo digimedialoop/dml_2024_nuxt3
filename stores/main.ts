@@ -1,6 +1,17 @@
 import { defineStore } from 'pinia';
 import { STRAPI_DATA } from '@/graphQL/main.gql';
-import { useNuxtApp, useRuntimeConfig } from '#app';
+import { useNuxtApp, useRuntimeConfig, useRouter } from '#app';
+import axios from 'axios';
+
+// Typdefinition für Kontaktanfrage
+interface ContactData {
+  name: string;
+  email?: string;
+  phone?: string;
+  company?: string;
+  text: string;
+  language: string;
+}
 
 export const useMainStore = defineStore('main', {
   state: () => ({
@@ -8,6 +19,7 @@ export const useMainStore = defineStore('main', {
     screenWidth: 0,
     contactBoxOpen: false,
     cmsUrl: '', 
+    token: '',
     graphQLUrl: '', 
     companyinfo: {
       contact: '',
@@ -17,6 +29,8 @@ export const useMainStore = defineStore('main', {
     },
     customers: [],
     projects: [],
+    faqs: [],
+    pages: [],
     dataFetched: false // Flag zur Vermeidung doppelter Abrufe
   }),
 
@@ -24,12 +38,52 @@ export const useMainStore = defineStore('main', {
     initializeConfig() {
       const runtimeConfig = useRuntimeConfig();
       this.cmsUrl = runtimeConfig.public.VUE_APP_API_URL || 'https://strapi.digimedialoop.de';
+      this.VUE_APP_TOKEN = runtimeConfig.public.VUE_APP_TOKEN;
       this.graphQLUrl = runtimeConfig.public.STRAPI_GRAPHQL_URL || 'https://strapi.digimedialoop.de/graphql';
+    },
+
+    toggleContactBubble() {
+      this.contactBoxOpen = !this.contactBoxOpen;
+    },
+
+    closeContactBubble() {
+      this.contactBoxOpen = false;
+    },
+
+    async sendContactRequestToCMS(contactData: ContactData): Promise<void> {
+      const router = useRouter();
+    
+      try {
+        const response = await axios.post(
+          `${this.cmsUrl}/api/contacts`, // Korrekte URL
+          {
+            data: {
+              name: contactData.name,
+              email: contactData.email,
+              phone: contactData.phone,
+              company: contactData.company,
+              text: contactData.text,
+              page: router.currentRoute.value.fullPath,
+              language: contactData.language,
+            },
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${this.token}`, // Token aus dem State
+              'Content-Type': 'application/json',    // Richtiger Content-Type
+            },
+          }
+        );
+    
+        console.log('Kontaktanfrage erfolgreich gesendet:', response.data);
+      } catch (error) {
+        console.error('Fehler beim Senden der Kontaktanfrage:', error);
+        throw error; // Weiterwerfen des Fehlers, falls erforderlich
+      }
     },
 
     async fetchStrapiData() {
       if (this.dataFetched) return;
-
       this.initializeConfig();
       const { $apolloClient } = useNuxtApp();
 
@@ -38,15 +92,19 @@ export const useMainStore = defineStore('main', {
           query: STRAPI_DATA,
         });
 
-        // Verarbeite die zurückgegebenen Daten
         if (data?.companyinfo?.data?.attributes) {
           this.companyinfo = data.companyinfo.data.attributes;
         }
 
+        if (data?.faqs?.data) {
+          this.faqs = data.faqs.data.map(faq => ({
+            id: faq.id,
+            ...faq.attributes,
+          }));
+        }
+
         if (data?.customers?.data) {
           let allProjects = [];
-
-          // Mapping der Kunden und ihrer Projekte
           this.customers = data.customers.data.map(customer => {
             const customerAttributes = {
               id: customer.id,
@@ -58,29 +116,33 @@ export const useMainStore = defineStore('main', {
               ...project.attributes,
             })) || [];
 
-            // Projekte zur Gesamtprojektliste hinzufügen
             allProjects = [...allProjects, ...customerProjects];
-
             return customerAttributes;
           });
 
-          // Sortiere die Projekte nach Launch-Datum
           this.projects = allProjects.sort((a, b) => {
-            return new Date(b.launchDate) - new Date(a.launchDate);
+            return new Date(b.launchDate).getTime() - new Date(a.launchDate).getTime();
           });
-          this.dataFetched = true
         }
-        
+
+        if (data?.pages?.data) {
+          this.pages = data.pages.data.map(page => ({
+            id: page.id,
+            ...page.attributes,
+          }));
+        }
+
+        this.dataFetched = true;
       } catch (error) {
-        console.error('Fehler beim Abrufen der Firmendaten, Kunden und Projekte:', error);
+        console.error('Fehler beim Abrufen der Daten:', error);
       }
     },
 
-    setScrollPosition(position) {
+    setScrollPosition(position: number) {
       this.scrollPosition = position;
     },
 
-    setScreenWidth(width) {
+    setScreenWidth(width: number) {
       this.screenWidth = width;
     },
 
@@ -116,10 +178,7 @@ export const useMainStore = defineStore('main', {
   },
 
   getters: {
-    dynamicStyle: (state) => ({
-      '--dynamic-left': `${-26 - (state.scrollPosition / 100)}vw`,
-    }),
-    getCustomerById: (state) => (id) => state.customers.find(customer => customer.id === id),
-    getProjectByLink: (state) => (link) => state.projects.find(project => project.link === link),
+    getCustomerById: (state) => (id: string) => state.customers.find(customer => customer.id === id),
+    getProjectByLink: (state) => (link: string) => state.projects.find(project => project.link === link),
   },
 });
