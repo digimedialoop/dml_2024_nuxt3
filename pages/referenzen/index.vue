@@ -4,8 +4,7 @@
       <h1>Kreative Webseiten nach Maß</h1>
     <h2>Lassen Sie sich von unseren erfolgreichen Website-Projekten inspirieren.</h2> 
     <p>Jede Website ist <b>ein Unikat</b>, perfekt abgestimmt auf die <u>Wünsche, Ziele und Bedürfnisse</u> unserer Auftraggeber.</p>
-    <p>Als erfahrene Webagentur legen wir großen Wert auf <u>Qualität, Kreativität und Funktionalität</u>. 
-      <br>Unsere Referenzen zeigen, wie wir <b>innovative Lösungen</b> entwickeln, die nicht nur optisch überzeugen, sondern auch <b>messbare Ergebnisse</b> liefern.
+    <p>Als erfahrene Webagentur legen wir großen Wert auf <u>Qualität, Kreativität und Funktionalität</u>. Unsere Referenzen zeigen, wie wir <b>innovative Lösungen</b> entwickeln, die nicht nur optisch überzeugen, sondern auch <b>messbare Ergebnisse</b> liefern.
 
     </p>
     <p>Tauchen Sie ein in die Vielfalt unserer Arbeit – von modernen Unternehmenswebseiten über Online-Shops bis hin zu kreativen Portfolio-Seiten. Entdecken Sie, wie wir individuelle Anforderungen in einzigartige digitale Erlebnisse verwandeln.

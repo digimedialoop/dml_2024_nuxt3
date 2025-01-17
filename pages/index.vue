@@ -6,10 +6,9 @@
     <h1>Ihre Agentur für professionelle Webentwicklung und funktionales Webdesign</h1>
     <h2>Sie benötigen Unterstützung bei der Erstellung ihrer Webseite? Dann sind Sie bei uns genau richtig!</h2>
     <p>Wir sind eine kundenorientierte Webagentur in Herrsching am Ammersee und unterstützen Sie individuell und zuverlässig bei Ihrem Auftritt im Web!</p>
-    <button class="mt-4" 
-            @click.prevent="toggleContactBubble"
+    <button class="mt-3" @click.prevent="router.push('/leistungen')"
             role="button"
-            aria-label="Kontaktformular öffnen">Kostenlose Erstberatung</button>
+            aria-label="Zu den Leistungen navigieren">Zu unseren Leistungen</button>
     </div>
     
   </section>    
@@ -27,6 +26,9 @@ const mainStore = useMainStore();
 const { cmsUrl, customers } = storeToRefs(mainStore);
 
 const toggleContactBubble = () => mainStore.toggleContactBubble();
+
+import { useRouter } from 'vue-router';
+const router = useRouter();
 </script>
 
 <style lang="sass">

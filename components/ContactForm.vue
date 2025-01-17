@@ -13,8 +13,6 @@
             tabindex="0" 
             role="button" 
             aria-label="Toggle contact form"
-            @keydown.enter="toggleContactBubble" 
-            @keydown.space="toggleContactBubble"
         >
             <use :xlink:href="`/assets/icons/collection.svg#${isContactBubbleOpen ? 'times' : 'talk'}`"></use>
         </svg>
@@ -27,21 +25,23 @@
             <div class="row left m-2">
                 <div class="col-md-6" id="hintBox">
                     <h2 id="contactTitle">{{ $t('yourcontact2us') }}</h2>
-                    <p>
+                    <p class="my-4">
                         <svg aria-hidden="true">
                             <use xlink:href="/assets/icons/collection.svg#phone"></use>
                         </svg>
                         <span>+49 177 83 88 553</span>
                     </p>
-                    <span v-if="screenWidth > 768">
+                    <div class="pt-3" v-if="screenWidth > 768">
                     <h3>Unsere Büroadresse</h3>
                     <p class="address">
                         digimedialoop <br>Rausch 10 <br>82211 Herrsching am Ammersee
                     </p>
-                    </span>
+                </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
+
+                    <div v-if="!formSent">
+                        <div class="form-group">
                         <label for="name">{{ $t('name') }}</label>
                         <input 
                             id="name" 
@@ -103,6 +103,13 @@
                     >
                         Nachricht senden
                     </button>
+                    </div>
+                    <div v-else class="mt-5 thx">
+                        <h3 class="pt-5">Vielen Dank für Ihre Nachricht!</h3> 
+                        <p>Wir werden uns umgehend bei Ihnen melden...</p>
+                        <p>Ihr digimedialoop Team</p>
+                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -111,7 +118,7 @@
 
 <script setup lang="ts">
 import { useMainStore } from '@/stores/main';
-import { reactive } from 'vue';
+import { ref, reactive } from 'vue';
 
 // Zugriff auf den Pinia-Store
 const mainStore = useMainStore();
@@ -120,6 +127,8 @@ const toggleContactBubble = () => mainStore.toggleContactBubble();
 
 // Bildschirmbreite aus dem Store abrufen
 const screenWidth = computed(() => mainStore.screenWidth);
+
+const formSent = ref(false);
 
 // Formular- und Fehlerzustand
 const form = reactive({
@@ -183,6 +192,10 @@ const submitForm = () => {
       language: navigator.language,
       page: window.location.pathname,
     });
+    formSent.value = true;
+    setTimeout(() => {
+        formSent.value = false;
+    }, 5500);
     resetForm();
   }
 };
@@ -226,6 +239,16 @@ const resetForm = () => {
         bottom: 4vw
         right: 4vw
     .contactContainer
+        .thx
+            background-color: $lightgrey
+            border-radius: $loopShape
+            padding: 0 3rem 2rem
+            text-align: center
+            h3
+                font-size: 1.2rem
+            p
+                font-size: 1rem
+            
         #hintBox
             padding-top: 3rem
             @media(max-width: $breakPointMD)
@@ -250,6 +273,7 @@ const resetForm = () => {
                 color: $primaryColor
             svg
                 width: 2rem
+                height: 2rem
                 fill: $darkgrey
                 margin-right: 1rem
                 max-height: 100px
@@ -263,6 +287,7 @@ const resetForm = () => {
         fill: white
         height: auto
         width: 3rem
+        height: 3rem
         z-index: 101
     
     &.active
@@ -285,7 +310,7 @@ const resetForm = () => {
                 left: auto
                 bottom: 4rem !important
         #controlIcon
-            bottom: 2rem
+            bottom: 3rem
             fill: black
             width: 2rem
     input, textarea

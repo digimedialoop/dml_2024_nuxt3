@@ -10,7 +10,9 @@
       
     </section>    
     <section>
-      <h2 class="text-center"><u>Unsere Leistungen auf einen Blick</u></h2>
+      <div class="container">
+      <h2 class="text-center">Unsere <u>Leistungen</u> auf einen Blick</h2>
+    </div>
       <div class="serviceBorder">
         <div class="serviceBox" v-for="(service, index) in services" :key="index">
           <img :src="cmsUrl + service.image" alt="" />

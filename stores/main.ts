@@ -39,7 +39,7 @@ export const useMainStore = defineStore('main', {
     initializeConfig() {
       const runtimeConfig = useRuntimeConfig();
       this.cmsUrl = runtimeConfig.public.VUE_APP_API_URL || 'https://strapi.digimedialoop.de';
-      this.VUE_APP_TOKEN = runtimeConfig.public.VUE_APP_TOKEN;
+      this.token = runtimeConfig.public.VUE_APP_TOKEN;
       this.graphQLUrl = runtimeConfig.public.STRAPI_GRAPHQL_URL || 'https://strapi.digimedialoop.de/graphql';
     },
 

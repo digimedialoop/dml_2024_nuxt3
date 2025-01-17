@@ -26,11 +26,12 @@
         aria-label="Hauptnavigation"
         tabindex="0"
       >
-        <nav v-if="isMenuOpen || screenWidth > 1350" aria-expanded="true">
+        <nav v-if="isMenuOpen || screenWidth > 1350" aria-expanded="true" autofocus>
           <NuxtLink to="/webagentur" aria-label="Zur Webagentur">Agentur</NuxtLink>
           <NuxtLink to="/leistungen" aria-label="Zu unseren Leistungen">Leistungen</NuxtLink>
           <NuxtLink to="/referenzen" aria-label="Unsere Referenzen">Referenzen</NuxtLink>
         <a class="menu_link" href="#"
+            @click="toggleContactBubble" 
             role="button"
             aria-label="Kontaktformular öffnen"
           >
@@ -331,6 +332,7 @@ header
         nav
           display: none
           background-image: none
+          background: transparent
           border: none
           .menu_link
             margin-left: 1.5rem
@@ -345,7 +347,7 @@ header
             color: white
             text-align: left
             margin-bottom: .5rem
-            padding: 1rem 2.8rem
+            padding: 1.6rem 2.8rem .4rem
             position: relative
             font-size: 1.6rem !important
             width: auto
@@ -359,7 +361,7 @@ header
               background-color: rgba($primaryColor, .9)
               border-radius: $loopShape
               position: absolute
-              top: 1.8rem
+              top: 2.4rem
               left: 1rem
               border-radius: 20px
             &:hover
@@ -420,12 +422,13 @@ header
       nav
         display: block
         z-index: 102
-        background: linear-gradient(to right, rgba($lightgrey, 0.8), rgba(white, 0.9), rgba(white, 0.9))
+        //background: linear-gradient(to right, rgba($lightgrey, 0.8), rgba(white, 0.9), rgba(white, 0.9))
+        background: white
         border: 1px solid adjust-color($beige, $lightness: 5%)
         padding: 1rem 2.5rem
         text-align: center
         border-radius: 1rem
-        margin: 6rem 2vw 0 8vh
+        margin: 5.5rem 2vw 0 8vh
         transition: .8s
         a
           margin: 0 1.5rem
@@ -434,7 +437,7 @@ header
           text-transform: uppercase
           font-family: 'Comfortaa-Bold'
           font-size: 1.2rem
-          letter-spacing: .1rem
+          letter-spacing: .05rem
           transition: .6s
           display: inline-block
           &:hover
@@ -452,7 +455,7 @@ header
       .navigationBox
         nav
           display: flex
-          margin: 4rem 0 0 0
+          margin: 3.5rem 0 0 0
           padding: 1rem 1rem
           border-top-right-radius: 0
           border-top-left-radius: 0
@@ -461,8 +464,9 @@ header
           background: transparent
           border: 1px solid transparent
           a
-            font-size: 1.15rem
+            font-size: 1.05rem
             font-weight: bold
+            margin: 0 1rem
       .logoBox
         align-items: left
         img
