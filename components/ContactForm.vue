@@ -180,25 +180,35 @@ const validateForm = () => {
     validatePhone();
 };
 
-const submitForm = () => {
+const submitForm = async () => {
   validateForm();
   if (!errors.name && !errors.email && !errors.phone) {
-    mainStore.sendContactRequestToCMS({
-      name: form.name,
-      email: form.email,
-      phone: form.phone,
-      message: form.message,
-      company: form.company,
-      language: navigator.language,
-      page: window.location.pathname,
-    });
-    formSent.value = true;
-    setTimeout(() => {
+    try {
+      await mainStore.sendContactRequestToCMS({
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        message: form.message,
+        company: form.company,
+        language: navigator.language,
+        page: window.location.pathname,
+      });
+
+      // Aktionen nach erfolgreichem Senden
+      formSent.value = true;
+      setTimeout(() => {
         formSent.value = false;
-    }, 5500);
-    resetForm();
+      }, 5500);
+      resetForm();
+
+    } catch (error) {
+      // Fehlerbehandlung
+      console.error('Fehler beim Senden des Formulars:', error);
+      alert('Leider gibt es momentan einen Fehler bei der Internetverbindung!')
+    }
   }
 };
+
 
 
 

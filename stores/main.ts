@@ -9,7 +9,7 @@ interface ContactData {
   email?: string;
   phone?: string;
   company?: string;
-  text: string;
+  message: string;
   language: string;
 }
 
@@ -72,7 +72,6 @@ export const useMainStore = defineStore('main', {
 
     async sendContactRequestToCMS(contactData: ContactData): Promise<void> {
       const router = useRouter();
-    
       try {
         const response = await axios.post(
           `${this.cmsUrl}/api/contacts`, // Korrekte URL
@@ -82,7 +81,7 @@ export const useMainStore = defineStore('main', {
               email: contactData.email,
               phone: contactData.phone,
               company: contactData.company,
-              text: contactData.text,
+              text: contactData.message,
               page: router.currentRoute.value.fullPath,
               language: contactData.language,
             },
@@ -94,8 +93,6 @@ export const useMainStore = defineStore('main', {
             },
           }
         );
-    
-        console.log('Kontaktanfrage erfolgreich gesendet:', response.data);
       } catch (error) {
         console.error('Fehler beim Senden der Kontaktanfrage:', error);
         throw error; // Weiterwerfen des Fehlers, falls erforderlich
