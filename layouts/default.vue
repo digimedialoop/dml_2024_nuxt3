@@ -271,6 +271,7 @@ header
     z-index: 6
     transition: .8s
     box-shadow: $innerShadow
+    overflow: hidden
   &::before
     width: 60vw
     height: 18rem

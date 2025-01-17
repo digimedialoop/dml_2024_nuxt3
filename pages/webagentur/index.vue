@@ -45,7 +45,8 @@ const router = useRouter();
 .webagentur
     position: relative
     overflow-x: hidden
-    overflow-y: visible
+    overflow-y: hidden
+
     &::after
         content: ''
         position: absolute

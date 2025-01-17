@@ -63,6 +63,9 @@ $innerShadow: inset 0 0 15px rgba(255, 255, 255, 0.5)
   100%
     background-position: 100% 100%
 
+body
+  overflow-x: hidden  
+
 .fade-enter-active, .fade-leave-active
   transition: opacity 1.2s ease
 
@@ -70,7 +73,7 @@ $innerShadow: inset 0 0 15px rgba(255, 255, 255, 0.5)
   opacity: 0
 
 *:focus
-  outline: 1px dotted grey          
+  outline: 2px dotted white                          
 
 .router-link-active
   position: relative
@@ -83,4 +86,5 @@ $innerShadow: inset 0 0 15px rgba(255, 255, 255, 0.5)
     width: 110%
     height: 4px
     background: linear-gradient(to right, transparent, $primaryColor, transparent)  
-    transform: rotate(-1deg)                            
+    transform: rotate(-1deg)     
+                     
