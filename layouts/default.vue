@@ -3,9 +3,8 @@
     <Title>{{ title }}</Title>
     <Meta name="description" :content="description" />
     <Meta name="language" :content="language" />
-    <!-- Meta Tags für SEO und Social Media -->
+    <Meta name="google-site-verification" content="wJJ_1ptqt3xz0TsEpWpDczyV4rY5mAh9_np9TFbVcL8" />
   </Head>
-
   <header
     :class="[{ mobile: screenWidth < 1350, desk: screenWidth >= 1350 }, { active: scrollPosition > 50 }]"
     role="banner"
@@ -180,6 +179,9 @@ import { useRuntimeConfig } from '#app'
 const config = useRuntimeConfig()
 const mainStore = useMainStore();
 
+import { useRoute } from 'vue-router';
+const route = useRoute();
+
 // Computed properties from Pinia store
 const isMenuOpen = computed(() => mainStore.menuOpen); // Menü-Status
 const isContactBubbleOpen = computed(() => mainStore.contactBoxOpen);
@@ -202,6 +204,39 @@ const invertLogo = computed(() => {
     ? mainStore.companyinfo.invertlogo.data?.attributes?.url 
     : '/uploads/dummy_Image_4abc3f04dd.webp';
 });
+const pages = computed(() => mainStore.pages);
+const page = ref(null);
+
+// META TAGS
+const title = ref('');
+const description = ref('');
+const defaultMeta = {
+  title: 'digimedialoop | Ihre Webagentur in Herrsching am Ammersee',
+  description: 'Ihr Partner für Webdesign und Webentwicklung in Herrsching am Ammersee im Landkreis Starnberg'
+}
+
+// Aktualisiere `page` dynamisch, wenn `route.path` oder `pages` sich ändern
+watchEffect(() => {
+  console.log('Aktualisiere den Titel:', page.value?.SEO?.title);
+  if (pages.value || route.path) {
+    page.value = pages.value.find(p => p.pageLink == route.path) || null;
+  }
+});
+
+watchEffect(() => {
+  if (page.value) {
+    title.value = page.value.SEO?.pageTitle || defaultMeta.title;
+    description.value = page.value.SEO?.seoDesicription || defaultMeta.description;
+    console.log(title.value)
+  } else {
+    title.value = defaultMeta.title;
+    description.value = defaultMeta.description;
+  }
+});
+
+const language = 'de'
+
+
 
 // Lädt Daten auf dem Server vor
 onServerPrefetch(async () => {
@@ -214,27 +249,26 @@ onMounted(() => {
     mainStore.fetchStrapiData();
   }
   mainStore.initializeListeners();
+
+  // Matomo Tracking einbinden, wenn die Domain "digimedialoop.de" enthält
+  if (window.location.hostname.includes('digimedialoop.de')) {
+    var _paq = window._paq = window._paq || [];
+    _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+    _paq.push(["setCookieDomain", "*.digimedialoop.de"]);
+    _paq.push(["disableCookies"]);
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u = "//analytics.digimedialoop.de/";
+      _paq.push(['setTrackerUrl', u + 'matomo.php']);
+      _paq.push(['setSiteId', '1']);
+      var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+      g.async = true; g.src = u + 'matomo.js'; s.parentNode.insertBefore(g, s);
+    })();
+  }
 });
 
-import { useRoute } from 'vue-router';
-const route = useRoute();
-// Beobachte Routenwechsel
-watch(
-  () => route.fullPath, // Beobachte Änderungen an der vollständigen Pfad-URL
-  () => {
-    // Aktionen bei Routenwechsel
-    mainStore.closeContactBubble?.();
-    // Scroll to top
-    if (process.client) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }
-);
 
-// META TAGS
-const title = 'digimedialoop | Ihre Webagentur in Herrsching am Ammersee'
-const description = 'Ihr Partner für Webdesign und Webentwicklung in Herrsching am Ammersee im Landkreis Starnberg'
-const language = 'de'
 </script>
 
 

@@ -49,6 +49,7 @@ export const STRAPI_DATA = gql`
         id
         attributes {
           pageName
+          pageLink
           header_image {
             data {
               id
