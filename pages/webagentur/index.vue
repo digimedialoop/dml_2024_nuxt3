@@ -1,35 +1,37 @@
 <template>
+    <div>
     <section class="webagentur">
-    <div class="container">
-        <div class="contentBox">
-            <h1>Ihre Webagentur in Herrsching am Ammersee</h1>
-            <h2>Wir entwickeln Webseiten, die aus Besuchern Kunden machen!</h2>
-            <p>Unser erfahrenes Team ist für Sie da, um maßgeschneiderte Lösungen für Ihre Online-Präsenz zu entwickeln. 
-                Wir haben uns darauf spezialisiert, Webseiten zu erstellen, die nicht nur Besucher anziehen, sondern diese 
-                auch zu treuen Kunden machen. Von der Konzeption bis zur Umsetzung stehen wir Ihnen mit unserem <b>Fachwissen</b> 
-                und unserer <b>Kreativität</b> zur Seite, um <u>Ihre Visionen zu verwirklichen</u> und Ihren <b>Online-Erfolg</b> zu maximieren.</p> 
-            <p>Lassen Sie uns gemeinsam Ihre digitale Präsenz optimieren und Ihr Unternehmen auf die nächste Stufe bringen!</p>
-            <button class="mt-3" @click.prevent="router.push('/leistungen')"
-            role="button"
-            aria-label="Zu den Leistungen navigieren">Zu unseren Leistungen</button>
-        </div>        
-    </div>
-</section>
-<section class="team">
-    <div class="container">
-        <h2 class="teamHeadline">Der Kopf von digimedialoop...</h2>
-    <div class="teamContainer">      
-        <h3>Sabrina Hennrich</h3>
-        <p class="smallFont">Beratung | Konzeption | Design | Entwicklung</p>
-        <p>Mit über 20 Jahren Erfahrung im Webdesign ist sie noch immer Webentwicklerin aus purer Leidenschaft!</p>
-        <p class="quotation">Offenheit, Transparenz und Fairness sind mir bei der Zusammenarbeit mit meinen Kunden enorm wichtig. Ich empfehle nur, was mir sinnvoll erscheint und zu meinen Kunden passt. Dafür nehme ich mir gerne die Zeit für eine gründliche Analyse der Bedürfnisse meiner Kunden bzw. die deren Zielgruppe.</p>
-        <button class="mt-3" @click.prevent="toggleContactBubble"
-            role="button"
-            aria-label="Kontaktformular öffnen">Sprechen Sie mich gerne an!</button>
-    </div>
-    </div>
-    
-</section>
+        <div class="container">
+            <div class="contentBox">
+                <h1>Ihre Webagentur in Herrsching am Ammersee</h1>
+                <h2>Wir entwickeln Webseiten, die aus Besuchern Kunden machen!</h2>
+                <p>Unser erfahrenes Team ist für Sie da, um maßgeschneiderte Lösungen für Ihre Online-Präsenz zu entwickeln. 
+                    Wir haben uns darauf spezialisiert, Webseiten zu erstellen, die nicht nur Besucher anziehen, sondern diese 
+                    auch zu treuen Kunden machen. Von der Konzeption bis zur Umsetzung stehen wir Ihnen mit unserem <b>Fachwissen</b> 
+                    und unserer <b>Kreativität</b> zur Seite, um <u>Ihre Visionen zu verwirklichen</u> und Ihren <b>Online-Erfolg</b> zu maximieren.</p> 
+                <p>Lassen Sie uns gemeinsam Ihre digitale Präsenz optimieren und Ihr Unternehmen auf die nächste Stufe bringen!</p>
+                <button class="mt-3" @click.prevent="router.push('/leistungen')"
+                role="button"
+                aria-label="Zu den Leistungen navigieren">Zu unseren Leistungen</button>
+            </div>        
+        </div>
+    </section>
+    <section class="team">
+        <div class="container">
+            <h2 class="teamHeadline">Der Kopf von digimedialoop...</h2>
+        <div class="teamContainer">      
+            <h3>Sabrina Hennrich</h3>
+            <p class="smallFont">Beratung | Konzeption | Design | Entwicklung</p>
+            <p>Mit über 20 Jahren Erfahrung im Webdesign ist sie noch immer Webentwicklerin aus purer Leidenschaft!</p>
+            <p class="quotation">Offenheit, Transparenz und Fairness sind mir bei der Zusammenarbeit mit meinen Kunden enorm wichtig. Ich empfehle nur, was mir sinnvoll erscheint und zu meinen Kunden passt. Dafür nehme ich mir gerne die Zeit für eine gründliche Analyse der Bedürfnisse meiner Kunden bzw. die deren Zielgruppe.</p>
+            <button class="mt-3" @click.prevent="toggleContactBubble"
+                role="button"
+                aria-label="Kontaktformular öffnen">Sprechen Sie mich gerne an!</button>
+        </div>
+        </div>
+        
+    </section>
+</div>
 </template>
 
 <script setup>

@@ -1,4 +1,5 @@
 <template>
+  <div>
     <section>
       <div class="container">
         <img class="imgRight" :src="cmsUrl + '/uploads/Wireframe_Coding_badd645adb.png'" alt="Ammersee" />
@@ -26,6 +27,7 @@
       
     </section>
     <MarqueeBanner :items="projects" :logoHeight="180" title="Unsere Referenzprojekte für Sie" link="projekt" />
+  </div>
 </template>
 
 <script setup>

@@ -36,6 +36,7 @@
                     <p class="address">
                         digimedialoop <br>Rausch 10 <br>82211 Herrsching am Ammersee
                     </p>
+                    <div class="aspBox"><img src="https://strapi.digimedialoop.de/uploads/sabrinahennrich_0f07d46857.jpg" alt="Ansprechpartner Sabrina Hennrich"></div>
                 </div>
                 </div>
                 <div class="col-md-6">
@@ -361,6 +362,12 @@ const resetForm = () => {
         padding: .5rem 1rem
         border-radius: .8rem
         color: white
+    .aspBox
+        width: 100%
+        img
+            width: 50%
+            max-width: 150px
+            border-radius: $loopShape
 
     // Form-group Anpassungen
     .form-group

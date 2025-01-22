@@ -295,7 +295,10 @@ onMounted(() => {
   }
 });
 
-
+// ANIME - Animations
+// import { useAnimations } from '@/composables/useAnimations'
+// Aktiviert die Animationen für alle Elemente mit "anime_"
+// useAnimations()
 </script>
 
 

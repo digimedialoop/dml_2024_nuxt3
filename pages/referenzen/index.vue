@@ -1,4 +1,5 @@
 <template>
+  <div>
   <section>
     <div class="container">
       <h1>Kreative Webseiten nach Maß</h1>
@@ -35,6 +36,7 @@
           </slot>
       </div>
   </section>
+</div>
 </template>
 
 <script setup>

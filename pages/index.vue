@@ -1,4 +1,5 @@
 <template>
+  <div>
   <section>
     <div class="container">
       <img class="imgRight" :src="cmsUrl + '/uploads/2_Screens_Example_4fc41483_0cc79dc5da.webp'" alt="Neue Webseite" />
@@ -14,6 +15,7 @@
   </section>    
   <MarqueeBanner :items="customers" :logoHeight="60" title="Diese Unternehmen vertrauen uns" />
   <FAQArea />
+</div>
 </template>
 
 <script setup>

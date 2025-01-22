@@ -9,6 +9,7 @@ export default defineNuxtConfig({
       }
     },
     baseURL: '/',
+    pageTransition: { name: 'fade', mode: 'out-in' }
   },
 
   // Plugins
