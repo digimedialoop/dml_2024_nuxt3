@@ -91,7 +91,7 @@
           <p>{{ companyinfo?.district }}</p>
           <br />
           <p>
-            <span><NuxtLink to="/impressum">Impressum</NuxtLink> | <NuxtLink to="/datenschutz">Datenschutz</NuxtLink> | <NuxtLink to="/agb">AGB</NuxtLink> </span>
+            <span><NuxtLink to="/impressum">Impressum</NuxtLink> | <NuxtLink to="/datenschutz">Datenschutz</NuxtLink> <br> <NuxtLink to="/#faq">Häufige Fragen</NuxtLink> | <NuxtLink to="/agb">AGB</NuxtLink> </span>
           </p>
 
           <p class="mt-4">
@@ -175,6 +175,7 @@
 import { useMainStore } from '@/stores/main';
 import { ref, computed, onMounted, onServerPrefetch, watch } from 'vue';
 import { useRuntimeConfig } from '#app'
+import { useHead } from '#app'
 
 const config = useRuntimeConfig()
 const mainStore = useMainStore();
@@ -212,12 +213,13 @@ const title = ref('');
 const description = ref('');
 const defaultMeta = {
   title: 'digimedialoop | Ihre Webagentur in Herrsching am Ammersee',
-  description: 'Ihr Partner für Webdesign und Webentwicklung in Herrsching am Ammersee im Landkreis Starnberg'
+  description: 'Ihr Partner für Webdesign und Webentwicklung in Herrsching am Ammersee im Landkreis Starnberg',
+  canonicalBase: 'https://www.digimedialoop.de'
+
 }
 
 // Aktualisiere `page` dynamisch, wenn `route.path` oder `pages` sich ändern
 watchEffect(() => {
-  console.log('Aktualisiere den Titel:', page.value?.SEO?.title);
   if (pages.value || route.path) {
     page.value = pages.value.find(p => p.pageLink == route.path) || null;
   }
@@ -227,7 +229,6 @@ watchEffect(() => {
   if (page.value) {
     title.value = page.value.SEO?.pageTitle || defaultMeta.title;
     description.value = page.value.SEO?.seoDesicription || defaultMeta.description;
-    console.log(title.value)
   } else {
     title.value = defaultMeta.title;
     description.value = defaultMeta.description;
@@ -236,6 +237,32 @@ watchEffect(() => {
 
 const language = 'de'
 
+// Dynamische Meta-Tags überwachen
+watchEffect(() => {
+  const currentPath = route.path || '/';
+  const canonicalUrl = defaultMeta.canonicalBase + currentPath;
+
+  useHead({
+    title: title.value,
+    meta: [
+      { name: 'description', content: description.value },
+      { name: 'language', content: language || 'de' },
+      { name: 'robots', content: 'index, follow' },
+      { property: 'og:title', content: title.value },
+      { property: 'og:description', content: description.value },
+      { property: 'og:type', content: 'website' },
+      { property: 'og:url', content: canonicalUrl },
+      { property: 'og:locale', content: 'de_DE' },
+      { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'twitter:title', content: title.value },
+      { name: 'twitter:description', content: description.value },
+    ],
+    link: [
+      { rel: 'canonical', href: canonicalUrl },
+      { rel: 'icon', href: '/favicon.ico' },
+    ],
+  });
+});
 
 
 // Lädt Daten auf dem Server vor
@@ -516,10 +543,12 @@ header
 // *************     
 
 main
-  margin-top: 15vw
+  margin-top: 11rem
   font-family: 'Mainfont'
   min-height: 45vh
   z-index: 3
+  @media(max-width: $breakPointMD)
+    margin-top: 8rem
   h1
     font-family: 'Comfortaa'
     font-size: $fontSizeLarge //calc(1.2rem + 1.2vw)

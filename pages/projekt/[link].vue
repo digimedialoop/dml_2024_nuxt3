@@ -158,7 +158,6 @@ const updateNavigation = () => {
 // Überprüfe und lade Projektdaten
 const initializeProjectData = async () => {
   if (!dataFetched.value) {
-    console.log('Daten werden nachgeladen...');
     await mainStore.fetchStrapiData(); // Sicherstellen, dass alle Daten geladen sind
   }
 

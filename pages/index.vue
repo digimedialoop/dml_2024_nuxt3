@@ -19,7 +19,12 @@
 <script setup>
 import { useMainStore } from '@/stores/main';
 import { storeToRefs } from 'pinia';
-import MarqueeBanner from '@/sections/MarqueeBanner.vue';
+import { defineAsyncComponent } from 'vue';
+
+// Asynchrones Laden der Komponenten
+const MarqueeBanner = defineAsyncComponent(() => import('@/sections/MarqueeBanner.vue'));
+
+// Lade diese Komponente synchron wegen SEO
 import FAQArea from '@/sections/FAQArea.vue';
 
 const mainStore = useMainStore();

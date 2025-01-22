@@ -2,12 +2,9 @@
   <PageContent pageName="imprint" />
 </template>
 
-<script>
-  import PageContent from '@/components/PageContent.vue';
+<script setup>
+import { defineAsyncComponent } from 'vue';
 
-  export default {
-      components: {
-          PageContent,
-      },
-  };
+// Asynchrones Laden der Komponente
+const PageContent = defineAsyncComponent(() => import('@/components/PageContent.vue'));
 </script>

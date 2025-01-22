@@ -1,28 +1,32 @@
 <template>
-    <div class="myAccordion">
-      <div v-for="(item, index) in items" :key="index" class="accordion-item">
-        <div class="accordion-header" @click="toggleSection(index)">
-          <div class="accordion-title">{{ item.title }}</div>
-          <div class="accordion-toggle" :class="{ open: openIndex === index }">
-            <span></span>
-            <span></span>
-          </div>
-        </div>
-        <div
-          class="accordion-content"
-          :ref="el => setContentRef(el, index)"
-          :style="{ maxHeight: openIndex === index ? `${contentHeights[index]}px` : '0px' }"
-        >
-          <p><span v-html="htmlContent(item.content)"></span></p>
+  <div class="myAccordion">
+    <div v-for="(item, index) in items" :key="index" class="accordion-item">
+      <div
+        class="accordion-header"
+        :ref="el => setHeaderRef(el, index)"
+        @click="toggleSection(index)"
+      >
+        <div class="accordion-title">{{ item.title }}</div>
+        <div class="accordion-toggle" :class="{ open: openIndex === index }">
+          <span></span>
+          <span></span>
         </div>
       </div>
+      <div
+        class="accordion-content"
+        :ref="el => setContentRef(el, index)"
+        :style="{ maxHeight: openIndex === index ? `${contentHeights[index]}px` : '0px' }"
+      >
+        <p><span v-html="htmlContent(item.content)"></span></p>
+      </div>
     </div>
-  </template>
+  </div>
+</template>
   
-  <script setup>
+<script setup>
 import { ref, onMounted, watch, nextTick } from 'vue';
-
 import { useHtmlConverter } from '@/composables/useHTMLConverter'; 
+
 const { convertToHTML } = useHtmlConverter();
 const htmlContent = (data) => {
   return convertToHTML(data); // Nutze die convertToHTML Funktion der Composable
@@ -43,16 +47,53 @@ const openIndex = ref(null);
 const contentRefs = ref([]);
 // Höhen der Inhalte
 const contentHeights = ref([]);
+// Referenzen für die Header-Elemente
+const headerRefs = ref([]);
 
 // Funktion zum Umschalten des geöffneten Abschnitts
-const toggleSection = (index) => {
+const toggleSection = async (index) => {
   openIndex.value = openIndex.value === index ? null : index;
+
+  if (openIndex.value !== null) {
+    await nextTick();
+
+    setTimeout(() => {
+      const header = headerRefs.value[openIndex.value];
+      const fixedHeaderHeight = document.querySelector('.fixed-header')?.offsetHeight || 0;
+
+      if (header) {
+        const offset = 200 + fixedHeaderHeight;
+        let topPosition = header.getBoundingClientRect().top + window.scrollY - offset;
+
+        // Berechnung der maximalen Scroll-Position
+        const maxScrollPosition = document.body.scrollHeight - window.innerHeight;
+
+        // Begrenze die Scroll-Position, falls sie die maximale Höhe überschreitet
+        if (topPosition > maxScrollPosition) {
+          topPosition = maxScrollPosition;
+        }
+
+        window.scrollTo({
+          top: topPosition,
+          behavior: 'smooth',
+        });
+      }
+    }, 50);
+  }
 };
+
+
 
 // Setze die Referenzen dynamisch
 const setContentRef = (el, index) => {
   if (el) {
     contentRefs.value[index] = el;
+  }
+};
+
+const setHeaderRef = (el, index) => {
+  if (el) {
+    headerRefs.value[index] = el;
   }
 };
 
@@ -65,10 +106,10 @@ const calculateHeights = () => {
   });
 };
 
-
 // Initialisiere die Berechnung nach dem Mounten
 onMounted(async () => {
   contentRefs.value = Array.from({ length: props.items.length });
+  headerRefs.value = Array.from({ length: props.items.length });
   await nextTick();
   calculateHeights();
 });
@@ -78,6 +119,7 @@ watch(
   () => props.items,
   async () => {
     contentRefs.value = Array.from({ length: props.items.length });
+    headerRefs.value = Array.from({ length: props.items.length });
     await nextTick();
     calculateHeights();
   }

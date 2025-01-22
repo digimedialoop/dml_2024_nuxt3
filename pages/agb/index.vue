@@ -1,13 +1,11 @@
 <template>
     <PageContent pageName="generalTerms" />
-</template>
+  </template>
   
-<script>
-    import PageContent from '@/components/PageContent.vue';
-
-    export default {
-        components: {
-            PageContent,
-        },
-    };
-</script>
+  <script setup>
+  import { defineAsyncComponent } from 'vue';
+  
+  // Asynchrones Laden der Komponente
+  const PageContent = defineAsyncComponent(() => import('@/components/PageContent.vue'));
+  </script>
+  
