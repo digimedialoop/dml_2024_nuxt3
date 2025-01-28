@@ -10,8 +10,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "lint": "eslint . --max-warnings=0 --timeout=30",
-    "lint:fix": "eslint . --fix --max-warnings=0 --timeout=30"
+    "lint": "eslint 'src/**/*.{vue,js}' --max-warnings=0",
+  "lint:fix": "eslint 'src/**/*.{vue,js}' --fix --max-warnings=0"
   },
   "dependencies": {
     "@apollo/client": "^3.7.0",

@@ -5,11 +5,31 @@ export default defineNuxtConfig({
   app: {
     head: {
       htmlAttrs: {
-        lang: 'de' // Standard-Sprache auf Deutsch
-      }
+        lang: 'de', // Standard-Sprache auf Deutsch
+      },
     },
     baseURL: '/',
-    pageTransition: { name: 'fade', mode: 'out-in' }
+    router: {
+      options: {
+        scrollBehavior(to, from, savedPosition) {
+          // Gespeicherte Position
+          if (savedPosition) {
+            return savedPosition;
+          }
+        
+          // Wenn es einen Anker (#hash) gibt
+          if (to.hash) {
+            return {
+              el: to.hash,
+              behavior: 'smooth',
+            };
+          }
+        
+          // Standard: Nach oben scrollen
+          return { top: 0 };
+        }
+      },
+    },    
   },
 
   // Plugins

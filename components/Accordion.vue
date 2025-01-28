@@ -52,35 +52,30 @@ const headerRefs = ref([]);
 
 // Funktion zum Umschalten des geöffneten Abschnitts
 const toggleSection = async (index) => {
+  // Umschalten des offenen Indexes
   openIndex.value = openIndex.value === index ? null : index;
 
+  // Wenn ein neuer Abschnitt geöffnet wurde
   if (openIndex.value !== null) {
-    await nextTick();
+    await nextTick(); // Warten, bis das DOM aktualisiert wurde
 
     setTimeout(() => {
-      const header = headerRefs.value[openIndex.value];
+      const header = headerRefs.value[openIndex.value]; // Header des offenen Elements
       const fixedHeaderHeight = document.querySelector('.fixed-header')?.offsetHeight || 0;
 
       if (header) {
-        const offset = 200 + fixedHeaderHeight;
-        let topPosition = header.getBoundingClientRect().top + window.scrollY - offset;
+        const topPosition = header.getBoundingClientRect().top + window.scrollY - fixedHeaderHeight - 20; // 20px Puffer
 
-        // Berechnung der maximalen Scroll-Position
-        const maxScrollPosition = document.body.scrollHeight - window.innerHeight;
-
-        // Begrenze die Scroll-Position, falls sie die maximale Höhe überschreitet
-        if (topPosition > maxScrollPosition) {
-          topPosition = maxScrollPosition;
-        }
-
+        // Scrollen zur berechneten Position
         window.scrollTo({
-          top: topPosition,
+          top: topPosition > 0 ? topPosition : 0, // Verhindert negatives Scrollen
           behavior: 'smooth',
         });
       }
-    }, 50);
+    }, 100); // Kleiner Timeout für das reibungslose Scrollen
   }
 };
+
 
 
 

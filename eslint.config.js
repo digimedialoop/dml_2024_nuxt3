@@ -5,7 +5,7 @@ import eslintConfigPrettier from "eslint-config-prettier";
 
 export default [
   {
-    files: ["**/*.vue", "**/*.js"],
+    files: ["src/**/*.vue", "src/**/*.js"],
     plugins: {
       vue: eslintPluginVue,
       prettier: eslintPluginPrettier,

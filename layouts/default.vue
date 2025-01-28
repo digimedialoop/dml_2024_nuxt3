@@ -47,7 +47,7 @@
     id="main-content"
     role="main"
   >
-    <NuxtPage />
+    <NuxtPage :key="routeKey" />
   </main>
 
   <ContactForm />
@@ -173,7 +173,7 @@
 
 <script setup>
 import { useMainStore } from '@/stores/main';
-import { ref, computed, onMounted, onServerPrefetch, watch } from 'vue';
+import { ref, computed, onMounted, onServerPrefetch, watchEffect } from 'vue';
 import { useRuntimeConfig } from '#app'
 import { useHead } from '#app'
 
@@ -182,6 +182,7 @@ const mainStore = useMainStore();
 
 import { useRoute } from 'vue-router';
 const route = useRoute();
+const routeKey = computed(() => route.fullPath);
 
 // Computed properties from Pinia store
 const isMenuOpen = computed(() => mainStore.menuOpen); // Menü-Status
@@ -191,7 +192,6 @@ const isContactBubbleOpen = computed(() => mainStore.contactBoxOpen);
 const toggleMenu = () => mainStore.toggleMenu();
 const closeMenu = () => mainStore.closeMenu();
 const toggleContactBubble = () => mainStore.toggleContactBubble();
-
 
 // Computed properties to access store data
 const companyinfo = computed(() => mainStore.companyinfo ?? null);
@@ -215,7 +215,6 @@ const defaultMeta = {
   title: 'digimedialoop | Ihre Webagentur in Herrsching am Ammersee',
   description: 'Ihr Partner für Webdesign und Webentwicklung in Herrsching am Ammersee im Landkreis Starnberg',
   canonicalBase: 'https://www.digimedialoop.de'
-
 }
 
 // Aktualisiere `page` dynamisch, wenn `route.path` oder `pages` sich ändern
@@ -237,17 +236,194 @@ watchEffect(() => {
 
 const language = 'de'
 
-// Dynamische Meta-Tags überwachen
+// Aktualisiere `page` dynamisch, wenn `route.path` oder `pages` sich ändern
 watchEffect(() => {
-  const currentPath = route.path || '/';
+  const currentPath = route.path || '/'; // Aktueller Pfad
   const canonicalUrl = defaultMeta.canonicalBase + currentPath;
+
+  const scriptTags = [
+    {
+      type: 'application/ld+json',
+      children: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "SiteNavigationElement",
+        "name": ["Startseite", "Leistungen", "Agentur", "Referenzen"],
+        "url": ["/", "/leistungen", "/webagentur", "/referenzen"],
+      }),
+    },
+  ];
+
+  // LocalBusiness- und FAQ-Markup nur auf der Startseite hinzufügen
+  if (currentPath === '/') {
+    scriptTags.push(
+      {
+        type: 'application/ld+json',
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          "name": "digimedialoop",
+          "image": "https://strapi.digimedialoop.de/uploads/DML_Logo_mint_2024_37426ffd12.svg",
+          "telephone": "+49-1778388553",
+          "email": "info@digimedialoop.de",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Rausch 10",
+            "addressLocality": "Herrsching",
+            "addressRegion": "Bayern",
+            "postalCode": "82211",
+            "addressCountry": "DE",
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 8.01300,
+            "longitude": 11.15774,
+          },
+          "url": "https://digimedialoop.de",
+          "priceRange": "€€",
+          "openingHours": ["Mo-Do 09:00-17:00", "Fr 09:00-12:00"],
+        }),
+      },
+      {
+        type: 'application/ld+json',
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Wieviel kostet es eine neue Webseite erstellen zu lassen?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Der Einstiegspreis für eine einfache Online-Visitenkarte mit den wichtigsten Informationen liegt bei ca. 800 Euro.",
+              },
+            },
+            {
+              "@type": "Question",
+              "name": "Wie lange dauert es, eine Website zu erstellen?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Kleinere Webseiten können bei uns oft schon innerhalb einer Woche online gehen.",
+              },
+            },
+            {
+              "@type": "Question",
+              "name": "Welche Dienstleistungen bietet digimedialoop an?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Wir bieten Webdesign, Webprogrammierung, Suchmaschinenoptimierung (SEO), Content-Erstellung und Online-Marketing an.",
+              },
+            },
+          ],
+        }),
+      }
+    );
+  }
+
+  // Dienstleistung nur für Leistungsseite hinzufügen
+  if (currentPath === '/leistungen') {
+    scriptTags.push(
+      {
+        type: 'application/ld+json',
+        children: JSON.stringify([
+          {
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "name": "Webdesign und Webentwicklung",
+            "description": "Wir bieten maßgeschneiderte Webdesign und Webentwicklungsdienste für moderne, responsive Websites an.",
+            "provider": {
+              "@type": "LocalBusiness",
+              "name": "digimedialoop",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Rausch 10",
+                "addressLocality": "Herrsching",
+                "addressRegion": "Bayern",
+                "postalCode": "82211",
+                "addressCountry": "DE"
+              }
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "name": "Suchmaschinenoptimierung (SEO)",
+            "description": "Optimierung Ihrer Website, um Ihre Sichtbarkeit in Suchmaschinen zu verbessern.",
+            "provider": {
+              "@type": "LocalBusiness",
+              "name": "digimedialoop",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Rausch 10",
+                "addressLocality": "Herrsching",
+                "addressRegion": "Bayern",
+                "postalCode": "82211",
+                "addressCountry": "DE"
+              }
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "name": "Corporate Design",
+            "description": "Von uns bekommen Sie ein Design, das Ihre Online-Präsenz in Farbe und Form prägt – vom Logo über die Gestaltung Ihrer Webseite bis hin zu weiteren Medien wie Briefpapier und Visitenkarten. So entsteht ein einheitlicher Look, der sowohl digital als auch im Print überzeugt.",
+            "provider": {
+              "@type": "LocalBusiness",
+              "name": "digimedialoop",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Rausch 10",
+                "addressLocality": "Herrsching",
+                "addressRegion": "Bayern",
+                "postalCode": "82211",
+                "addressCountry": "DE"
+              }
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "name": "Texterstellung und -pflege",
+            "description": "Wir gestalten ansprechende Inhalte, die Ihre Zielgruppe erreichen und Ihre Botschaft klar und überzeugend transportieren. Im Anschluss übernehmen wir gerne das Content-Management, damit Ihre Inhalte immer aktuell und wirkungsvoll bleiben.",
+            "provider": {
+              "@type": "LocalBusiness",
+              "name": "digimedialoop",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Rausch 10",
+                "addressLocality": "Herrsching",
+                "addressRegion": "Bayern",
+                "postalCode": "82211",
+                "addressCountry": "DE"
+              }
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "name": "Illustrationen und Animationen",
+            "description": "Mit kreativen Illustrationen und Animationen erwecken wir Ihre Ideen zum Leben und machen Ihre Botschaften visuell unvergesslich.",
+            "provider": {
+              "@type": "LocalBusiness",
+              "name": "digimedialoop",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Rausch 10",
+                "addressLocality": "Herrsching",
+                "addressRegion": "Bayern",
+                "postalCode": "82211",
+                "addressCountry": "DE"
+              }
+            }
+          }
+        ])
+      }
+    );
+  }
 
   useHead({
     title: title.value,
     meta: [
       { name: 'description', content: description.value },
-      { name: 'language', content: language || 'de' },
-      { name: 'robots', content: 'index, follow' },
       { property: 'og:title', content: title.value },
       { property: 'og:description', content: description.value },
       { property: 'og:type', content: 'website' },
@@ -261,9 +437,9 @@ watchEffect(() => {
       { rel: 'canonical', href: canonicalUrl },
       { rel: 'icon', href: '/favicon.ico' },
     ],
+    script: scriptTags,
   });
 });
-
 
 // Lädt Daten auf dem Server vor
 onServerPrefetch(async () => {
@@ -693,7 +869,7 @@ footer
   position: relative
   width: 100vw
   color: white
-  z-index: 90
+  z-index: 10
   height: auto
   min-height: 120px
   margin-top: 100px

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Startseite -->
+  <url>
+    <loc>https://www.digimedialoop.de/</loc>
+    <lastmod>2025-01-28</lastmod>
+    <priority>1.0</priority>
+    <changefreq>daily</changefreq>
+  </url>
+
+  <!-- Leistungen -->
+  <url>
+    <loc>https://www.digimedialoop.de/leistungen</loc>
+    <lastmod>2025-01-28</lastmod>
+    <priority>0.9</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+
+  <!-- Agentur -->
+  <url>
+    <loc>https://www.digimedialoop.de/webagentur</loc>
+    <lastmod>2025-01-28</lastmod>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+
+  <!-- Impressum -->
+  <url>
+    <loc>https://www.digimedialoop.de/impressum</loc>
+    <lastmod>2025-01-28</lastmod>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <!-- Referenzen -->
+  <url>
+    <loc>https://www.digimedialoop.de/referenzen</loc>
+    <lastmod>2025-01-28</lastmod>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+
+  <!-- Projektseiten -->
+  <url>
+    <loc>https://www.digimedialoop.de/projekt/relaunch-herb-x-film-webauftritt</loc>
+    <lastmod>2025-01-28</lastmod>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.digimedialoop.de/projekt/relaunch-kuenstlerseite-von-michael-bully-herbig</loc>
+    <lastmod>2025-01-28</lastmod>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.digimedialoop.de/projekt/neugestaltung-schulhomepage-und-corporate-design-berchenschule</loc>
+    <lastmod>2025-01-28</lastmod>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.digimedialoop.de/projekt/neuentwicklung-care4cardio-website</loc>
+    <lastmod>2025-01-28</lastmod>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.digimedialoop.de/projekt/word-press-erweiterung-um-einen-verguetungsrechner</loc>
+    <lastmod>2025-01-28</lastmod>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.digimedialoop.de/projekt/intranet-portal-fuer-angebots-und-datenmanagement</loc>
+    <lastmod>2025-01-28</lastmod>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+</urlset>

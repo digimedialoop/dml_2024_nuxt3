@@ -19,6 +19,7 @@ export const useMainStore = defineStore('main', {
     screenWidth: 0,
     contactBoxOpen: false,
     menuOpen: false,
+    puzzleOpen: false,
     cmsUrl: '', 
     token: '',
     graphQLUrl: '', 
@@ -68,6 +69,12 @@ export const useMainStore = defineStore('main', {
     },
     openMenu() {
       this.menuOpen = true;
+    },
+    closePuzzle() {
+      this.puzzleOpen = false;
+    },
+    openPuzzle() {
+      this.puzzleOpen = true;
     },
 
     async sendContactRequestToCMS(contactData: ContactData): Promise<void> {

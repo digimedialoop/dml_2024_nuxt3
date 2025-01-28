@@ -10,9 +10,15 @@
       </div>
       
     </section>    
-    <section>
+    <section v-if="false">
       <div class="container">
-      <h2 class="text-center">Unsere <u>Leistungen</u> auf einen Blick</h2>
+      <h2>Puzzeln Sie gerne?</h2>
+      <h3>Gestalten Sie Ihre <b>individuelle Lösung</b> mit unserem komponentenbasierten Baukastensystem!</h3>
+        <p>Stellen Sie sich aus <b>verschiedenen Modulen</b>, wie z. B. Suchmaschinenoptimierung (SEO), Ihre maßgeschneiderte Lösung zusammen. </p>
+        <p>Wir unterstützen Sie gerne mit einer <b>kostenlosen und unverbindlichen Anforderungsanalyse</b>, um Ihre Bedürfnisse genau zu verstehen und die optimale Lösung für Ihr Projekt zu finden.</p> 
+        <p>Starten Sie jetzt und lassen Sie uns gemeinsam Ihre Vision realisieren!</p>
+        <button @click.prevent="openPuzzle" role="button">Interaktives Puzzle starten</button>
+      <ServicePuzzle />
     </div>
       <div class="serviceBorder">
         <div class="serviceBox" v-for="(service, index) in services" :key="index">
@@ -32,13 +38,18 @@
 
 <script setup>
 import { storeToRefs } from 'pinia';
-import MarqueeBanner from '@/sections/MarqueeBanner.vue';
 import { useMainStore } from '@/stores/main';
 const mainStore = useMainStore();
+import { defineAsyncComponent } from 'vue';
+
+// Asynchrones Laden der Komponenten
+const MarqueeBanner = defineAsyncComponent(() => import('@/sections/MarqueeBanner.vue'));
+const ServicePuzzle = defineAsyncComponent(() => import('@/sections/ServicePuzzle.vue'));
 
 const { cmsUrl, projects } = storeToRefs(mainStore);
 
 const toggleContactBubble = () => mainStore.toggleContactBubble();
+const openPuzzle = () => mainStore.openPuzzle();
 
 const services = [
   {
