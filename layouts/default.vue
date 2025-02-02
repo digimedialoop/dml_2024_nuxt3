@@ -25,10 +25,11 @@
         aria-label="Hauptnavigation"
         tabindex="0"
       >
-        <nav v-if="isMenuOpen || screenWidth > 1350" aria-expanded="true" autofocus>
+        <nav v-if="isMenuOpen || screenWidth > 1350" aria-expanded="true">
           <NuxtLink to="/webagentur" aria-label="Zur Webagentur">Agentur</NuxtLink>
           <NuxtLink to="/leistungen" aria-label="Zu unseren Leistungen">Leistungen</NuxtLink>
           <NuxtLink to="/referenzen" aria-label="Unsere Referenzen">Referenzen</NuxtLink>
+          <NuxtLink to="/wissenswertes" aria-label="Wissenswerte Artikel">Wissenswertes</NuxtLink>
         <a class="menu_link" href="#"
             @click="toggleContactBubble" 
             role="button"
@@ -236,10 +237,15 @@ watchEffect(() => {
 
 const language = 'de'
 
+// Definiere canonicalUrl als computed – so steht sie global zur Verfügung
+const currentPath = computed(() => route.path || '/');
+const canonicalUrl = computed(() => defaultMeta.canonicalBase + currentPath.value);
+
+
 // Aktualisiere `page` dynamisch, wenn `route.path` oder `pages` sich ändern
 watchEffect(() => {
-  const currentPath = route.path || '/'; // Aktueller Pfad
-  const canonicalUrl = defaultMeta.canonicalBase + currentPath;
+  const currentPathVal = currentPath.value;
+  const canonicalUrlVal = canonicalUrl.value;
 
   const scriptTags = [
     {
@@ -247,8 +253,8 @@ watchEffect(() => {
       children: JSON.stringify({
         "@context": "https://schema.org",
         "@type": "SiteNavigationElement",
-        "name": ["Startseite", "Leistungen", "Agentur", "Referenzen"],
-        "url": ["/", "/leistungen", "/webagentur", "/referenzen"],
+        "name": ["Startseite", "Leistungen", "Agentur", "Referenzen", "Wissenswertes"],
+        "url": ["/", "/leistungen", "/webagentur", "/referenzen", "/wissenswertes"],
       }),
     },
   ];
@@ -266,12 +272,12 @@ watchEffect(() => {
           "telephone": "+49-1778388553",
           "email": "info@digimedialoop.de",
           "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Rausch 10",
-            "addressLocality": "Herrsching",
-            "addressRegion": "Bayern",
-            "postalCode": "82211",
-            "addressCountry": "DE",
+              "@type": "PostalAddress",
+              "streetAddress": "Rausch 10",
+              "addressLocality": "Herrsching am Ammersee",
+              "addressRegion": "Bayern / Landkreis Starnberg / Fünfseenland",
+              "postalCode": "82211",
+              "addressCountry": "DE"
           },
           "geo": {
             "@type": "GeoCoordinates",
@@ -336,8 +342,8 @@ watchEffect(() => {
               "address": {
                 "@type": "PostalAddress",
                 "streetAddress": "Rausch 10",
-                "addressLocality": "Herrsching",
-                "addressRegion": "Bayern",
+                "addressLocality": "Herrsching am Ammersee",
+                "addressRegion": "Bayern / Landkreis Starnberg / Fünfseenland",
                 "postalCode": "82211",
                 "addressCountry": "DE"
               }
@@ -354,8 +360,8 @@ watchEffect(() => {
               "address": {
                 "@type": "PostalAddress",
                 "streetAddress": "Rausch 10",
-                "addressLocality": "Herrsching",
-                "addressRegion": "Bayern",
+                "addressLocality": "Herrsching am Ammersee",
+                "addressRegion": "Bayern / Landkreis Starnberg / Fünfseenland",
                 "postalCode": "82211",
                 "addressCountry": "DE"
               }
@@ -372,8 +378,8 @@ watchEffect(() => {
               "address": {
                 "@type": "PostalAddress",
                 "streetAddress": "Rausch 10",
-                "addressLocality": "Herrsching",
-                "addressRegion": "Bayern",
+                "addressLocality": "Herrsching am Ammersee",
+                "addressRegion": "Bayern / Landkreis Starnberg / Fünfseenland",
                 "postalCode": "82211",
                 "addressCountry": "DE"
               }
@@ -390,8 +396,8 @@ watchEffect(() => {
               "address": {
                 "@type": "PostalAddress",
                 "streetAddress": "Rausch 10",
-                "addressLocality": "Herrsching",
-                "addressRegion": "Bayern",
+                "addressLocality": "Herrsching am Ammersee",
+                "addressRegion": "Bayern / Landkreis Starnberg / Fünfseenland",
                 "postalCode": "82211",
                 "addressCountry": "DE"
               }
@@ -408,8 +414,8 @@ watchEffect(() => {
               "address": {
                 "@type": "PostalAddress",
                 "streetAddress": "Rausch 10",
-                "addressLocality": "Herrsching",
-                "addressRegion": "Bayern",
+                "addressLocality": "Herrsching am Ammersee",
+                "addressRegion": "Bayern / Landkreis Starnberg / Fünfseenland",
                 "postalCode": "82211",
                 "addressCountry": "DE"
               }
@@ -420,25 +426,28 @@ watchEffect(() => {
     );
   }
 
-  useHead({
-    title: title.value,
-    meta: [
-      { name: 'description', content: description.value },
-      { property: 'og:title', content: title.value },
-      { property: 'og:description', content: description.value },
-      { property: 'og:type', content: 'website' },
-      { property: 'og:url', content: canonicalUrl },
-      { property: 'og:locale', content: 'de_DE' },
-      { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: title.value },
-      { name: 'twitter:description', content: description.value },
-    ],
-    link: [
-      { rel: 'canonical', href: canonicalUrl },
-      { rel: 'icon', href: '/favicon.ico' },
-    ],
-    script: scriptTags,
-  });
+  if (!currentPath.value.startsWith('/wissenswertes/artikel/')) {
+    useHead({
+      title: title.value,
+      meta: [
+        { name: 'description', content: description.value },
+        { property: 'og:title', content: title.value },
+        { property: 'og:description', content: description.value },
+        { property: 'og:type', content: 'website' },
+        { property: 'og:url', content: canonicalUrl },
+        { property: 'og:locale', content: 'de_DE' },
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:title', content: title.value },
+        { name: 'twitter:description', content: description.value },
+      ],
+      link: [
+        { rel: 'canonical', href: canonicalUrl },
+        { rel: 'icon', href: '/favicon.ico' },
+      ],
+      script: scriptTags,
+      key: 'defaultMeta'
+    });
+  }
 });
 
 // Lädt Daten auf dem Server vor
@@ -657,7 +666,7 @@ header
       display: flex
       align-items: center
       justify-content: flex-end
-      width: 67%
+      width: 80%
       transition: .8s
       margin-top: -1rem
       nav
@@ -666,18 +675,18 @@ header
         //background: linear-gradient(to right, rgba($lightgrey, 0.8), rgba(white, 0.9), rgba(white, 0.9))
         background: white
         border: 1px solid adjust-color($beige, $lightness: 5%)
-        padding: 1rem 2.5rem
+        padding: 1rem 1rem
         text-align: center
         border-radius: 1rem
-        margin: 5.5rem 2vw 0 8vh
+        margin: 4.8rem 1rem 0 1rem
         transition: .8s
         a
-          margin: 0 1.5rem
+          margin: 0 1.2rem
           text-decoration: none
           color: $darkgrey
           text-transform: uppercase
           font-family: 'Comfortaa-Bold'
-          font-size: 1.2rem
+          font-size: 1.1rem
           letter-spacing: .05rem
           transition: .6s
           display: inline-block
@@ -696,8 +705,8 @@ header
       .navigationBox
         nav
           display: flex
-          margin: 3.5rem 0 0 0
-          padding: 1rem 1rem
+          margin: 2.5rem 0 0 0
+          padding: 1rem .5rem
           border-top-right-radius: 0
           border-top-left-radius: 0
           border-bottom-left-radius: 50px
@@ -705,9 +714,9 @@ header
           background: transparent
           border: 1px solid transparent
           a
-            font-size: 1.05rem
+            font-size: 1rem
             font-weight: bold
-            margin: 0 1rem
+            margin: 0 .8rem
       .logoBox
         align-items: left
         img

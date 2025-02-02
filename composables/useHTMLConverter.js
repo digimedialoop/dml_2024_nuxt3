@@ -91,5 +91,22 @@ export function useHtmlConverter() {
     return html;
   };
 
-  return { convertToHTML };
+  // Neue Funktion: Extrahiert reinen Text aus den Strapi Rich Text-Daten
+  const convertToText = (data) => {
+    let text = "";
+    if (Array.isArray(data)) {
+      data.forEach((item) => {
+        if (item.children && Array.isArray(item.children)) {
+          item.children.forEach((child) => {
+            if (child.text) {
+              text += child.text + " ";
+            }
+          });
+        }
+      });
+    }
+    return text.trim();
+  };
+
+  return { convertToHTML, convertToText };
 }

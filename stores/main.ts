@@ -29,6 +29,7 @@ export const useMainStore = defineStore('main', {
       email: '',
       web: ''
     },
+    news: [],
     customers: [],
     projects: [],
     faqs: [],
@@ -116,10 +117,12 @@ export const useMainStore = defineStore('main', {
           query: STRAPI_DATA,
         });
 
+        // CompanyINFO
         if (data?.companyinfo?.data?.attributes) {
           this.companyinfo = data.companyinfo.data.attributes;
         }
 
+        // FAQs
         if (data?.faqs?.data) {
           this.faqs = data.faqs.data.map(faq => ({
             id: faq.id,
@@ -127,6 +130,7 @@ export const useMainStore = defineStore('main', {
           }));
         }
 
+        // CUSTOMERS
         if (data?.customers?.data) {
           let allProjects = [];
           this.customers = data.customers.data.map(customer => {
@@ -149,10 +153,19 @@ export const useMainStore = defineStore('main', {
           });
         }
 
+        // PAGES
         if (data?.pages?.data) {
           this.pages = data.pages.data.map(page => ({
             id: page.id,
             ...page.attributes,
+          }));
+        }
+
+        // NEWS
+        if (data?.newsarticels?.data) {  // NEU: News speichern
+          this.news = data.newsarticels.data.map(newsItem => ({
+            id: newsItem.id,
+            ...newsItem.attributes,
           }));
         }
 

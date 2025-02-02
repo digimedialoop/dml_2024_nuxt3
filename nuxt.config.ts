@@ -81,7 +81,7 @@ export default defineNuxtConfig({
     css: {
       preprocessorOptions: {
         sass: {
-          additionalData: `@import "@/assets/styles/main.sass"\n`
+          additionalData: `@import "@/assets/styles/main.sass"\n\n`
         }
       }
     },

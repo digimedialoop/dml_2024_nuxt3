@@ -44,6 +44,26 @@ export const STRAPI_DATA = gql`
         }
       }
     }
+    newsarticels {
+      data {
+        id
+        attributes {
+          header
+          teaser
+          content
+          slug
+          image {
+            data {
+              id
+              attributes {
+                url
+                alternativeText
+              }
+            }
+          }
+        }
+      }
+    }
     pages {
       data {
         id
