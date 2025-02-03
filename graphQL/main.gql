@@ -32,6 +32,14 @@ export const STRAPI_DATA = gql`
               }
             }
           }
+          profileImage {
+            data {
+              attributes {
+                url
+                alternativeText
+              }
+            }
+          }
         }
       }
     }

@@ -82,5 +82,28 @@
     <priority>0.6</priority>
     <changefreq>monthly</changefreq>
   </url>
+	
+	<!-- Wissenswertes -->
+  <url>
+    <loc>https://www.digimedialoop.de/wissenswertes</loc>
+    <lastmod>2025-02-02</lastmod>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+
+  <!-- Artikelseiten -->
+  <url>
+    <loc>https://www.digimedialoop.de/wissenswertes/artikel/5-wesentliche-punkte-ueber-suchmaschinen-optimierung-seo-die-kunden-kennen-sollten</loc>
+    <lastmod>2025-02-02</lastmod>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+	
+	<url>
+    <loc>https://www.digimedialoop.de/wissenswertes/artikel/brauche-ich-eine-barrierefreie-webseite</loc>
+    <lastmod>2025-02-02</lastmod>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
 
 </urlset>

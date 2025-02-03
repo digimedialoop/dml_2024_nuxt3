@@ -29,14 +29,16 @@
                         <svg aria-hidden="true">
                             <use xlink:href="/assets/icons/collection.svg#phone"></use>
                         </svg>
-                        <span>+49 177 83 88 553</span>
+                        <span>{{ companyinfo.phone }}</span>
                     </p>
                     <div class="pt-3" v-if="screenWidth > 768">
                     <h3>Unsere Büroadresse</h3>
                     <p class="address">
-                        digimedialoop <br>Rausch 10 <br>82211 Herrsching am Ammersee
+                        {{ companyinfo.company }}<br>{{ companyinfo.street }} <br>{{ companyinfo.postalcode }} {{ companyinfo.city }}
                     </p>
-                    <div class="aspBox"><img src="https://strapi.digimedialoop.de/uploads/sabrinahennrich_0f07d46857.jpg" alt="Ansprechpartner Sabrina Hennrich"></div>
+                    <p class="aspProf">Sabrina Hennrich freut sich auf Sie!</p>
+                    <div class="aspBox"><img :src="cmsUrl + companyinfo?.profileImage?.data?.attributes?.url" alt="Ansprechpartner Sabrina Hennrich"></div>
+                    
                 </div>
                 </div>
                 <div class="col-md-6">
@@ -119,10 +121,13 @@
 
 <script setup lang="ts">
 import { useMainStore } from '@/stores/main';
-import { ref, reactive } from 'vue';
+import { ref, reactive, computed } from 'vue';
+import { storeToRefs } from 'pinia';
 
 // Zugriff auf den Pinia-Store
 const mainStore = useMainStore();
+const { companyinfo, cmsUrl } = storeToRefs(mainStore); // companyinfo aus Pinia-Store holen
+
 const isContactBubbleOpen = computed(() => mainStore.contactBoxOpen);
 const toggleContactBubble = () => mainStore.toggleContactBubble();
 
@@ -205,13 +210,10 @@ const submitForm = async () => {
     } catch (error) {
       // Fehlerbehandlung
       console.error('Fehler beim Senden des Formulars:', error);
-      alert('Leider gibt es momentan einen Fehler bei der Internetverbindung!')
+      alert('Leider gibt es momentan einen Fehler bei der Internetverbindung!');
     }
   }
 };
-
-
-
 
 const resetForm = () => {
     form.name = '';
@@ -223,7 +225,11 @@ const resetForm = () => {
     errors.email = null;
     errors.phone = null;
 };
+
+// Debugging: Prüfe, ob companyinfo korrekt geladen wird
+console.log("Company Info:", companyinfo.value);
 </script>
+
 
 
 
@@ -368,7 +374,11 @@ const resetForm = () => {
             width: 50%
             max-width: 150px
             border-radius: $loopShape
-
+    .aspProf
+        font-size: .8rem !important
+        margin-top: 1rem
+        font-family: 'Mainfont-Bold'
+        width: 80%
     // Form-group Anpassungen
     .form-group
         position: relative
