@@ -141,7 +141,8 @@ watchEffect(() => {
     h1
         font-size: 1.6rem
         font-family: 'Mainfont-Bold'
-        margin-bottom: 0.5rem
+        margin-bottom: 1.5rem
+        line-height: 2.2rem
     h2
         font-size: 1.2rem
         margin-bottom: .5rem

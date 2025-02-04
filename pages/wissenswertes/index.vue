@@ -67,9 +67,10 @@ watch(news, (newVal) => {
         border: 1px solid $beige
         background: linear-gradient(to bottom right, white, $lightgrey)
         margin: 0 0 3rem 0
-        padding: 0.2rem 1rem .5rem 1rem
+        padding: 0.5rem 5vw .5rem 5vw
         border-radius: 1rem
         transition: .8s
+        position: relative
         a
             text-decoration: none
             color: $darkgrey

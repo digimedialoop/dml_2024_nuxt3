@@ -3,7 +3,6 @@
     <Title>{{ title }}</Title>
     <Meta name="description" :content="description" />
     <Meta name="language" :content="language" />
-    <Meta name="google-site-verification" content="wJJ_1ptqt3xz0TsEpWpDczyV4rY5mAh9_np9TFbVcL8" />
   </Head>
   <header
     :class="[{ mobile: screenWidth < 1350, desk: screenWidth >= 1350 }, { active: scrollPosition > 50 }]"
@@ -439,6 +438,7 @@ watchEffect(() => {
         { name: 'twitter:card', content: 'summary_large_image' },
         { name: 'twitter:title', content: title.value },
         { name: 'twitter:description', content: description.value },
+        { name: 'google-site-verification', content: 'wJJ_1ptqt3xz0TsEpWpDczyV4rY5mAh9_np9TFbVcL8' },
       ],
       link: [
         { rel: 'canonical', href: canonicalUrl },
