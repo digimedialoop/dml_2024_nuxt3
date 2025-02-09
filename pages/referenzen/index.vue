@@ -11,6 +11,7 @@
     <p>Tauchen Sie ein in die Vielfalt unserer Arbeit – von modernen Unternehmenswebseiten über Online-Shops bis hin zu kreativen Portfolio-Seiten. Entdecken Sie, wie wir individuelle Anforderungen in einzigartige digitale Erlebnisse verwandeln.
 
 </p><p><b>Überzeugen Sie sich selbst und lassen Sie uns gemeinsam Ihre Vision verwirklichen!</b></p>
+<button class="pinkBtn mt-1" @click.prevent="toggleContactBubble" role="button">Sprechen Sie mit uns!</button>
     </div>
     
   </section>

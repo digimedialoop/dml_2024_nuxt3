@@ -13,7 +13,9 @@
         </div>
       </div>
     </div>
-
+    
+      
+  
     <div class="row detailBox">
       <div class="col-lg-4">
         <transition name="fade" mode="out-in">
@@ -56,7 +58,11 @@
       </div>
     </div>
     </div>
-    
+    <div class="container ctaBox">
+        <h2>Na? - Lust auf eine neue Webseite bekommen?</h2>
+        <h3>Ihre Wünsche, unsere Erfahrung! Gemeinsam heben wir Sie auf das nächste Level!</h3>
+        <button class="pinkBtn mt-1" @click.prevent="toggleContactBubble" role="button">Sprechen Sie mit uns!</button>
+      </div>
   </section>
   <!-- Navigation für vorheriges und nächstes Projekt -->
   <div class="navigationBox container">
@@ -205,7 +211,7 @@ const navigateToNextProject = () => {
 <style lang="sass">
 .project
   h1
-    color: adjust-color($darkgrey, $lightness: 40%)
+    color: $pink //adjust-color($darkgrey, $lightness: 40%)
     font-size: 1.1rem
     text-transform: uppercase
     margin-bottom: 0
@@ -273,6 +279,12 @@ const navigateToNextProject = () => {
       width: .9rem
       margin-right: .3rem
       fill: adjust-color($darkgrey, $lightness: 20%)
+.ctaBox
+  padding: 3rem 0
+  h2
+    margin-bottom: .5rem
+  h3
+    margin-bottom: .5rem
 .navigationBox
   margin-top: 2rem
   width: 100%

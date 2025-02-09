@@ -841,7 +841,12 @@ main
       background-image: linear-gradient(to top left, $primaryColor, lighten($primaryColor, 30%))
       /*&::before
         transform: translate(-50%, -50%) scale(1) */
-        
+    &.pinkBtn
+      background-color: $pink
+      color: white
+      border: 1px solid $pink
+      &:hover
+        background-image: linear-gradient(to top left, $pink, lighten($pink, 5%))
   section
     margin-bottom: 10vh
     position: relative

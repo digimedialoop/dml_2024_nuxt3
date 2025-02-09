@@ -43,7 +43,7 @@
             <div class="quotation">
                 <p><b>Offenheit</b>, <b>Transparenz</b> und <b>Fairness</b> sind mir bei der Zusammenarbeit mit meinen Kunden enorm wichtig. Ich empfehle nur, was mir sinnvoll erscheint und zu meinen Kunden passt. Dafür nehme ich mir gerne die Zeit für eine gründliche Analyse der Bedürfnisse meiner Kunden bzw. die deren Zielgruppe.</p>
             </div>
-            <button class="mt-4" @click.prevent="toggleContactBubble"
+            <button class="pinkBtn mt-4" @click.prevent="toggleContactBubble"
                 role="button"
                 aria-label="Kontaktformular öffnen">Sprechen Sie mich gerne an!</button>
         </div>

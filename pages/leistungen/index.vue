@@ -6,7 +6,7 @@
       <h1>Unsere Leistungen für Ihren starken Auftritt im Web</h1>
       <h2>Wir bieten Ihnen umfassende Lösungen für eine professionelle und überzeugende Webseite.</h2>
       <p>Egal ob Sie eine <b>Neugestaltung Ihrer Webseite</b>, ein <b>Redesign</b> oder <b>einzelne Ergänzungen</b> benötigen: Wir unterstützen Sie gezielt und individuell unter <u>Einsatz neuester Technologien</u>. </p>
-      <button class="mt-4" @click.prevent="toggleContactBubble" role="button">Kostenloses Angebot anfordern</button>
+      <button class="pinkBtn mt-4" @click.prevent="toggleContactBubble" role="button">Kostenloses Angebot anfordern</button>
       </div>
       
     </section>    

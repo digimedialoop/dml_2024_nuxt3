@@ -103,6 +103,7 @@
                         type="submit" 
                         aria-label="Nachricht senden"
                         @click="submitForm"
+                        class="pinkBtn"
                     >
                         Nachricht senden
                     </button>
@@ -240,7 +241,7 @@ console.log("Company Info:", companyinfo.value);
     right: 2rem
     width: 80px
     height: 80px
-    background-color: $primaryColor
+    background-color: $pink
     border-radius: $loopShape
     color: white
     font-size: 2rem
@@ -287,7 +288,7 @@ console.log("Company Info:", companyinfo.value);
                 font-size: .9rem
             .check
                 font-size: 1.4rem
-                color: $primaryColor
+                color: $pink
             svg
                 width: 2rem
                 height: 2rem
@@ -364,7 +365,7 @@ console.log("Company Info:", companyinfo.value);
     button
         font-size: 1.2rem
         border: none
-        background-image: linear-gradient(to bottom right, lighten($primaryColor, 10%), $primaryColor)
+        background-image: linear-gradient(to bottom right, lighten($pink, 10%), $pink)
         padding: .5rem 1rem
         border-radius: .8rem
         color: white
