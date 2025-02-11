@@ -6,23 +6,9 @@
       <h1>Unsere Leistungen für Ihren starken Auftritt im Web</h1>
       <h2>Wir bieten Ihnen umfassende Lösungen für eine professionelle und überzeugende Webseite.</h2>
       <p>Egal ob Sie eine <b>Neugestaltung Ihrer Webseite</b>, ein <b>Redesign</b> oder <b>einzelne Ergänzungen</b> benötigen: Wir unterstützen Sie gezielt und individuell unter <u>Einsatz neuester Technologien</u>. </p>
-      <button class="pinkBtn mt-4" @click.prevent="toggleContactBubble" role="button">Kostenloses Angebot anfordern</button>
-      </div>
-      
+      </div>      
     </section>    
-    <section v-if="false">
-      <div class="container">
-      <h2>Puzzeln Sie gerne?</h2>
-      <h3>Gestalten Sie Ihre <b>individuelle Lösung</b> mit unserem komponentenbasierten Baukastensystem!</h3>
-        <p>Stellen Sie sich aus <b>verschiedenen Modulen</b>, wie z. B. Suchmaschinenoptimierung (SEO), Ihre maßgeschneiderte Lösung zusammen. </p>
-        <p>Wir unterstützen Sie gerne mit einer <b>kostenlosen und unverbindlichen Anforderungsanalyse</b>, um Ihre Bedürfnisse genau zu verstehen und die optimale Lösung für Ihr Projekt zu finden.</p> 
-        <p>Starten Sie jetzt und lassen Sie uns gemeinsam Ihre Vision realisieren!</p>
-        <button @click.prevent="openPuzzle" role="button">Interaktives Puzzle starten</button>
-      <ServicePuzzle />
-    </div>
-      
-      
-    </section>
+
     <div class="serviceBorder">
         <div class="serviceBox" v-for="(service, index) in services" :key="index">
           <img :src="cmsUrl + service.image" alt="icon" />
@@ -34,6 +20,17 @@
         <button class="my-4 pinkBtn" @click.prevent="toggleContactBubble" role="button">Kostenloses Beratungsgespräch vereinbaren</button>
       </div>
     <MarqueeBanner :items="projects" :logoHeight="180" title="Unsere Referenzprojekte für Sie" link="projekt" />
+    <section v-if="false">
+      <div class="container">
+      <h2>Puzzeln Sie gerne?</h2>
+      <h3>Gestalten Sie Ihre <b>individuelle Lösung</b> mit unserem komponentenbasierten Baukastensystem!</h3>
+        <p>Stellen Sie sich aus <b>verschiedenen Modulen</b>, wie z. B. Suchmaschinenoptimierung (SEO), Ihre maßgeschneiderte Lösung zusammen. </p>
+        <p>Wir unterstützen Sie gerne mit einer <b>kostenlosen und unverbindlichen Anforderungsanalyse</b>, um Ihre Bedürfnisse genau zu verstehen und die optimale Lösung für Ihr Projekt zu finden.</p> 
+        <p>Starten Sie jetzt und lassen Sie uns gemeinsam Ihre Vision realisieren!</p>
+        <button @click.prevent="openPuzzle" role="button">Interaktives Puzzle starten</button>
+      <ServicePuzzle />
+    </div>
+    </section>
   </div>
 </template>
 
@@ -100,7 +97,7 @@ const services = [
   margin: .5rem auto .5rem auto
   display: grid
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr))
-  gap: 2rem 4rem // vertikaler und horizontaler Abstand zwischen den Boxen
+  gap: 1rem 5rem // vertikaler und horizontaler Abstand zwischen den Boxen
   justify-content: start // sorgt dafür, dass die Boxen linksbündig bleiben, wenn weniger da sind
 
   .serviceBox
@@ -110,7 +107,7 @@ const services = [
     img
       width: 60%
       max-width: 180px
-      margin: 1rem 20% 0 20%
+      margin: .5rem 20% 0 20%
 
     h3
       padding: .5rem 0 .5rem .5rem
