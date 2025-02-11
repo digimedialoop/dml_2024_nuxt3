@@ -42,7 +42,8 @@ const router = useRouter();
 .subLine
   color: adjust-color($darkgrey, $lightness: 20%)
   font-size: 80%
-
+.pinkFont
+  color: darken($pink, 10%)
 .imgRight
   float: right
   max-width: 50%

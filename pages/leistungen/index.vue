@@ -20,18 +20,19 @@
         <button @click.prevent="openPuzzle" role="button">Interaktives Puzzle starten</button>
       <ServicePuzzle />
     </div>
-      <div class="serviceBorder">
+      
+      
+    </section>
+    <div class="serviceBorder">
         <div class="serviceBox" v-for="(service, index) in services" :key="index">
-          <img :src="cmsUrl + service.image" alt="" />
+          <img :src="cmsUrl + service.image" alt="icon" />
           <h3>{{ service.headline }}</h3>
           <p>{{ service.description }}</p>
         </div>
       </div>
-      <div class="container">
-        <button class="mt-4" @click.prevent="toggleContactBubble" role="button">Kostenloses Beratungsgespräch vereinbaren</button>
+      <div class="container mb-4">
+        <button class="my-4 pinkBtn" @click.prevent="toggleContactBubble" role="button">Kostenloses Beratungsgespräch vereinbaren</button>
       </div>
-      
-    </section>
     <MarqueeBanner :items="projects" :logoHeight="180" title="Unsere Referenzprojekte für Sie" link="projekt" />
   </div>
 </template>
