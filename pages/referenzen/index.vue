@@ -2,21 +2,15 @@
   <div>
   <section>
     <div class="container">
-      <h1>Kreative Webseiten nach Maß</h1>
-    <h2>Lassen Sie sich von unseren erfolgreichen Website-Projekten inspirieren.</h2> 
-    <p>Jede Website ist <b>ein Unikat</b>, perfekt abgestimmt auf die <u>Wünsche, Ziele und Bedürfnisse</u> unserer Auftraggeber.</p>
-    <p>Als erfahrene Webagentur legen wir großen Wert auf <u>Qualität, Kreativität und Funktionalität</u>. Unsere Referenzen zeigen, wie wir <b>innovative Lösungen</b> entwickeln, die nicht nur optisch überzeugen, sondern auch <b>messbare Ergebnisse</b> liefern.
+      <h1>Individuelle Webseiten, die überzeugen</h1>
+    <h2>Lassen Sie sich von unseren erfolgreichen Webprojekten inspirieren! </h2> 
+    <p>Jede Website, die wir entwickeln, ist einzigartig – maßgeschneidert, funktional und wirkungsvoll. Unsere Referenzen zeigen, wie wir <b>modernes Webdesign</b>, <b>durchdachte Entwicklung</b> und <b>gute Performance</b> verbinden, um digitale Lösungen zu schaffen, die nicht nur gut aussehen, sondern auch Ergebnisse liefern.</p>
 
-    </p>
-    <p>Tauchen Sie ein in die Vielfalt unserer Arbeit – von modernen Unternehmenswebseiten über Online-Shops bis hin zu kreativen Portfolio-Seiten. Entdecken Sie, wie wir individuelle Anforderungen in einzigartige digitale Erlebnisse verwandeln.
-
-</p><p><b>Überzeugen Sie sich selbst und lassen Sie uns gemeinsam Ihre Vision verwirklichen!</b></p>
-<button class="pinkBtn mt-1" @click.prevent="toggleContactBubble" role="button">Sprechen Sie mit uns!</button>
     </div>
     
   </section>
   
-  <section>
+  <section style="margin-bottom: 1rem !important">
       <div class="referenceBox">
           <slot v-if="projects">
               <NuxtLink class="reference" v-for="project in projects" :key="project.id" :to="`/projekt/${project.link}`">
@@ -37,6 +31,12 @@
           </slot>
       </div>
   </section>
+  <div class="container ctaBox">
+    <h3>Bereit für Ihr eigenes Webprojekt?</h3>
+    <p>Lassen Sie uns gemeinsam Ihre individuelle Website gestalten – perfekt abgestimmt auf Ihre Bedürfnisse und Ziele.</p>
+    <button class="pinkBtn mt-1" @click.prevent="toggleContactBubble" role="button">Jetzt unverbindliches Angebot anfordern!</button>
+  </div>
+  
 </div>
 </template>
 
@@ -66,7 +66,7 @@ const { data: strapiData, refresh } = await useFetch(async () => {
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr))
   gap: 4rem
   width: 80%
-  margin: 0 10% 15vh auto
+  margin: 0 10% 0 auto
 
   h2
     font-size: 1.4rem
@@ -112,6 +112,8 @@ const { data: strapiData, refresh } = await useFetch(async () => {
         img
           max-width: 80px
           margin: 0 auto
-      
+.ctaBox
+  h3
+    font-size: 1.6rem      
 
 </style>

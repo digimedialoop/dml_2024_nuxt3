@@ -17,7 +17,7 @@
       <section class="articleBox container">
         <span v-html="htmlContent(article?.content)"></span>
         <button @click.prevent="toggleContactBubble" class="pinkBtn" role="button"
-            aria-label="Kontakt aufnehmen">Lassen Sie uns darüber sprechen!</button>
+            aria-label="Kontakt aufnehmen">Kontaktieren Sie uns!</button>
       </section>
       
       

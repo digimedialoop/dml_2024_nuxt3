@@ -779,7 +779,7 @@ main
       width: 100%
       box-shadow: 4px 4px 2px 1px rgba(103,202,172,.25)
   a
-    color: $primaryColor 
+    color: darken($primaryColor, 20%)
 
   .imgRight, .imgLeft
     width: 45%

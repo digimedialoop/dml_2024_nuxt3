@@ -5,14 +5,12 @@
             <div class="contentBox">
                 <h1>Ihre Webagentur in Herrsching am Ammersee</h1>
                 <h2>Wir entwickeln Webseiten, die aus Besuchern Kunden machen!</h2>
-                <p>Unser erfahrenes Team ist für Sie da, um maßgeschneiderte Lösungen für Ihre Online-Präsenz zu entwickeln. 
-                    Wir haben uns darauf spezialisiert, Webseiten zu erstellen, die nicht nur Besucher anziehen, sondern diese 
-                    auch zu treuen Kunden machen. Von der Konzeption bis zur Umsetzung stehen wir Ihnen mit unserem <b>Fachwissen</b> 
-                    und unserer <b>Kreativität</b> zur Seite, um <u>Ihre Visionen zu verwirklichen</u> und Ihren <b>Online-Erfolg</b> zu maximieren.</p> 
+                <p>Wir stehen für <b>professionelle</b>, <b>innovative</b> und <b>strategische Weblösungen</b> und kombinieren technisches Know-how mit einem tiefen Verständnis für digitale Kommunikation, um Unternehmen online erfolgreich zu positionieren.</p>
+                <p>Unser <u>Ansatz ist individuell</u>: Jedes Projekt wird mit Sorgfalt, Weitblick und den neuesten Technologien realisiert. Dabei setzen wir auf eine enge Zusammenarbeit und maßgeschneiderte Lösungen, die zu unseren Kunden passen.
+
+Wir begleiten Unternehmen aus unterschiedlichsten Branchen – von kleinen Betrieben bis hin zu größeren Firmen – auf ihrem Weg zu einer erfolgreichen Online-Präsenz.</p> 
                 <p>Lassen Sie uns gemeinsam Ihre digitale Präsenz optimieren und Ihr Unternehmen auf die nächste Stufe bringen!</p>
-                <button class="mt-3" @click.prevent="router.push('/leistungen')"
-                role="button"
-                aria-label="Zu den Leistungen navigieren">Zu unseren Leistungen</button>
+                <button class="my-4 pinkBtn" @click.prevent="toggleContactBubble" role="button">Ihr Kontakt zu uns!</button>
             </div>        
         </div>
     </section>

@@ -235,6 +235,16 @@ console.log("Company Info:", companyinfo.value);
 
 
 <style lang="sass">
+@keyframes awarePulse
+    0%
+        box-shadow: 0 0 0 0 rgba(202, 103, 133, 0.25)
+
+    50%
+        box-shadow: 0 0 0 25px rgba(202, 103, 133, 0.15)
+
+    100%
+        box-shadow: 0 0 0 40px rgba(202, 103, 133, 0)
+
 .contactBubble
     position: fixed
     bottom: 3rem
@@ -253,6 +263,7 @@ console.log("Company Info:", companyinfo.value);
     flex-direction: column
     align-items: center
     justify-content: center
+    animation: awarePulse 1.8s infinite ease-out
     @media(max-width: $breakPointMD)
         bottom: 4vw
         right: 4vw
@@ -317,6 +328,8 @@ console.log("Company Info:", companyinfo.value);
         flex-direction: column
         text-align: left
         border: 1px solid $lightgrey
+        animation: none
+        box-shadow: 1px 1px 15px 2px $beige
         @media(max-width: $breakPointMD)
             border-radius: 0
             height: 100%

@@ -52,13 +52,14 @@ export const STRAPI_DATA = gql`
         }
       }
     }
-    newsarticels {
+    newsarticels(sort: "createdAt:desc") {
       data {
         id
         attributes {
           header
           teaser
           content
+          testfield
           slug
           image {
             data {

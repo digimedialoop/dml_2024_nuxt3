@@ -169,6 +169,7 @@ const getAltText = (item) => {
   h2
     color: #333
     font-size: 1.2rem
+    font-family: 'Mainfont-Bold'
 
 .marquee
   --gap: 1rem

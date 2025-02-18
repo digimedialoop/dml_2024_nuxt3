@@ -4,9 +4,9 @@
     <div class="container">
       <img class="imgRight" :src="cmsUrl + '/uploads/2_Screens_Example_4fc41483_0cc79dc5da.webp'" alt="Neue Webseite" />
     <p class="subLine">OB HANDEL, DIENSTLEISTUNG, HANDWERK ODER INDUSTRIE</p>
-    <h1>Ihre Agentur für professionelle Webentwicklung und funktionales Webdesign</h1>
-    <h2>Sie benötigen Unterstützung bei der Erstellung ihrer Webseite? Dann sind Sie bei uns genau richtig!</h2>
-    <p>Wir sind eine kundenorientierte Webagentur in Herrsching am Ammersee und unterstützen Sie individuell und zuverlässig bei Ihrem Auftritt im Web!</p>
+    <h1>Ihre Agentur für strategische Webentwicklung und funktionales Webdesign</h1>
+    <h2>Sie benötigen eine <b>professionelle Website</b>, die nicht nur gut aussieht, sondern auch Kunden gewinnt und Ihr Unternehmen voranbringt? <br>Dann sind Sie bei uns genau richtig!</h2>
+    <p>Wir sind eine <b>kundenorientierte Webagentur</b> in Herrsching am Ammersee und erstellen maßgeschneiderte, zielgerichtete Webseiten, die Ihre Zielgruppe ansprechen und Ihre Online-Präsenz spürbar verbessern.</p>
     <button class="mt-3" @click.prevent="router.push('/leistungen')"
             role="button"
             aria-label="Zu den Leistungen navigieren">Zu unseren Leistungen</button>

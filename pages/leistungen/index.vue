@@ -3,9 +3,12 @@
     <section>
       <div class="container">
         <img class="imgRight" :src="cmsUrl + '/uploads/Wireframe_Coding_badd645adb.png'" alt="Ammersee" />
-      <h1>Unsere Leistungen für Ihren starken Auftritt im Web</h1>
-      <h2>Wir bieten Ihnen umfassende Lösungen für eine professionelle und überzeugende Webseite.</h2>
-      <p>Egal ob Sie eine <b>Neugestaltung Ihrer Webseite</b>, ein <b>Redesign</b> oder <b>einzelne Ergänzungen</b> benötigen: Wir unterstützen Sie gezielt und individuell unter <u>Einsatz neuester Technologien</u>. </p>
+      <h1>Digitale Lösungen mit Wirkung</h1>
+      <h2>Damit Ihr Online-Auftritt überzeugt, gefunden wird und Kunden gewinnt, braucht es mehr als nur ein schönes Design.</h2>
+      <p>Mit unserer Expertise in <b>Webdesign</b>, <b>Webentwicklung</b>, <b>technischer Optimierung</b> und <b>Suchmaschinen-Optimierung</b>
+         schaffen wir Webseiten, die nicht nur professionell aussehen, sondern auch messbare Erfolge liefern – für mehr <u>Reichweite</u>, 
+         bessere <u>Performance</u> und nachhaltiges <u>Wachstum</u>.</p>
+         <p><b>Mit unserer Expertise bringen wir Ihr digitales Business auf das nächste Level.</b></p>
       </div>      
     </section>    
 

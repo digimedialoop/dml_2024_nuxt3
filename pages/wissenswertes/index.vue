@@ -3,8 +3,8 @@
         <section class="teaserBox">
             <div class="container">
                 <h1>Wissenswertes rund ums Thema Webseite</h1>
-                <p>Eine moderne Website ist mehr als nur ein schönes Design – sie muss sichtbar, leistungsfähig und nutzerfreundlich sein. In unserem Wissensbereich erfahren Sie, worauf es bei <b>Suchmaschinen-Optimierung</b>, <b>Barrierefreiheit</b>, <b>Webdesign</b> und <b>Online-Marketing</b> ankommt.</p>
-                <p>Wir halten Sie über <u>aktuelle Entwicklungen</u> auf dem Laufenden und zeigen, wie eine <u>professionell optimierte Website</u> Ihnen helfen kann, mehr Kunden zu erreichen und Ihr Unternehmen digital erfolgreich aufzustellen.</p>
+                <p>In unserem Wissensbereich zeigen wir, worauf es bei <b>Suchmaschinen-Optimierung</b>, <b>Barrierefreiheit</b>, <b>Webdesign</b>, <b>Webperformance</b> und <b>Online-Marketing</b> ankommt.</p>
+                <p>Entdecken Sie aktuelle Trends und praxisnahe Tipps, um Ihre Online-Präsenz gezielt zu stärken.</p>
             </div>
         </section>
         <section class="articleBox container">
