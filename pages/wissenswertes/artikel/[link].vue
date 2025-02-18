@@ -169,5 +169,6 @@ watchEffect(() => {
         float: right
         margin: 0 0 2rem 2rem
         border-radius: 1rem
+          
 </style>
   

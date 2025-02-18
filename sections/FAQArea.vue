@@ -6,7 +6,7 @@
   <div class="row mt-4">
     <div class="col-md-6 mb-3"><h4> Noch Fragen? </h4></div>
     <div class="col-md-6">
-      <button @click.prevent="toggleContactBubble" role="button">Sprechen Sie uns gerne an!</button></div>
+      <button @click.prevent="toggleContactBubble" role="button" class="pinkBtn">Sprechen Sie uns gerne an!</button></div>
   </div>
     
     </section>
