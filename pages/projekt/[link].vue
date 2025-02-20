@@ -120,6 +120,8 @@ const htmlContent = (data) => {
   return convertToHTML(data);
 };
 
+const toggleContactBubble = () => mainStore.toggleContactBubble();
+
 const getCustomerById = (id) => mainStore.getCustomerById(id);
 
 const currentImage = ref(null);

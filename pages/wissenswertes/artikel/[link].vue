@@ -15,7 +15,7 @@
         
       </section>
       <section class="articleBox container">
-        <span v-html="htmlContent(article?.content)"></span>
+        <div v-html="htmlContent(article?.content)"></div>
         <button @click.prevent="toggleContactBubble" class="pinkBtn" role="button"
             aria-label="Kontakt aufnehmen">Kontaktieren Sie uns!</button>
       </section>
@@ -156,7 +156,9 @@ watchEffect(() => {
         font-family: 'Mainfont-Bold'
         color: darken($primaryColor, 10%)
     p
-        font-size: 1rem
+        font-size: 1.1rem
+    ul
+        font-size: 1.1rem
     .teaser
         font-size: 1rem
         margin-bottom: 1rem
@@ -169,6 +171,15 @@ watchEffect(() => {
         float: right
         margin: 0 0 2rem 2rem
         border-radius: 1rem
-          
+        filter: grayscale(100%)
+    .articleBox
+        display: flex
+        flex-direction: column
+        align-items: flex-start
+    
+        .pinkBtn
+            clear: both
+            display: block
+            width: max-content
 </style>
   

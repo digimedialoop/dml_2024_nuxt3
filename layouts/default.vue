@@ -47,7 +47,9 @@
     id="main-content"
     role="main"
   >
-    <NuxtPage :key="routeKey" />
+  <keep-alive>
+      <NuxtPage />
+    </keep-alive>
   </main>
 
   <ContactForm />
@@ -761,7 +763,7 @@ main
     line-height: calc(1.2rem + 1.2vw + 40%)
     font-weight: normal
   p
-    font-size: $fontSizeNormal //1.4rem
+    font-size: 1.1rem
   
   b
     font-family: 'Mainfont-Bold'  
@@ -771,10 +773,10 @@ main
     position: relative
     &::before
       content: ""
-      transform: rotate(-3deg)
-      border-bottom: 4px solid rgba(103,202,172,.25)
+      transform: rotate(-2deg)
+      border-bottom: 3px solid rgba(103,202,172,.25)
       position: absolute
-      bottom: 5px
+      bottom: 4px
       left: 0
       width: 100%
       box-shadow: 4px 4px 2px 1px rgba(103,202,172,.25)

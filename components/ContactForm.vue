@@ -24,6 +24,7 @@
         >
             <div class="row left m-2">
                 <div class="col-md-6" id="hintBox">
+                    <img class="mobileAspBox" v-if="screenWidth <= 768" :src="cmsUrl + companyinfo?.profileImage?.data?.attributes?.url" alt="Ansprechpartner Sabrina Hennrich">
                     <h2 id="contactTitle">{{ $t('yourcontact2us') }}</h2>
                     <p class="my-4">
                         <svg aria-hidden="true">
@@ -36,7 +37,7 @@
                     <p class="address">
                         {{ companyinfo.company }}<br>{{ companyinfo.street }} <br>{{ companyinfo.postalcode }} {{ companyinfo.city }}
                     </p>
-                    <p class="aspProf">Sabrina Hennrich freut sich auf Sie!</p>
+                    <p class="aspProf">Ihr Kontakt <b>Sabrina Hennrich</b></p>
                     <div class="aspBox"><img :src="cmsUrl + companyinfo?.profileImage?.data?.attributes?.url" alt="Ansprechpartner Sabrina Hennrich"></div>
                     
                 </div>
@@ -288,8 +289,9 @@ console.log("Company Info:", companyinfo.value);
         width: 80%
         margin: 6rem 10%
         h3
-            font-size: 1.2rem
+            font-size: .8rem
             font-family: 'Mainfont-Bold'
+            color: $pink
         p
             color: $darkgrey
             font-size: 1.2rem
@@ -306,6 +308,10 @@ console.log("Company Info:", companyinfo.value);
                 fill: $darkgrey
                 margin-right: 1rem
                 max-height: 100px
+                @media(max-width: $breakPointSM)
+                    margin-right: .5rem
+                    width: 1.5rem
+                    height: 1.5rem
         a
             color: $primaryColor 
     #controlIcon
@@ -344,6 +350,14 @@ console.log("Company Info:", companyinfo.value);
             bottom: 3rem
             fill: black
             width: 2rem
+        .mobileAspBox
+            width: 30vw
+            max-width: 90px
+            float: left
+            margin: 0 .5rem 1rem -2rem
+            border-radius: $loopShape
+            @media(max-width: $breakPointSM)
+                margin-right: .1rem
     input, textarea
         all: unset
         position: relative
@@ -390,9 +404,14 @@ console.log("Company Info:", companyinfo.value);
             border-radius: $loopShape
     .aspProf
         font-size: .8rem !important
-        margin-top: 1rem
-        font-family: 'Mainfont-Bold'
+        margin-top: 1rem        
         width: 80%
+        color: darken($primaryColor, 20%) !important
+        b
+            font-family: 'Mainfont-Bold'
+            color: $darkgrey
+            margin-left: .2rem
+            font-size: .9rem
     // Form-group Anpassungen
     .form-group
         position: relative

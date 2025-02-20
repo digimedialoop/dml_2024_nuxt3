@@ -5,7 +5,13 @@ import eslintConfigPrettier from "eslint-config-prettier";
 
 export default [
   {
-    files: ["src/**/*.vue", "src/**/*.js"],
+    ignores: [
+      "node_modules",
+      "dist",
+      ".output",
+      "public"
+    ],
+    files: ["**/*.vue", "**/*.js", "**/*.ts"], // Alle relevanten Dateien prüfen
     plugins: {
       vue: eslintPluginVue,
       prettier: eslintPluginPrettier,
@@ -19,7 +25,7 @@ export default [
     rules: {
       ...eslintPluginVue.configs["vue3-recommended"].rules, // Vue 3 empfohlene Regeln
       ...eslintConfigPrettier.rules, // Prettier-Regeln
-      "prettier/prettier": "error", // Prettier Fehler als Linting Fehler behandeln
+      "prettier/prettier": "error", // Prettier-Fehler als ESLint-Fehler behandeln
     },
   },
 ];

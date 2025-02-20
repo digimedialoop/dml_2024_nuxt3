@@ -3,7 +3,7 @@
   <!-- Startseite -->
   <url>
     <loc>https://www.digimedialoop.de/</loc>
-    <lastmod>2025-02-11</lastmod>
+    <lastmod>2025-02-20</lastmod>
     <priority>1.0</priority>
     <changefreq>daily</changefreq>
   </url>
@@ -11,7 +11,7 @@
   <!-- Leistungen -->
   <url>
     <loc>https://www.digimedialoop.de/leistungen</loc>
-    <lastmod>2025-02-11</lastmod>
+    <lastmod>2025-02-20</lastmod>
     <priority>0.9</priority>
     <changefreq>weekly</changefreq>
   </url>
@@ -19,7 +19,7 @@
   <!-- Agentur -->
   <url>
     <loc>https://www.digimedialoop.de/webagentur</loc>
-    <lastmod>2025-02-11</lastmod>
+    <lastmod>2025-02-20</lastmod>
     <priority>0.9</priority>
     <changefreq>weekly</changefreq>
   </url>
@@ -27,7 +27,7 @@
   <!-- Impressum -->
   <url>
     <loc>https://www.digimedialoop.de/impressum</loc>
-    <lastmod>2025-02-11</lastmod>
+    <lastmod>2025-02-20</lastmod>
     <priority>0.5</priority>
     <changefreq>monthly</changefreq>
   </url>
@@ -35,7 +35,7 @@
   <!-- Referenzen -->
   <url>
     <loc>https://www.digimedialoop.de/referenzen</loc>
-    <lastmod>2025-02-11</lastmod>
+    <lastmod>2025-02-20</lastmod>
     <priority>0.9</priority>
     <changefreq>weekly</changefreq>
   </url>
@@ -43,42 +43,42 @@
   <!-- Projektseiten -->
   <url>
     <loc>https://www.digimedialoop.de/projekt/relaunch-herb-x-film-webauftritt</loc>
-    <lastmod>2025-02-11</lastmod>
+    <lastmod>2025-02-20</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
 
   <url>
     <loc>https://www.digimedialoop.de/projekt/relaunch-kuenstlerseite-von-michael-bully-herbig</loc>
-    <lastmod>2025-02-11</lastmod>
+    <lastmod>2025-02-20</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
 
   <url>
     <loc>https://www.digimedialoop.de/projekt/neugestaltung-schulhomepage-und-corporate-design-berchenschule</loc>
-    <lastmod>2025-02-11</lastmod>
+    <lastmod>2025-02-20</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
 
   <url>
     <loc>https://www.digimedialoop.de/projekt/neuentwicklung-care4cardio-website</loc>
-    <lastmod>2025-02-11</lastmod>
+    <lastmod>2025-02-20</lastmod>
     <priority>0.6</priority>
     <changefreq>monthly</changefreq>
   </url>
 
   <url>
     <loc>https://www.digimedialoop.de/projekt/word-press-erweiterung-um-einen-verguetungsrechner</loc>
-    <lastmod>2025-02-11</lastmod>
+    <lastmod>2025-02-20</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
 
   <url>
     <loc>https://www.digimedialoop.de/projekt/intranet-portal-fuer-angebots-und-datenmanagement</loc>
-    <lastmod>2025-02-11</lastmod>
+    <lastmod>2025-02-20</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
@@ -94,23 +94,50 @@
   <!-- Artikelseiten -->
   <url>
     <loc>https://www.digimedialoop.de/wissenswertes/artikel/5-wesentliche-punkte-ueber-suchmaschinen-optimierung-seo-die-kunden-kennen-sollten</loc>
-    <lastmod>2025-02-11</lastmod>
+    <lastmod>2025-02-20</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
 	
 	<url>
     <loc>https://www.digimedialoop.de/wissenswertes/artikel/brauche-ich-eine-barrierefreie-webseite</loc>
-    <lastmod>2025-02-11</lastmod>
+    <lastmod>2025-02-20</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
 
   <url>
     <loc>https://www.digimedialoop.de/wissenswertes/artikel/design-und-inhalt-sauber-getrennt-warum-headless-webdesign-die-beste-wahl-fuer-moderne-unternehmen-ist</loc>
-    <lastmod>2025-02-11</lastmod>
+    <lastmod>2025-02-20</lastmod>
     <priority>0.6</priority>
     <changefreq>monthly</changefreq>
   </url>
 
+  <url>
+    <loc>https://www.digimedialoop.de/wissenswertes/artikel/die-schoene-neue-welt-der-website-baukaesten-fluch-oder-segen</loc>
+    <lastmod>2025-02-20</lastmod>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.digimedialoop.de/wissenswertes/artikel/warum-80-der-handwerker-webseiten-kunden-verlieren-und-wie-man-es-besser-macht</loc>
+    <lastmod>2025-02-20</lastmod>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.digimedialoop.de/wissenswertes/artikel/die-geheime-psychologie-erfolgreicher-websites-und-wie-sie-sie-fuer-ihr-business-nutzen</loc>
+    <lastmod>2025-02-20</lastmod>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.digimedialoop.de/wissenswertes/artikel/warum-webseiten-oft-komplizierter-sind-als-sie-sein-muessten-und-welche-alternativen-es-gibt</loc>
+    <lastmod>2025-02-20</lastmod>
+    <priority>0.6</priority>
+    <changefreq>monthly</changefreq>
+  </url>
 </urlset>
