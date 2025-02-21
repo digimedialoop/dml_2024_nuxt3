@@ -3,36 +3,43 @@
     <section>
       <div class="container">
         <img class="imgRight" :src="cmsUrl + '/uploads/Wireframe_Coding_badd645adb.png'" alt="Ammersee" />
-      <h1>Digitale Lösungen mit Wirkung</h1>
-      <h2>Damit Ihr Online-Auftritt überzeugt, gefunden wird und Kunden gewinnt, braucht es mehr als nur ein schönes Design.</h2>
-      <p>Mit unserer Expertise in <b>Webdesign</b>, <b>Webentwicklung</b>, <b>technischer Optimierung</b> und <b>Suchmaschinen-Optimierung</b>
-         schaffen wir Webseiten, die nicht nur professionell aussehen, sondern auch messbare Erfolge liefern – für mehr <u>Reichweite</u>, 
-         bessere <u>Performance</u> und nachhaltiges <u>Wachstum</u>.</p>
-         <p><b>Mit unserer Expertise bringen wir Ihr digitales Business auf das nächste Level.</b></p>
+        <h1>Digitale Lösungen mit Wirkung</h1>
+        <h2>Damit Ihr Online-Auftritt überzeugt, gefunden wird und Kunden gewinnt, braucht es mehr als nur ein schönes Design.</h2>
+        <p>Mit unserer Expertise in <b>Webdesign</b>, <b>Webentwicklung</b>, <b>technischer Optimierung</b> und <b>Suchmaschinen-Optimierung</b>
+           schaffen wir Webseiten, die nicht nur professionell aussehen, sondern auch messbare Erfolge liefern – für mehr <u>Reichweite</u>, 
+           bessere <u>Performance</u> und nachhaltiges <u>Wachstum</u>.</p>
+           <p><b>Mit unserer Expertise bringen wir Ihr digitales Business auf das nächste Level.</b></p>
       </div>      
     </section>    
 
-    <div class="serviceBorder">
-        <div class="serviceBox" v-for="(service, index) in services" :key="index">
-          <img :src="cmsUrl + service.image" alt="icon" />
-          <h3>{{ service.headline }}</h3>
-          <p>{{ service.description }}</p>
-        </div>
+    <div class="carousel3d" ref="carouselRef">
+      <div 
+        v-for="(service, index) in services" 
+        :key="index" 
+        class="carousel__item" 
+        :style="getStyle(index)"
+        @click="setActive(index)"
+      >
+        <img :src="cmsUrl + service.image" :alt="service.headline" />
+        <h3>{{ service.headline }}</h3>
+        <p>{{ service.description }}</p>
       </div>
-      <div class="container mb-4">
-        <button class="my-4 pinkBtn" @click.prevent="toggleContactBubble" role="button">Kostenloses Beratungsgespräch vereinbaren</button>
-      </div>
-    <MarqueeBanner :items="projects" :logoHeight="180" title="Unsere Referenzprojekte für Sie" link="projekt" />
+    </div>
+
+    <div class="container mb-4">
+      <button class="my-4 pinkBtn" @click.prevent="toggleContactBubble" role="button">Kostenloses Beratungsgespräch vereinbaren</button>
+    </div>
+    <MarqueeBanner :items="projects" :logoHeight="180" title="Unsere Kompetenz in Aktion: Erleben Sie unsere Projekte live!" link="projekt" />
     <section v-if="false">
       <div class="container">
-      <h2>Puzzeln Sie gerne?</h2>
-      <h3>Gestalten Sie Ihre <b>individuelle Lösung</b> mit unserem komponentenbasierten Baukastensystem!</h3>
+        <h2>Puzzeln Sie gerne?</h2>
+        <h3>Gestalten Sie Ihre <b>individuelle Lösung</b> mit unserem komponentenbasierten Baukastensystem!</h3>
         <p>Stellen Sie sich aus <b>verschiedenen Modulen</b>, wie z. B. Suchmaschinenoptimierung (SEO), Ihre maßgeschneiderte Lösung zusammen. </p>
         <p>Wir unterstützen Sie gerne mit einer <b>kostenlosen und unverbindlichen Anforderungsanalyse</b>, um Ihre Bedürfnisse genau zu verstehen und die optimale Lösung für Ihr Projekt zu finden.</p> 
         <p>Starten Sie jetzt und lassen Sie uns gemeinsam Ihre Vision realisieren!</p>
         <button @click.prevent="openPuzzle" role="button">Interaktives Puzzle starten</button>
-      <ServicePuzzle />
-    </div>
+        <ServicePuzzle />
+      </div>
     </section>
   </div>
 </template>
@@ -40,8 +47,10 @@
 <script setup>
 import { storeToRefs } from 'pinia';
 import { useMainStore } from '@/stores/main';
+import { defineAsyncComponent, ref, onMounted } from 'vue';
+import { useSwipe } from '@vueuse/core';
+
 const mainStore = useMainStore();
-import { defineAsyncComponent } from 'vue';
 
 // Asynchrones Laden der Komponenten
 const MarqueeBanner = defineAsyncComponent(() => import('@/sections/MarqueeBanner.vue'));
@@ -53,7 +62,7 @@ const toggleContactBubble = () => mainStore.toggleContactBubble();
 const openPuzzle = () => mainStore.openPuzzle();
 
 const services = [
-{
+  {
     headline: 'UI/UX Konzeption',
     description: 'Eine gute Webseite überzeugt nicht nur optisch, sondern vor allem durch eine intuitive Nutzerführung. Wir analysieren die Bedürfnisse Ihrer Zielgruppe und entwickeln durchdachte UI/UX-Konzepte, die für ein nahtloses und begeisterndes Nutzungserlebnis sorgen – von der ersten Idee bis zum finalen Design.',
     image: "/uploads/DML_Icon_Konzeption_95ad4fa0d9.svg"
@@ -68,7 +77,6 @@ const services = [
     description: 'Von der technischen Umsetzung bis zur Optimierung Ihrer Webseite – wir programmieren individuelle Lösungen unter Verwendung der neuesten Technologien, die Ihre digitale Präsenz auf das nächste Level heben.',
     image: "/uploads/DML_Icon_Coding_8d9baaa669.svg"
   },
-  
   {
     headline: 'Suchmaschinen-Optimierung',
     description: 'Mit gezielter Suchmaschinen-Optimierung sorgen wir dafür, dass Ihre Webseite gefunden wird. So erreichen Sie genau die Kunden, die nach Ihren Lösungen suchen.',
@@ -91,56 +99,104 @@ const services = [
   }
 ];
 
+const total = services.length;
+const activeIndex = ref(0); //ref(Math.floor(total / 2));
+
+const setActive = (index) => {
+  activeIndex.value = index;
+};
+
+const getStyle = (index) => {
+  const offset = (index - activeIndex.value + total) % total;
+  const half = Math.floor(total / 2);
+  const adjustedOffset = offset > half ? offset - total : offset;
+  const zIndex = total - Math.abs(adjustedOffset);
+  const scale = adjustedOffset === 0 ? 1 : 0.8;
+  const translateX = adjustedOffset * 250;
+  const rotateY = adjustedOffset * -30;
+
+  return {
+    transform: `perspective(1000px) translateX(${translateX}px) scale(${scale}) rotateY(${rotateY}deg)`,
+    zIndex,
+    opacity: adjustedOffset === 0 ? 1 : 0.6,
+  };
+};
+
+const carouselRef = ref(null);
+
+onMounted(() => {
+  useSwipe(carouselRef.value, {
+    onSwipeLeft: () => setActive((activeIndex.value + 1) % total),
+    onSwipeRight: () => setActive((activeIndex.value - 1 + total) % total),
+  });
+});
 
 </script>
 
+
 <style lang="sass">
-.serviceBorder
-  width: 70%
-  margin: .5rem auto .5rem auto
-  display: grid
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr))
-  gap: 1rem 5rem // vertikaler und horizontaler Abstand zwischen den Boxen
-  justify-content: start // sorgt dafür, dass die Boxen linksbündig bleiben, wenn weniger da sind
+.carousel3d
+  position: relative
+  width: 100%
+  height: 480px
+  display: flex
+  justify-content: center
+  align-items: center
+  overflow-x: hidden
+  overflow-y: visible
+  margin-bottom: 3rem
 
-  .serviceBox
-    width: 100% // Die Boxen nehmen die volle Breite innerhalb ihrer Grid-Zelle ein
+.carousel__item
+  position: absolute
+  width: 250px
+  padding: 1rem
+  background: white
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3)
+  border-radius: 10px
+  text-align: center
+  transition: transform 0.5s ease, opacity 0.5s ease
+  cursor: pointer
+
+  img
+    width: 60%
+    max-width: 180px
+    margin: .5rem 20% 0 20%
+
+  h3
+    padding: .5rem 0 .5rem 0
+    font-size: 1rem
+    line-height: 1.4rem
+    text-transform: uppercase
+    position: relative
     text-align: center
+    margin-bottom: .2rem
+    color: darken($primaryColor, 10%)
+    margin-top: .2rem
+    z-index: 2
+    color: darken($primaryColor, 20%)
+    font-family: 'Mainfont-Bold'
+    /* &::after
+      content: ''
+      display: block
+      position: absolute
+      z-index: 1
+      background-color: rgba($beige, .8)
+      border-radius: $loopShape
+      width: 8rem
+      height: 4rem
+      top: -1rem
+      left: -1.5rem */
+  p
+    font-size: .85rem
+    text-align: left
+    hyphens: auto
+    text-align: justify
 
-    img
-      width: 60%
-      max-width: 180px
-      margin: .5rem 20% 0 20%
+.serviceBox
+  width: 100% // Die Boxen nehmen die volle Breite innerhalb ihrer Grid-Zelle ein
+  text-align: center
+  background-color: white
 
-    h3
-      padding: .5rem 0 .5rem .5rem
-      font-size: 1rem
-      line-height: 1.4rem
-      text-transform: uppercase
-      letter-spacing: .05rem
-      position: relative
-      text-align: left
-      margin-bottom: .2rem
-      color: darken($primaryColor, 10%)
-      margin-top: .2rem
-      z-index: 2
-      /* &::after
-        content: ''
-        display: block
-        position: absolute
-        z-index: 1
-        background-color: rgba($beige, .8)
-        border-radius: $loopShape
-        width: 8rem
-        height: 4rem
-        top: -1rem
-        left: -1.5rem */
-
-
-    p
-      font-size: .85rem
-      text-align: left
-      hyphens: auto
-      text-align: justify
+  
 
 </style>

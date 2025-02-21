@@ -11,7 +11,7 @@
                 class="img_detail">
             <h1>{{ article.header }}</h1>
             <!-- Vorlese-Button mit dynamischem Label -->
-            <button class="readBtn" @click="toggleSpeech">
+            <button v-if="false" class="readBtn" @click="toggleSpeech">
               {{ isPaused ? "Vorlesen fortsetzen" : isSpeaking ? "Vorlesen pausieren" : "Artikel vorlesen" }}
             </button>
             <p class="teaser">{{ article.teaser }}</p>

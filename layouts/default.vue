@@ -53,7 +53,7 @@
   </main>
 
   <ContactForm />
-
+  <BackToTopBtn />
   <footer>
     <div>
       <svg
@@ -857,7 +857,7 @@ main
       padding: .4rem .8rem
       margin: 0 0 1rem 0
   section
-    margin-bottom: 10vh
+    margin-bottom: 5vh
     position: relative
     &:first-of-type
       &::before

@@ -86,12 +86,13 @@ const { data: strapiData, refresh } = await useFetch(async () => {
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1)
 
     img
-      width: 100%
+      width: 90%
       height: auto
       object-fit: cover
-      transition: transform 0.8s ease
+      margin: 1rem 5% 0 5%
+      transition: transform 0.6s ease
       &:hover
-        transform: scale(1.1)
+        transform: scale(1.05)
 
     .infoBox
         display: flex

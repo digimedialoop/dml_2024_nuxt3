@@ -41,6 +41,7 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/sitemap',
     '@nuxtjs/i18n',
+    '@vueuse/nuxt'
   ],
 
   sitemap: {
