@@ -849,6 +849,13 @@ main
       border: 1px solid $pink
       &:hover
         background-image: linear-gradient(to top left, $pink, lighten($pink, 5%))
+    &.readBtn
+      background-color: $primaryColor
+      color: white
+      font-size: .9rem
+      border: none
+      padding: .4rem .8rem
+      margin: 0 0 1rem 0
   section
     margin-bottom: 10vh
     position: relative

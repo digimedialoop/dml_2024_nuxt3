@@ -166,18 +166,22 @@ const backgroundStyle = computed(() => ({
         max-height: 500px
         margin-right: 5vw
         margin-left: -35vw
-        clip-path: ellipse(50% 50%) // Schneidet die Form optisch passend zu
+        clip-path: ellipse(50% 50%) 
         background-image: var(--background-image)
         background-size: cover
         background-repeat: no-repeat
         border-radius: 50%
         content: ''
-        display: block // Stellt sicher, dass die Form ein sichtbares Element bleibt
+        display: block 
         @media(max-width: $breakPointSM)
             width: 80vw
             margin-left: -5vw
-            float: none     
-            max-height: 400px               
+            margin-bottom: 5vw
+            float: none  
+            height: 70vw   
+            max-height: 400px   
+            clip-path: none
+            border-radius: $loopShape            
     .teamContainer    
         width: 100%
         padding-left: calc(2vw + 5vw) 

@@ -10,6 +10,10 @@
                 :alt="article.image.data.attributes.alternativeText"
                 class="img_detail">
             <h1>{{ article.header }}</h1>
+            <!-- Vorlese-Button mit dynamischem Label -->
+            <button class="readBtn" @click="toggleSpeech">
+              {{ isPaused ? "Vorlesen fortsetzen" : isSpeaking ? "Vorlesen pausieren" : "Artikel vorlesen" }}
+            </button>
             <p class="teaser">{{ article.teaser }}</p>
         </div>
         
@@ -24,7 +28,7 @@
       
     </div>
     <div v-else class="container">
-      <p>Artikel nicht gefunden.</p>
+      <p>Artikel läd oder wird nicht gefunden.</p>
     </div>
   </template>
   
@@ -35,6 +39,9 @@ import { useMainStore } from '@/stores/main'
 import { storeToRefs } from 'pinia'
 import { useHtmlConverter } from '@/composables/useHTMLConverter'
 import { useHead } from '#imports'
+import { useSpeech } from '@/composables/useSpeech';
+
+const { speak, stop, isSpeaking, isPaused } = useSpeech();
 
 const route = useRoute()
 const slug = route.params.link  // Hier wird der URL-Parameter (slug) ausgelesen
@@ -49,6 +56,7 @@ const article = computed(() => news.value.find(item => item.slug === slug))
 
 const { convertToHTML, convertToText } = useHtmlConverter();
 const htmlContent = (data) => convertToHTML(data)
+const textContent = (data) => convertToText(data)
 
 // Maximale Zeichenanzahl für Title und Description
 const MAX_TITLE_LENGTH = 60
@@ -125,6 +133,18 @@ watchEffect(() => {
   }
 });
 
+
+// Funktion für den Vorlese-Button
+const toggleSpeech = () => {
+  if (article.value) {
+    speak( article.value.teaser + " " + convertToText(article.value.content));
+  }
+};
+
+// **Beobachte die Route und stoppe die Sprachausgabe bei Wechsel**
+watch(() => route.fullPath, () => {
+  reset(); // Stoppe die laufende Sprachausgabe beim Artikelwechsel
+});
 </script>
 
 
