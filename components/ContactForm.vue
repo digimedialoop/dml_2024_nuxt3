@@ -227,9 +227,6 @@ const resetForm = () => {
     errors.email = null;
     errors.phone = null;
 };
-
-// Debugging: Prüfe, ob companyinfo korrekt geladen wird
-console.log("Company Info:", companyinfo.value);
 </script>
 
 
