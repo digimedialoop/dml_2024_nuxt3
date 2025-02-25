@@ -782,7 +782,12 @@ main
       box-shadow: 4px 4px 2px 1px rgba(103,202,172,.25)
   a
     color: darken($primaryColor, 20%)
-
+  .supheadlinePink, supheadlineMint
+    margin-bottom: -.5rem
+  .supheadlinePink
+    color: darken($pink, 0%)    
+  .supheadlineMint
+    color: darken($primaryColor, 5%)
   .imgRight, .imgLeft
     width: 45%
     @media(max-width: $breakPointLG)
@@ -849,6 +854,12 @@ main
       border: 1px solid $pink
       &:hover
         background-image: linear-gradient(to top left, $pink, lighten($pink, 5%))
+    &.mintBtn
+      background-color: $primaryColor
+      color: white
+      border: 1px solid $primaryColor
+      &:hover
+        background-image: linear-gradient(to top left, $primaryColor, lighten($primaryColor, 5%))
     &.readBtn
       background-color: $primaryColor
       color: white

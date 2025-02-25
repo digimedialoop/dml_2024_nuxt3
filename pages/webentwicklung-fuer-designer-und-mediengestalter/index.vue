@@ -3,18 +3,21 @@
         <section class="heroBox">
             <div class="container">
                         
-                        <p class="supheadline">Du bist Grafikdesigner oder Mediengestalter?</p>
-                        <img class="imgRight" src="https://strapi.digimedialoop.de/uploads/crazy_Webdesign_46716a1640.png" alt="programmierung für mediendesigner">
-                        <h1>Dein Design verdient eine perfekte Umsetzung ohne Kompromisse!</h1>
-                        <h2>Du hast ein geniales Design im Kopf &ndash; doch fühlst dich von deinem Programm oder deinem Entwickler immer wieder ausgebremst?</h2>
+                        <p class="supheadlinePink">Webentwicklung für Grafikdesigner und Mediengestalter</p>
+                        <img class="imgRight heroImage" src="https://strapi.digimedialoop.de/uploads/crazy_Webdesign_46716a1640.png" alt="programmierung für mediendesigner">
+                        <h1>Gemeinsam setzen wir deine kreativen Ideen pixelgenau, performant und individuell um!</h1>
+                        <h2>Du hast ein geniales Design im Kopf &ndash; doch fühlst dich von deinem System oder deinem Entwickler immer wieder ausgebremst?</h2>
                 
                 <h3>Jou! Das kann richtig frustrierend sein - muss es aber nicht!</h3>
-                <p>Denn ich bin kein "Klicki-Bunti-klick-mich-zusammen"-Webentwickler - ich kann wirklich programmieren!</p>
-                    <p>Somit bin ich auch nicht auf starre Templates oder eingeschränkte Tools angewiesen. 
-                    Egal wie kreativ, individuell oder ausgefallen deine Idee ist - ich finde einen Weg, 
-                    sie genau so umzusetzen, damit Du und Dein Kunde zufrieden seid!</p>
-                    <button class="pinkBtn">Jetzt Zusammenarbeit starten</button>
-                        
+                <div class="speechBox d-flex align-items-start">
+                    <img class="profileImage" src="https://strapi.digimedialoop.de/uploads/sabrinahennrich_0f07d46857.jpg" alt="Sabrina Hennrich">
+                    <div class="bubble">
+                        <p><b><span>Servus!</span> <br>Ich bin Sabrina – eine Webentwicklerin am Ammersee, südwestlich von München, die richtig programmieren kann!</b></p>
+                        <p>Somit bin ich nicht auf starre Templates oder eingeschränkte Tools angewiesen – egal wie kreativ, individuell 
+                            oder ausgefallen deine Idee ist, ich finde einen Weg, sie genau so umzusetzen. </p>
+                            <p>Gemeinsam erschaffen wir Webseiten, die dich und deinen Kunden begeistern werden!</p>
+                    </div>
+                </div>
             </div>
         </section>
         
@@ -29,27 +32,27 @@
                 </ul>
                 <p><b>Du bleibst der kreative Kopf!</b><br>
                 Ich sorge dafür, dass dein Design genauso im Web erscheint, wie du es geplant hast – mit Top-Performance & perfekter technischer Umsetzung.</p>
+                <button class="pinkBtn" @click.prevent="toggleContactBubble" role="button">Lass uns kennenlernen</button>
             </div>
             
         </section>
-        <section class="deviceCheck">
+        <section class="deviceCheck" v-if="false">
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
-                        <p class="supheadline">Responsive Check</p>
-                        <h2>Wie sieht deine Webseite auf den verschiedenen Devices aus?</h2>
+                        <p class="supheadlinePink">Responsive Check</p>
+                        <h2>Wie sieht deine Webseite auf den verschiedenen Bildschirmbreiten aus?</h2>
                         <h3>Probiers einfach aus!</h3>
                         <input type="text" placeholder="https://www.deinewebseite.de" v-model="weblink" @keyup.enter="updateIframe">
-                       
                     </div>
                     <div class="col-md-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 450" >
+                        <svg v-if="desk" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 450">
                             <defs>
                                 <clipPath id="_clipPath_mz11Urxh3q4HMztuYrKSFIZi2059ENKc">
                                     <rect width="500" height="450"/>
                                 </clipPath>
                             </defs>
-                            <g clip-path="url(#_clipPath_mz11Urxh3q4HMztuYrKSFIZi2059ENKc)">
+                            <g clip-path="url(#_clipPath_mz11Urxh3q4HMztuYrKSFIZi2059ENKc)" style="z-index: 10">
                                 <linearGradient id="_lgradient_0" x1="0.49993063593634346" y1="1.0075692569857018" x2="0.5082382316706063" y2="0.6847598402209258" gradientTransform="matrix(175.952,0,0,65.207,161.506,313.536)" gradientUnits="userSpaceOnUse">
                                     <stop offset="0.8699999999999999%" stop-opacity="1" style="stop-color:rgb(209,209,209)"/>
                                     <stop offset="47.83%" stop-opacity="1" style="stop-color:rgb(232,232,232)"/>
@@ -71,19 +74,40 @@
                                 <rect x="45.583" y="46.984" width="408.832" height="222.047" transform="matrix(1,0,0,1,0,0)" fill="rgb(0,0,0)"/>
                                 <path d=" M 243.844 302.371 C 242.175 299.831 245.066 297.867 247.098 297.222 C 251.729 295.751 255.722 297.863 254.907 301.23 C 253.327 307.756 245.055 304.215 243.844 302.371 Z " fill="rgb(55,55,55)"/>
                                 <rect id="deskScreenBlank" x="46" y="47.5" width="409.5" height="221.5" transform="matrix(1,0,0,1,0,0)" fill="rgb(0,0,0)"/>
-                                <foreignObject v-if="isValidUrl(weblink)" id="deskScreen" x="46" y="47.5" width="409.5" height="221.5">
-                                    <iframe ref="iframeRef" :src="weblink" frameborder="0"></iframe>
-                                </foreignObject>                                
-                                <path d=" M 82.951 232 L 171.381 232 C 178.346 232 184 237.654 184 244.619 L 184 422.881 C 184 429.846 178.346 435.5 171.381 435.5 L 82.951 435.5 C 75.986 435.5 70.332 429.846 70.332 422.881 L 70.332 244.619 C 70.332 237.654 75.986 232 82.951 232 Z " fill="rgb(55,55,55)"/>
-                                <path d="M 84.542 237.86 L 168.958 237.86 C 172.569 237.86 175.5 240.791 175.5 244.401 L 175.5 419.899 C 175.5 423.509 172.569 426.44 168.958 426.44 L 84.542 426.44 C 80.931 426.44 78 423.509 78 419.899 L 78 244.401 C 78 240.791 80.931 237.86 84.542 237.86 Z" style="stroke:none;fill:#000000;stroke-miterlimit:10;"/>
-                                <rect id="mobilScreenBlank" x="77.5" y="238" width="99" height="188.5" transform="matrix(1,0,0,1,0,0)" fill="rgb(0,0,0)" fill-opacity="0"/>
-                                <!--<foreignObject v-if="isValidUrl(weblink)" id="mobileScreen" x="77.5" y="238" width="99" height="188.5">
-                                    <iframe ref="iframeRef" :src="weblink" frameborder="0"></iframe>
-                                </foreignObject> -->                               
-                                <path d=" M 108.639 232.766 L 145.628 232.766 C 147.689 232.766 149.362 234.439 149.362 236.501 L 149.362 236.666 C 149.362 238.727 147.689 240.401 145.628 240.401 L 108.639 240.401 C 106.578 240.401 104.904 238.727 104.904 236.666 L 104.904 236.501 C 104.904 234.439 106.578 232.766 108.639 232.766 Z " fill="rgb(55,55,55)"/>
+                                <g>
+                                    <foreignObject v-if="isValidUrl(weblink)" id="deskScreen" x="46" y="47.5" width="409.5" height="221.5">
+                                        <iframe ref="iframeRef" :src="weblink" frameborder="0"></iframe>
+                                    </foreignObject>   
+                                </g>     
                             </g>
                         </svg>
-
+                        <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+                            <defs>
+                                <clipPath id="_clipPath_J5sSadUalMgzHmiGMPTuwCKeG9KghIf7">
+                                    <rect width="500" height="500"/>
+                                </clipPath>
+                            </defs>
+                            <g clip-path="url(#_clipPath_J5sSadUalMgzHmiGMPTuwCKeG9KghIf7)">
+                                <path d=" M 152.048 12.143 L 352.475 12.143 C 368.401 12.143 381.331 25.073 381.331 40.999 L 381.331 451.861 C 381.331 467.787 368.401 480.716 352.475 480.716 L 152.048 480.716 C 136.122 480.716 123.192 467.787 123.192 451.861 L 123.192 40.999 C 123.192 25.073 136.122 12.143 152.048 12.143 Z " fill="rgb(55,55,55)"/>
+                                <path d="M 155.466 25.45 L 347.174 25.45 C 355.373 25.45 362.03 32.107 362.03 40.306 L 362.03 438.864 C 362.03 447.063 355.373 453.72 347.174 453.72 L 155.466 453.72 C 147.267 453.72 140.61 447.063 140.61 438.864 L 140.61 40.306 C 140.61 32.107 147.267 25.45 155.466 25.45 Z" style="stroke:none;fill:#000000;stroke-miterlimit:10;"/>
+                                <mask id="_mask_kRhtIUM0vsIJwCru8KMEeoX7mwdCHdLR">
+                                    <path d=" M 241.815 465.584 C 241.815 461.174 245.395 457.594 249.804 457.594 C 254.214 457.594 257.794 461.174 257.794 465.584 C 257.794 469.993 254.214 473.573 249.804 473.573 C 245.395 473.573 241.815 469.993 241.815 465.584 Z " fill="white" stroke="none"/>
+                                </mask>
+                                <path d=" M 241.815 465.584 C 241.815 461.174 245.395 457.594 249.804 457.594 C 254.214 457.594 257.794 461.174 257.794 465.584 C 257.794 469.993 254.214 473.573 249.804 473.573 C 245.395 473.573 241.815 469.993 241.815 465.584 Z " fill="rgb(49,49,49)"/>
+                                <path d=" M 241.815 465.584 C 241.815 461.174 245.395 457.594 249.804 457.594 C 254.214 457.594 257.794 461.174 257.794 465.584 C 257.794 469.993 254.214 473.573 249.804 473.573 C 245.395 473.573 241.815 469.993 241.815 465.584 Z " fill="rgb(49,49,49)" mask="url(#_mask_kRhtIUM0vsIJwCru8KMEeoX7mwdCHdLR)" vector-effect="non-scaling-stroke" stroke-width="4" stroke="rgb(119,119,119)" stroke-linejoin="miter" stroke-linecap="square" stroke-miterlimit="3"/>
+                                <path d=" M 210.188 13.882 L 294.187 13.882 C 298.869 13.882 302.669 17.683 302.669 22.364 L 302.669 22.739 C 302.669 27.42 298.869 31.221 294.187 31.221 L 210.188 31.221 C 205.506 31.221 201.706 27.42 201.706 22.739 L 201.706 22.364 C 201.706 17.683 205.506 13.882 210.188 13.882 Z " fill="rgb(55,55,55)"/>
+                                <clipPath id="_clipPath_yG0PUG5xuGwoBQdYIaTfyJw0eBJTI7af">
+                                    <path d=" M 210.188 13.882 L 294.187 13.882 C 298.869 13.882 302.669 17.683 302.669 22.364 L 302.669 22.739 C 302.669 27.42 298.869 31.221 294.187 31.221 L 210.188 31.221 C 205.506 31.221 201.706 27.42 201.706 22.739 L 201.706 22.364 C 201.706 17.683 205.506 13.882 210.188 13.882 Z " fill="rgb(55,55,55)"/>
+                                </clipPath>
+                                <g clip-path="url(#_clipPath_yG0PUG5xuGwoBQdYIaTfyJw0eBJTI7af)">
+                                    <mask id="_mask_toYsxxmj7yA1tlh5Xolo04GF3EKtC9b5">
+                                        <path d=" M 248.906 23.145 C 248.906 21.069 250.591 19.384 252.667 19.384 C 254.743 19.384 256.429 21.069 256.429 23.145 C 256.429 25.221 254.743 26.907 252.667 26.907 C 250.591 26.907 248.906 25.221 248.906 23.145 Z " fill="white" stroke="none"/>
+                                    </mask>
+                                    <path d=" M 248.906 23.145 C 248.906 21.069 250.591 19.384 252.667 19.384 C 254.743 19.384 256.429 21.069 256.429 23.145 C 256.429 25.221 254.743 26.907 252.667 26.907 C 250.591 26.907 248.906 25.221 248.906 23.145 Z " fill="rgb(157,157,157)"/>
+                                    <path d=" M 248.906 23.145 C 248.906 21.069 250.591 19.384 252.667 19.384 C 254.743 19.384 256.429 21.069 256.429 23.145 C 256.429 25.221 254.743 26.907 252.667 26.907 C 250.591 26.907 248.906 25.221 248.906 23.145 Z " fill="rgb(157,157,157)" mask="url(#_mask_toYsxxmj7yA1tlh5Xolo04GF3EKtC9b5)" vector-effect="non-scaling-stroke" stroke-width="2" stroke="rgb(181,181,181)" stroke-linejoin="miter" stroke-linecap="square" stroke-miterlimit="3"/>
+                                </g>
+                            </g>
+                        </svg>
                     </div>
                     
                 </div>
@@ -94,11 +118,14 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick } from "vue";
+import { useMainStore } from '@/stores/main';
+const mainStore = useMainStore();
+const toggleContactBubble = () => mainStore.toggleContactBubble();
 
-const weblink = ref("");
+const weblink = ref("https://digimedialoop.de");
 const iframeRef = ref(null);
 const observer = ref(null);
-
+const desk = ref(true)
 
 // Berechnet die exakte Größe des `foreignObject` basierend auf `#deskScreenBlank`
 const updateIframeSize = () => {
@@ -186,7 +213,7 @@ onUnmounted(() => {
 <style lang="sass">
 .landing
     section
-        margin: 10vh auto
+        margin: 5vh auto
     h3
         line-height: 150%
         font-size: 1.4rem
@@ -199,13 +226,56 @@ onUnmounted(() => {
             font-size: 1.1rem
             font-family: 'Mainfont-Bold'
             margin-bottom: 1rem
-        img
+        .heroImage
             width: 50%
             max-width: 500px
+            filter: hue-rotate(310deg) grayscale(.4)
             @media(max-width: $breakPointXL)
                 width: 43%
             @media(max-width: $breakPointLG)
                 width: 100%
+        .speechBox
+            display: flex
+            align-items: center
+            max-width: 100%
+            margin: 0 auto
+            padding: 1rem 0
+            gap: 1.5rem
+
+            .profileImage
+                width: 20vw
+                max-width: 150px
+                border-radius: $loopShape
+                margin: 0
+                flex-shrink: 0
+            
+            .bubble
+                position: relative
+                background-image: linear-gradient(to right, lighten($beige, 5%), white)
+                border: 1px solid darken($beige, 5%)
+                border-radius: 1rem
+                padding: 1.5rem
+                width: 100%
+                line-height: 1.4
+                span
+                    color: darken($pink, 5%)
+                    font-size: 1.2rem
+                    text-transform: uppercase
+                    padding: 1rem 0
+                p
+                    font-size: .9rem
+                &:before
+                    content: ''
+                    position: absolute
+                    top: 40px
+                    left: -12px
+                    width: 20px
+                    height: 20px
+                    background: lighten($beige, 5%)
+                    border-left: 1px solid darken($beige, 5%)
+                    border-top: 1px solid darken($beige, 5%)
+                    transform: rotate(-45deg)
+            
     .cooperation    
         ul
             list-style: none
@@ -225,14 +295,7 @@ onUnmounted(() => {
                     font-size: 1.4rem
                     left: 0
         
-    img
-        width: 100%
-        max-width: 300px
-        //border-radius: $loopShape
-        filter: hue-rotate(310deg) grayscale(.4)
-    .supheadline
-        color: darken($pink, 0%)
-        margin-bottom: -.5rem
+    
     .deviceCheck
         h2
             margin-bottom: .5rem

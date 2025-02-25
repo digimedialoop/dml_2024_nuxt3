@@ -14,8 +14,8 @@ export const useMarkupSchemaInfo = () => {
       children: JSON.stringify({
         "@context": "https://schema.org",
         "@type": "SiteNavigationElement",
-        "name": ["Startseite", "Leistungen", "Agentur", "Referenzen"],
-        "url": ["/", "/leistungen", "/webagentur", "/referenzen"],
+        "name": ["Startseite", "Leistungen", "Agentur", "Referenzen", "Wissenswertes"],
+        "url": ["/", "/leistungen", "/webagentur", "/referenzen", "/wissenswertes"],
       }),
     },
   ]

@@ -1,5 +1,9 @@
 <template>
     <div class="article" v-if="article">
+      <!-- Integration SideBarNaviSlider -->
+      <SideBarNaviSlider link="/wissenswertes">
+        Artikelübersicht
+      </SideBarNaviSlider>
       <!-- Optional: Artikelbild anzeigen -->
       <section class="teaserBox">
         <div class="container">
@@ -33,13 +37,14 @@
   </template>
   
   <script setup>
-import { computed, watch } from 'vue'
+import { computed, watch, ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useMainStore } from '@/stores/main'
 import { storeToRefs } from 'pinia'
 import { useHtmlConverter } from '@/composables/useHTMLConverter'
 import { useHead } from '#imports'
 import { useSpeech } from '@/composables/useSpeech';
+import SideBarNaviSlider from '@/components/SideBarNaviSlider.vue'
 
 const { speak, stop, isSpeaking, isPaused } = useSpeech();
 
@@ -150,7 +155,29 @@ watch(() => route.fullPath, () => {
 
   
 <style lang="sass">  
-.article
+.overviewBtn
+    position: fixed
+    background-color: $yellow
+    color: white
+    text-transform: uppercase
+    font-size: 1.1rem
+    top: 30vh
+    right: -80px  // Startposition außerhalb des Viewports
+    padding: 1.4rem .8rem
+    writing-mode: vertical-lr
+    transform: rotate(180deg)
+    border-bottom-right-radius: 1rem
+    border-top-right-radius: 1rem
+    cursor: pointer
+    transition: right 1s ease-out, transform .8s  // Animation für das Einfahren
+    z-index: 20
+
+    &.slide-in
+        right: 0  // Fährt an die finale Position
+
+    &:hover
+      transform: rotate(180deg) scale(1.1)
+.article    
     .teaserBox
         margin-bottom: 1.5rem !important
         .teaser

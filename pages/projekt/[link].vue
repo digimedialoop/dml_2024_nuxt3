@@ -1,5 +1,9 @@
 <template>
   <section v-if="project" class="project">
+    <!-- Integration SideBarNaviSlider -->
+    <SideBarNaviSlider link="/referenzen">
+        Refrenzenübersicht
+      </SideBarNaviSlider>
     <div class="container">
       <div class="row">
       <div class="col-md-9">
@@ -65,7 +69,7 @@
       </div>
   </section>
   <!-- Navigation für vorheriges und nächstes Projekt -->
-  <div class="navigationBox container">
+  <div class="navigationBox">
     <div class="row align-items-center">
       <!-- Vorheriges Projekt -->
       <div class="col-6 d-flex align-items-center justify-content-start navBtn">
@@ -106,6 +110,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useMainStore } from '@/stores/main';
 import { storeToRefs } from 'pinia';
 import { useHtmlConverter } from '@/composables/useHTMLConverter';
+import SideBarNaviSlider from '@/components/SideBarNaviSlider.vue'
 
 const route = useRoute();
 const router = useRouter();
