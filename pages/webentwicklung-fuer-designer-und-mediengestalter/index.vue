@@ -2,13 +2,13 @@
     <div class="landing">
         <section class="heroBox">
             <div class="container">
-                        
-                        <p class="supheadlinePink">Webentwicklung für Grafikdesigner und Mediengestalter</p>
-                        <img class="imgRight heroImage" src="https://strapi.digimedialoop.de/uploads/crazy_Webdesign_46716a1640.png" alt="programmierung für mediendesigner">
-                        <h1>Gemeinsam setzen wir deine kreativen Ideen pixelgenau, performant und individuell um!</h1>
-                        <h2>Du hast ein geniales Design im Kopf &ndash; doch fühlst dich von deinem System oder deinem Entwickler immer wieder ausgebremst?</h2>
+                <div class="contentBox">
+                    <p class="supheadlinePink">Webentwicklung für Grafikdesigner und Mediengestalter</p>
+                    <h1>Gemeinsam setzen wir deine kreativen Ideen pixelgenau, performant und individuell um!</h1>
+                    <h2>Du hast ein geniales Design im Kopf &ndash; doch fühlst dich von deinem System oder deinem Entwickler immer wieder ausgebremst?</h2>
+                    <h3>Jou! Das kann richtig frustrierend sein - muss es aber nicht!</h3>
+                </div>        
                 
-                <h3>Jou! Das kann richtig frustrierend sein - muss es aber nicht!</h3>
                 <div class="speechBox d-flex align-items-start">
                     <img class="profileImage" src="https://strapi.digimedialoop.de/uploads/sabrinahennrich_0f07d46857.jpg" alt="Sabrina Hennrich">
                     <div class="bubble">
@@ -218,7 +218,40 @@ onUnmounted(() => {
         line-height: 150%
         font-size: 1.4rem
     .heroBox
-        width: 100%
+        position: relative
+        overflow-x: hidden
+        overflow-y: visible
+        &::after
+            content: ''
+            position: absolute
+            top: 2vh
+            right: -50vw
+            width: 80vw
+            height: 90%
+            min-height: 500px
+            max-height: 800px
+            background-image: url('https://strapi.digimedialoop.de/uploads/Screen_Shot_Tool_20250225214638_2209c9c92e.png')
+            background-repeat: no-repeat
+            background-position: center right
+            background-size: cover
+            border-radius: 42% 49% 52% 48% / 53% 38% 62% 47%
+            animation: bubble-wobble 25s infinite ease alternate, gradient-animation 70s infinite alternate ease-in-out
+            box-shadow: $innerShadow
+            opacity: 1
+            @media(max-width: $breakPointXL)
+                right: -60vw
+            @media(max-width: $breakPointLG)
+                right: -60vw
+                min-height: 300px
+                max-height: 500px
+            @media(max-width: $breakPointLG)
+                min-height: 200px
+                max-height: 400px
+                right: -65vw
+            @media(max-width: $breakPointLG)
+                min-height: 200px
+                max-height: 400px
+                right: -70vw
         h2
             margin-bottom: 1rem
             font-size: 1.4rem
@@ -226,14 +259,10 @@ onUnmounted(() => {
             font-size: 1.1rem
             font-family: 'Mainfont-Bold'
             margin-bottom: 1rem
-        .heroImage
-            width: 50%
-            max-width: 500px
-            filter: hue-rotate(310deg) grayscale(.4)
-            @media(max-width: $breakPointXL)
-                width: 43%
-            @media(max-width: $breakPointLG)
-                width: 100%
+        .contentBox
+            width: 55vw
+            @media(max-width: $breakPointMD)
+                width: 68vw
         .speechBox
             display: flex
             align-items: center
@@ -256,6 +285,7 @@ onUnmounted(() => {
                 border-radius: 1rem
                 padding: 1.5rem
                 width: 100%
+                max-width: 450px
                 line-height: 1.4
                 span
                     color: darken($pink, 5%)
