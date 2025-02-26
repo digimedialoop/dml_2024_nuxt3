@@ -113,14 +113,24 @@
                 </div>
             </div>
         </section>
+        <FAQArea 
+            pageLink="/webentwicklung-fuer-designer-und-mediengestalter" 
+            headline="Wichtige Antworten zur Zusammenarbeit im Überblick für Dich" 
+            button="Dann lass uns quatschen!"
+        />
     </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick } from "vue";
 import { useMainStore } from '@/stores/main';
+// Lade diese Komponente synchron wegen SEO
+import FAQArea from '@/sections/FAQArea.vue';
+
 const mainStore = useMainStore();
+
 const toggleContactBubble = () => mainStore.toggleContactBubble();
+
 
 const weblink = ref("https://digimedialoop.de");
 const iframeRef = ref(null);

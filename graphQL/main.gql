@@ -43,15 +43,6 @@ export const STRAPI_DATA = gql`
         }
       }
     }
-    faqs {
-      data {
-        id
-        attributes {
-          question
-          answer
-        }
-      }
-    }
     newsarticels(sort: "createdAt:desc") {
       data {
         id
@@ -73,7 +64,7 @@ export const STRAPI_DATA = gql`
         }
       }
     }
-    pages {
+    pages(pagination: { limit: 100 }) {
       data {
         id
         attributes {
@@ -100,6 +91,15 @@ export const STRAPI_DATA = gql`
                   url
                   alternativeText
                 }
+              }
+            }
+          }
+          faqs {
+            data {
+              id
+              attributes {
+                question
+                answer
               }
             }
           }

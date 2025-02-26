@@ -1,44 +1,49 @@
 <template>
-    <section class="faq" id="faq">
-      <h3>Hier finden Sie Antworten auf häufig gestellte Fragen (FAQs) rund ums Thema Website-Erstellung</h3>
-        <Accordion v-if="accordionItems.length" :items="accordionItems" />
-  <p v-else>Lade Daten...</p>
-  <div class="row mt-4">
-    <div class="col-md-6 mb-3"><h4> Noch Fragen? </h4></div>
-    <div class="col-md-6">
-      <button @click.prevent="toggleContactBubble" role="button" class="pinkBtn">Sprechen Sie uns gerne an!</button></div>
-  </div>
-    
-    </section>
-    
-  </template>
-  
-  <script setup>
+  <section class="faq" id="faq">
+    <h3>{{ headline }}</h3>
+    <Accordion v-if="accordionItems.length" :items="accordionItems" />
+    <p v-else>Lade Daten...</p>
+
+    <div class="row mt-4">
+      <div class="col-md-6 mb-3">
+        <h4> Noch Fragen? </h4>
+      </div>
+      <div class="col-md-6">
+        <button @click.prevent="toggleContactBubble" role="button" class="pinkBtn">
+          {{ button }}
+        </button>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script setup>
 import { useMainStore } from '@/stores/main';
 import { storeToRefs } from 'pinia';
-import { defineAsyncComponent } from 'vue';
+import { computed, defineProps, defineAsyncComponent } from 'vue';
 
 const Accordion = defineAsyncComponent(() => import('@/components/Accordion.vue'));
 
+const props = defineProps({
+  pageLink: { type: String, required: true },
+  headline: { type: String, default: "Häufig gestellte Fragen (FAQs)" },
+  button: { type: String, default: "Sprechen Sie uns gerne an!" },
+});
 
 const mainStore = useMainStore();
-const { faqs } = storeToRefs(mainStore);
+const { pages } = storeToRefs(mainStore); // Wir holen die `pages` aus dem Pinia-Store
 
 const toggleContactBubble = () => mainStore.toggleContactBubble();
 
-// useFetch wird verwendet, um FAQs aus dem Store zu laden
-const { data: strapiData, refresh } = await useFetch(async () => {
-  await mainStore.fetchStrapiData(); 
-  return mainStore;
+// 🔹 **FAQs für die aktuelle Seite aus `pages` filtern**
+const accordionItems = computed(() => {
+  const currentPage = pages.value?.find(page => page.pageLink === props.pageLink);
+  const faqsArray = Array.isArray(currentPage?.faqs.data) ? currentPage.faqs.data : []; // Sicherstellen, dass es ein Array ist
+  return faqsArray.map(faq => ({
+    title: faq.attributes.question,
+    content: faq.attributes.answer,
+  }));
 });
-
-// FAQs für Accordion-Items vorbereiten
-const accordionItems = computed(() =>
-  faqs.value.map(faq => ({
-    title: faq.question,
-    content: faq.answer,
-  }))
-);
 
 </script>
 
@@ -53,5 +58,4 @@ const accordionItems = computed(() =>
         font-size: 1.4rem
         font-family: 'Mainfont-Bold'
         margin-top: .6rem
- </style>
-  
+</style>

@@ -14,7 +14,7 @@
     
   </section>    
   <MarqueeBanner :items="customers" :logoHeight="60" title="Diese Unternehmen vertrauen uns" />
-  <FAQArea />
+  <FAQArea pageLink="/" headline="Hier finden Sie Antworten auf häufig gestellte Fragen (FAQs) rund ums Thema Website-Erstellung mit digimedialoop" />
 </div>
 </template>
 

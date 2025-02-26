@@ -32,7 +32,6 @@ export const useMainStore = defineStore('main', {
     news: [],
     customers: [],
     projects: [],
-    faqs: [],
     pages: [],
     dataFetched: false // Flag zur Vermeidung doppelter Abrufe
   }),
@@ -120,14 +119,6 @@ export const useMainStore = defineStore('main', {
         // CompanyINFO
         if (data?.companyinfo?.data?.attributes) {
           this.companyinfo = data.companyinfo.data.attributes;
-        }
-
-        // FAQs
-        if (data?.faqs?.data) {
-          this.faqs = data.faqs.data.map(faq => ({
-            id: faq.id,
-            ...faq.attributes,
-          }));
         }
 
         // CUSTOMERS
