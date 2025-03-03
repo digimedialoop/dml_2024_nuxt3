@@ -200,7 +200,11 @@ watch(
       transition: max-height 0.3s ease-out;
       padding: 0 1rem;
       background-color: white;
-
+      h3 {
+        font-size: 1rem;
+        line-height: 1.4rem;
+        margin-bottom: .5rem;
+      }
       p {
         margin: 1rem 0.5rem;
         font-size: 1rem;

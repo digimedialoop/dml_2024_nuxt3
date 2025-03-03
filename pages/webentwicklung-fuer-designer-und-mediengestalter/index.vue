@@ -4,17 +4,16 @@
             <div class="container">
                 <div class="contentBox">
                     <p class="supheadlinePink">Webentwicklung für Grafikdesigner und Mediengestalter</p>
-                    <h1>Gemeinsam setzen wir deine kreativen Ideen pixelgenau, performant und individuell um!</h1>
-                    <h2>Du hast ein geniales Design im Kopf &ndash; doch fühlst dich von deinem System oder deinem Entwickler immer wieder ausgebremst?</h2>
-                    <h3>Jou! Das kann richtig frustrierend sein - muss es aber nicht!</h3>
+                    <h1>Du hast ein geniales Design im Kopf ... </h1>
+                    <h2>...doch im Pagebuilder lässt es sich nicht umsetzen?</h2>
+                    <h3>Jou! Das kann richtig frustrierend sein - muss es aber nicht! <br>Gemeinsam setzen wir deine kreativen Ideen pixelgenau, performant und individuell um!</h3>
                 </div>        
                 
                 <div class="speechBox d-flex align-items-start">
                     <img class="profileImage" src="https://strapi.digimedialoop.de/uploads/sabrinahennrich_0f07d46857.jpg" alt="Sabrina Hennrich">
                     <div class="bubble">
                         <p><b><span>Servus!</span> <br>Ich bin Sabrina – eine Webentwicklerin am Ammersee, südwestlich von München, die richtig programmieren kann!</b></p>
-                        <p>Somit bin ich nicht auf starre Templates oder eingeschränkte Tools angewiesen – egal wie kreativ, individuell 
-                            oder ausgefallen deine Idee ist, ich finde einen Weg, sie genau so umzusetzen. </p>
+                        <p>Egal wie kreativ, individuell oder ausgefallen deine Idee ist – ich finde einen Weg, sie genau so umzusetzen. Falls es mal schwierig wird, stehe ich dir jederzeit unterstützend zur Seite, oder ich setze alles komplett ohne starre Templates um, ganz nach deinen Vorstellungen.</p>
                             <p>Gemeinsam erschaffen wir Webseiten, die dich und deinen Kunden begeistern werden!</p>
                     </div>
                 </div>
@@ -113,6 +112,18 @@
                 </div>
             </div>
         </section>
+        <Recommendations />
+        <section class="contrastCalcLink">
+            <div class="container">
+                        <img src="https://strapi.digimedialoop.de/uploads/wcag_kontrastrechner_77abf9d9be.png" alt="kontrast check" class="imgRight">
+                        <p class="supheadlinePink">Barrierefreies Webdesign</p>
+                        <h2>Hat Dein Design den richtigen Kontrast?</h2>
+                        <p>Mit dem praktischen Kontrastchecker kannst Du herausfinden, ob die Schrift und der Hintergrund in Deinem Design den WCAG_Richtlinien entsprechen. So stellst Du sicher, dass Dein Design für alle gut lesbar ist.</p>
+                        <button class="mintBtn" @click.prevent="navigateTo('/toolbox/kontrastchecker')"
+            role="button"
+            aria-label="Zum Kontrastchecker">Jetzt kostenlos Konstrast prüfen</button>
+            </div>
+        </section>
         <FAQArea 
             pageLink="/webentwicklung-fuer-designer-und-mediengestalter" 
             headline="Wichtige Antworten zur Zusammenarbeit im Überblick für Dich" 
@@ -126,10 +137,12 @@ import { ref, onMounted, onUnmounted, nextTick } from "vue";
 import { useMainStore } from '@/stores/main';
 // Lade diese Komponente synchron wegen SEO
 import FAQArea from '@/sections/FAQArea.vue';
+import Recommendations from '@/sections/Recommendations.vue';
 
 const mainStore = useMainStore();
 
 const toggleContactBubble = () => mainStore.toggleContactBubble();
+
 
 
 const weblink = ref("https://digimedialoop.de");
@@ -224,14 +237,16 @@ onUnmounted(() => {
 .landing
     section
         margin: 5vh auto
+    h1
+        margin-bottom: 1rem
     h3
         line-height: 150%
         font-size: 1.4rem
     .heroBox
         position: relative
         overflow-x: hidden
-        overflow-y: visible
-        &::after
+        overflow-y: hidden
+        /*&::after
             content: ''
             position: absolute
             top: 2vh
@@ -261,7 +276,7 @@ onUnmounted(() => {
             @media(max-width: $breakPointLG)
                 min-height: 200px
                 max-height: 400px
-                right: -70vw
+                right: -70vw */
         h2
             margin-bottom: 1rem
             font-size: 1.4rem
@@ -269,28 +284,31 @@ onUnmounted(() => {
             font-size: 1.1rem
             font-family: 'Mainfont-Bold'
             margin-bottom: 1rem
-        .contentBox
-            width: 55vw
-            @media(max-width: $breakPointMD)
-                width: 68vw
+        .contentBox            
+            width: 95%
+            // width: 55vw
+            //@media(max-width: $breakPointMD)
+                //width: 68vw 
         .speechBox
             display: flex
             align-items: center
             max-width: 100%
             margin: 0 auto
             padding: 1rem 0
-            gap: 1.5rem
+            gap: 4vw
 
             .profileImage
-                width: 20vw
-                max-width: 150px
+                width: 30vw
+                margin-left: -3vw
+                max-width: 260px
                 border-radius: $loopShape
-                margin: 0
                 flex-shrink: 0
+                background-color: rgba(white, .7)
+                //animation: bubble-wobble 15s infinite ease alternate, gradient-animation 10s infinite alternate ease-in-out
             
             .bubble
                 position: relative
-                background-image: linear-gradient(to right, lighten($beige, 5%), white)
+                //background-image: linear-gradient(to right, lighten($beige, 5%), white)
                 border: 1px solid darken($beige, 5%)
                 border-radius: 1rem
                 padding: 1.5rem
@@ -311,12 +329,14 @@ onUnmounted(() => {
                     left: -12px
                     width: 20px
                     height: 20px
-                    background: lighten($beige, 5%)
+                    background: white //lighten($beige, 5%)
                     border-left: 1px solid darken($beige, 5%)
                     border-top: 1px solid darken($beige, 5%)
                     transform: rotate(-45deg)
-            
+                @media(max-width: $breakPointMD)
+                    
     .cooperation    
+        margin: 0 0 5rem 0  
         ul
             list-style: none
             padding: 0 0 1rem 1rem
@@ -334,7 +354,10 @@ onUnmounted(() => {
                     position: absolute
                     font-size: 1.4rem
                     left: 0
-        
+    .contrastCalcLink
+        margin-bottom: 10vh
+        img
+            width: 100%   
     
     .deviceCheck
         h2

@@ -4,10 +4,10 @@
             <div class="container">
             
                 <div class="contentBox">
-                    <h1>Ihre Webagentur in Herrsching am Ammersee</h1>
+                    <h1>Ihre Webagentur für strategische Webentwicklung und funktionales Webdesign in Herrsching am Ammersee</h1>
                     <h2>Wir entwickeln Webseiten, die aus Besuchern Kunden machen!</h2>
                     <p>Wir stehen für <b>professionelle</b>, <b>innovative</b> und <b>strategische Weblösungen</b> und kombinieren technisches Know-how mit einem tiefen Verständnis für digitale Kommunikation, um Unternehmen online erfolgreich zu positionieren.</p>
-                    <p>Unser <u>Ansatz ist individuell</u>: Jedes Projekt wird mit Sorgfalt, Weitblick und den neuesten Technologien realisiert. Dabei setzen wir auf eine enge Zusammenarbeit und maßgeschneiderte Lösungen, die zu unseren Kunden passen.
+                    <p><b>Unser Ansatz ist immer individuell</b>: Jedes Projekt wird mit Sorgfalt, Weitblick und den neuesten Technologien realisiert. Dabei setzen wir auf eine enge Zusammenarbeit und maßgeschneiderte Lösungen, die zu unseren Kunden passen.
                     Wir begleiten Unternehmen aus unterschiedlichsten Branchen – von kleinen Betrieben bis hin zu größeren Firmen – auf ihrem Weg zu einer erfolgreichen Online-Präsenz.</p> 
                     <p><b>Lassen Sie uns gemeinsam Ihre digitale Präsenz optimieren und Ihr Unternehmen auf die nächste Stufe bringen!</b></p>
                     <button class="my-4 pinkBtn" @click.prevent="toggleContactBubble" role="button">Ihr Kontakt zu uns!</button>

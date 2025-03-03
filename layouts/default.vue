@@ -807,6 +807,7 @@ main
     margin: 2rem 2rem 2rem 0
     @media(max-width: $breakPointLG)
       float: none
+      max-width: 100%
 
   .loopShape
     border-radius: $loopShape
